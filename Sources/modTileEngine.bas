@@ -532,7 +532,7 @@ Sub CargarCabezas()
     Dim Miscabezas() As tIndiceCabeza
     
     N = FreeFile()
-    Open sPathINIT & "Cabezas.ind" For Binary Access Read As #N
+    Open pathInits & "Cabezas.ind" For Binary Access Read As #N
     
     'cabecera
     Get #N, , MiCabecera
@@ -566,7 +566,7 @@ Sub CargarCascos()
     Dim Miscabezas() As tIndiceCabeza
     
     N = FreeFile()
-    Open sPathINIT & "Cascos.ind" For Binary Access Read As #N
+    Open pathInits & "Cascos.ind" For Binary Access Read As #N
     
     'cabecera
     Get #N, , MiCabecera
@@ -599,7 +599,7 @@ Sub CargarCuerpos()
     Dim MisCuerpos() As tIndiceCuerpo
     
     N = FreeFile()
-    Open sPathINIT & "Cuerpos.ind" For Binary Access Read As #N
+    Open pathInits & "Cuerpos.ind" For Binary Access Read As #N
     
     'cabecera
     Get #N, , MiCabecera
@@ -634,7 +634,7 @@ Sub CargarEfectos()
     Dim NumFxs As Integer
     
     N = FreeFile()
-    Open sPathINIT & "Efectos.ind" For Binary Access Read As #N
+    Open pathInits & "Efectos.ind" For Binary Access Read As #N
     
     'cabecera
     Get #N, , MiCabecera
@@ -658,7 +658,7 @@ Sub CargarTips()
     Dim NumTips As Integer
     
     N = FreeFile
-    Open sPathINIT & "Tips.ayu" For Binary Access Read As #N
+    Open pathInits & "Tips.ayu" For Binary Access Read As #N
     
     'cabecera
     Get #N, , MiCabecera
@@ -682,7 +682,7 @@ Sub CargarArrayLluvia()
     Dim Nu As Integer
     
     N = FreeFile()
-    Open sPathINIT & "Lluvia.ind" For Binary Access Read As #N
+    Open pathInits & "Lluvia.ind" For Binary Access Read As #N
     
     'cabecera
     Get #N, , MiCabecera
@@ -1079,7 +1079,7 @@ On Error GoTo ErrorHandler
     'Open files
     handle = FreeFile()
     
-    Open sPathINIT & GraphicsFile For Binary Access Read As handle
+    Open pathInits & GraphicsFile For Binary Access Read As handle
     Seek #1, 1
     
     'Get file version
@@ -1832,7 +1832,7 @@ Sub LoadGraphics()
 'Initializes the SurfaceDB and sets up the rain rects
 '**************************************************************
     'New surface manager :D
-    Call SurfaceDB.Initialize(DirectD3D8, DirGraficos, ClientAOSetup.byMemory)
+    Call SurfaceDB.Initialize(DirectD3D8, pathGraphics, ClientAOSetup.byMemory)
     
     'Set up te rain rects
     RLluvia(0).Top = 0:      RLluvia(1).Top = 0:      RLluvia(2).Top = 0:      RLluvia(3).Top = 0
@@ -1900,16 +1900,16 @@ Public Function InitTileEngine(ByVal setDisplayFormhWnd As Long, ByVal setMainVi
     'Standelf: &HFFFAFFAC is better for *.png
     Dim TexInfo As D3DXIMAGE_INFO_A
 
-    Set TEXTURERAIN = DirectD3D8.CreateTextureFromFileEx(DirectDevice, DirGraficos & "experimental_lluvia.png", D3DX_DEFAULT, _
+    Set TEXTURERAIN = DirectD3D8.CreateTextureFromFileEx(DirectDevice, pathInterface & "experimental_lluvia.png", D3DX_DEFAULT, _
                 D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
                 D3DX_FILTER_NONE, &HFFFAFFAC, TexInfo, ByVal 0)
-    Set TEXTUREFOCUS = DirectD3D8.CreateTextureFromFileEx(DirectDevice, DirGraficos & "experimental2.png", D3DX_DEFAULT, _
+    Set TEXTUREFOCUS = DirectD3D8.CreateTextureFromFileEx(DirectDevice, pathInterface & "experimental2.png", D3DX_DEFAULT, _
                 D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
                 D3DX_FILTER_NONE, &HFFFAFFAC, TexInfo, ByVal 0)
-    Set TEXTUREFOCUSBACK = DirectD3D8.CreateTextureFromFileEx(DirectDevice, DirGraficos & "experimental2bg.png", D3DX_DEFAULT, _
+    Set TEXTUREFOCUSBACK = DirectD3D8.CreateTextureFromFileEx(DirectDevice, pathInterface & "experimental2bg.png", D3DX_DEFAULT, _
                 D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
                 D3DX_FILTER_NONE, &HFFFAFFAC, TexInfo, ByVal 0)
-    Set TEXTUREDEAD = DirectD3D8.CreateTextureFromFileEx(DirectDevice, DirGraficos & "muerteexperimental.png", D3DX_DEFAULT, _
+    Set TEXTUREDEAD = DirectD3D8.CreateTextureFromFileEx(DirectDevice, pathInterface & "muerteexperimental.png", D3DX_DEFAULT, _
                 D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
                 D3DX_FILTER_NONE, &HFFFAFFAC, TexInfo, ByVal 0)
                 
@@ -2778,7 +2778,7 @@ On Error GoTo eDebug:
     '*** Default font ***
     
     'Set the texture
-    Set cfonts(1).Texture = DirectD3D8.CreateTextureFromFileEx(DirectDevice, FileRequest(DirGraficos & "Font.png"), D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, 0, TexInfo, ByVal 0)
+    Set cfonts(1).Texture = DirectD3D8.CreateTextureFromFileEx(DirectDevice, FileRequest(pathInterface & "Font.png"), D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, 0, TexInfo, ByVal 0)
     
     'Store the size of the texture
     cfonts(1).TextureSize.X = TexInfo.Width
@@ -2787,7 +2787,7 @@ On Error GoTo eDebug:
     Exit Sub
 eDebug:
     If Err.Number = "-2005529767" Then
-        MsgBox "Error en la textura de fuente utilizada " & DirGraficos & "Font.png.", vbCritical
+        MsgBox "Error en la textura de fuente utilizada " & pathGraphics & "Font.png.", vbCritical
         End
     End If
     End
@@ -2809,7 +2809,7 @@ Sub Engine_Init_FontSettings()
 
     'Load the header information
     FileNum = FreeFile
-    Open FileRequest(sPathINIT & "Font.dat") For Binary As #FileNum
+    Open FileRequest(pathInits & "Font.dat") For Binary As #FileNum
         Get #FileNum, , cfonts(1).HeaderInfo
     Close #FileNum
     

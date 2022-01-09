@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.Ocx"
 Begin VB.Form frmCargando 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00404040&
@@ -123,9 +123,10 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-    Me.Picture = LoadPicture(DirGUI & "frmCargando.jpg")
-    LOGO.Picture = LoadPicture(DirGUI & "frmCargandoImg.jpg")
-    Call modGSZ.TransparenciaControl(Status.hwnd)
+On Error Resume Next
+    Me.Picture = LoadPicture(pathGUI & "frmCargando.jpg")
+    LOGO.Picture = LoadPicture(pathGUI & "frmCargandoImg.jpg")
+    Call modGSZ.TransparenciaControl(status.hwnd)
     frmCargando.MousePointer = vbDefault
 End Sub
 

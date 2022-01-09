@@ -33,6 +33,10 @@ Attribute VB_Name = "modDeclaraciones"
 
 Option Explicit
 
+'Directorios
+Public pathClient As String
+Public pathInits As String
+
 'Code by Shige
 Public Type TGUID
         data1 As Long

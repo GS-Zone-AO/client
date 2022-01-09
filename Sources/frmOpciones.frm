@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "mscomctl.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmOpciones 
    BackColor       =   &H00404040&
    BorderStyle     =   0  'None
@@ -603,17 +603,17 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(DirGUI & "frmOpciones.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmOpciones.jpg")
     
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox2))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox2))
         End If
     Next
     

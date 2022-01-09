@@ -381,25 +381,25 @@ Private Sub Form_Load()
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
 
     ' Load pictures
-    Set FondosListaMsg(eForumType.ieGeneral) = LoadPicture(DirGUI & "frmForoGeneral.jpg")
-    Set FondosListaMsg(eForumType.ieREAL) = LoadPicture(DirGUI & "frmForoReal.jpg")
-    Set FondosListaMsg(eForumType.ieCAOS) = LoadPicture(DirGUI & "frmForoCaos.jpg")
+    Set FondosListaMsg(eForumType.ieGeneral) = LoadPicture(pathGUI & "frmForoGeneral.jpg")
+    Set FondosListaMsg(eForumType.ieREAL) = LoadPicture(pathGUI & "frmForoReal.jpg")
+    Set FondosListaMsg(eForumType.ieCAOS) = LoadPicture(pathGUI & "frmForoCaos.jpg")
     
-    Set FondosDejarMsg(eForumType.ieGeneral) = LoadPicture(DirGUI & "frmForoMsgGeneral.jpg")
-    Set FondosDejarMsg(eForumType.ieREAL) = LoadPicture(DirGUI & "frmForoMsgReal.jpg")
-    Set FondosDejarMsg(eForumType.ieCAOS) = LoadPicture(DirGUI & "frmForoMsgCaos.jpg")
+    Set FondosDejarMsg(eForumType.ieGeneral) = LoadPicture(pathGUI & "frmForoMsgGeneral.jpg")
+    Set FondosDejarMsg(eForumType.ieREAL) = LoadPicture(pathGUI & "frmForoMsgReal.jpg")
+    Set FondosDejarMsg(eForumType.ieCAOS) = LoadPicture(pathGUI & "frmForoMsgCaos.jpg")
     
-    imgMarcoTexto.Picture = LoadPicture(DirGUI & "frmForoMarco.jpg")
+    imgMarcoTexto.Picture = LoadPicture(pathGUI & "frmForoMarco.jpg")
     
     ' Initial config
     ForoActual = eForumType.ieGeneral

@@ -262,7 +262,7 @@ Dim J As Long
 Dim FileNum As Integer
 
      'Si no existe el archivo lo creamos con los bindings default:
-    If Not FileExist(sPathINIT & KEY_CONFIG_FILE, vbArchive) Then
+    If Not FileExist(pathInits & KEY_CONFIG_FILE, vbArchive) Then
         For i = 0 To NUM_CUSTOM_CONFIGS
             Call LoadDefaults(i)
         Next i
@@ -274,9 +274,9 @@ Dim FileNum As Integer
         
         FileNum = FreeFile
     
-        If FileLen(sPathINIT & KEY_CONFIG_FILE) < (NUM_CUSTOM_CONFIGS * NUM_CUSTOM_KEYS * 2) + 1 Then
+        If FileLen(pathInits & KEY_CONFIG_FILE) < (NUM_CUSTOM_CONFIGS * NUM_CUSTOM_KEYS * 2) + 1 Then
             'Formato viejo
-            Open sPathINIT & KEY_CONFIG_FILE For Binary Access Read Lock Read Write As FileNum
+            Open pathInits & KEY_CONFIG_FILE For Binary Access Read Lock Read Write As FileNum
             
             ActiveConfig = 1
             
@@ -289,7 +289,7 @@ Dim FileNum As Integer
             Next J
         Else
             'Formato nuevo
-            Open sPathINIT & KEY_CONFIG_FILE For Binary Access Read Lock Read Write As FileNum
+            Open pathInits & KEY_CONFIG_FILE For Binary Access Read Lock Read Write As FileNum
             
             Get FileNum, , ActiveConfig
             
@@ -322,7 +322,7 @@ Dim FileNum As Integer
 
     FileNum = FreeFile()
     
-    Open sPathINIT & KEY_CONFIG_FILE For Binary Access Write As FileNum
+    Open pathInits & KEY_CONFIG_FILE For Binary Access Write As FileNum
     
     'Guardo la configuración activa:
     Put FileNum, , ActiveConfig

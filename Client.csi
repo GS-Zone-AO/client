@@ -1,0 +1,17 @@
+[History]
+1=#P0#=mb	#P1#=Form_KeyUp	#P2#=ClientGSZAO/frmConnect/Form_KeyUp	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20220109173538	#P7#=0	#P8#=2	.
+2=#P0#=mb	#P1#=LogTesteo	#P2#=ClientGSZAO/modGSZ/LogTesteo	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109173444	#P7#=0	#P8#=10	.
+3=#P0#=mb	#P1#=LogError	#P2#=ClientGSZAO/modGSZ/LogError	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109173439	#P7#=0	#P8#=10	.
+4=#P0#=mb	#P1#=cOpciones_Click	#P2#=ClientGSZAO/frmConnect/cOpciones_Click	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20220109172723	#P7#=0	#P8#=-1	.
+5=#P0#=mb	#P1#=Engine_Init_ParticleEngine	#P2#=ClientGSZAO/modParticulas/Engine_Init_ParticleEngine	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109172502	#P7#=0	#P8#=15	.
+6=#P0#=mb	#P1#=PicInv_MouseMove	#P2#=ClientGSZAO/frmMain/PicInv_MouseMove	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20220109172331	#P7#=0	#P8#=19	.
+7=#P0#=mb	#P1#=LoadGraphics	#P2#=ClientGSZAO/modTileEngine/LoadGraphics	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109172323	#P7#=0	#P8#=6	.
+8=#P0#=mb	#P1#=Form_Load	#P2#=ClientGSZAO/frmCantidad/Form_Load	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20220109172145	#P7#=0	#P8#=5	.
+9=#P0#=mb	#P1#=InitFilePaths	#P2#=ClientGSZAO/modGameIni/InitFilePaths	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109172126	#P7#=0	#P8#=11	.
+10=#P0#=mb	#P1#=HandlePlayMIDI	#P2#=ClientGSZAO/modProtocol/HandlePlayMIDI	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109171738	#P7#=0	#P8#=26	.
+11=#P0#=mb	#P1#=Main	#P2#=ClientGSZAO/modGeneral/Main	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109173433	#P7#=0	#P8#=58	.
+12=#P0#=mb	#P1#=Form_Load	#P2#=ClientGSZAO/frmCargando/Form_Load	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20220109164213	#P7#=0	#P8#=-1	.
+13=#P0#=mb	#P1#=IsIp	#P2#=ClientGSZAO/modGeneral/IsIp	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109164122	#P7#=0	#P8#=-1	.
+14=#P0#=mb	#P1#=FieldCount	#P2#=ClientGSZAO/modGeneral/FieldCount	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109164121	#P7#=0	#P8#=23	.
+15=#P0#=mb	#P1#=FileExist	#P2#=ClientGSZAO/modGeneral/FileExist	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109162926	#P7#=0	#P8#=654	.
+16=#P0#=mb	#P1#=RandomNumber	#P2#=ClientGSZAO/modGeneral/RandomNumber	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20220109162922	#P7#=0	#P8#=-2	.

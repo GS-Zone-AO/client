@@ -76,7 +76,7 @@ Sub DrawGrhtoHdc(ByVal desthDC As Long, ByVal grh_index As Integer, ByRef Source
     Dim bmpData As StdPicture
     
     'get Picture
-    If Get_Image(DirGraficos, CStr(GrhData(grh_index).FileNum), data, True) Then  ' GSZAO
+    If Get_Image(pathGraphics, CStr(GrhData(grh_index).FileNum), data, True) Then  ' GSZAO
         Set bmpData = ArrayToPicture(data(), 0, UBound(data) + 1)
         
         src_x = GrhData(grh_index).sX
@@ -118,7 +118,7 @@ End Sub
 '    'End If
 '
 '    ' Leemos el MiniMap del comprimido de mapas
-'    If Get_File_Data(DirMapas, "MAPA" & CStr(iMap) & tExp, data, 1) <> False Then
+'    If Get_File_Data(pathMaps, "MAPA" & CStr(iMap) & tExp, data, 1) <> False Then
 '        Set bmpData = ArrayToPicture(data(), 0, UBound(data) + 1)
 '        ' Mostramos el MiniMap
 '        hdcsrc = CreateCompatibleDC(desthDC)

@@ -708,7 +708,7 @@ Private Sub cGuardarKey_Click()
     Dim sMsg As String
     
     For i = 1 To CustomKeys.KeyCount
-        If LenB(Text1(i).Text) = 0 Then
+        If LenB(text1(i).Text) = 0 Then
             Call MsgBox("Hay una o más teclas no válidas, por favor verifique.", vbCritical Or vbOKOnly Or vbApplicationModal Or vbDefaultButton1, "Argentum Online")
             Exit Sub
         End If
@@ -745,7 +745,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(DirGUI & "frmCustomKeys.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmCustomKeys.jpg")
     
     SelectedConfig = CustomKeys.CurrentConfig
     InitialConfig = SelectedConfig
@@ -755,12 +755,12 @@ Private Sub Form_Load()
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
     
@@ -772,7 +772,7 @@ On Error Resume Next
     Dim i As Long
 
     For i = 1 To CustomKeys.KeyCount
-        Text1(i).Text = CustomKeys.ReadableName(CustomKeys.BindedKey(i))
+        text1(i).Text = CustomKeys.ReadableName(CustomKeys.BindedKey(i))
     Next i
     
 End Sub
@@ -790,13 +790,13 @@ On Error Resume Next
     If LenB(CustomKeys.ReadableName(KeyCode)) = 0 Then Exit Sub
     'If key is not valid, we exit
     
-    Text1(Index).Text = CustomKeys.ReadableName(KeyCode)
-    Text1(Index).SelStart = Len(Text1(Index).Text)
+    text1(Index).Text = CustomKeys.ReadableName(KeyCode)
+    text1(Index).SelStart = Len(text1(Index).Text)
     
     For i = 1 To CustomKeys.KeyCount
         If i <> Index Then
             If CustomKeys.BindedKey(i) = KeyCode Then
-                Text1(Index).Text = vbNullString 'If the key is already assigned, simply reject it
+                text1(Index).Text = vbNullString 'If the key is already assigned, simply reject it
                 Call Beep 'Alert the user
                 KeyCode = 0
                 

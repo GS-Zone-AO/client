@@ -553,17 +553,17 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(DirGUI & "frmGuildLeader.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmGuildLeader.jpg")
   
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
   
@@ -651,11 +651,11 @@ pbLogo.AutoRedraw = True
 If Not pStr = vbNullString Then
     Set pClan = LoadPicture(pStr)
 Else
-    Set pClan = VB.LoadPicture(DirGraficos & "Sin avatar - Casco.jpg")
+    Set pClan = VB.LoadPicture(pathGraphics & "Sin avatar - Casco.jpg")
 End If
 
 If Not ResizePicture(pbLogo, pClan) Then
-    Set pClan = VB.LoadPicture(DirGraficos & "Sin avatar - Casco.jpg")
+    Set pClan = VB.LoadPicture(pathGraphics & "Sin avatar - Casco.jpg")
     pbLogo.Picture = pClan
 End If
 
@@ -665,8 +665,8 @@ Private Function LoadPicture(ByVal strFileName As String) As Picture
 Dim IID As TGUID
 
         With IID
-                .Data1 = &H7BF80980
-                .Data2 = &HBF32
+                .data1 = &H7BF80980
+                .data2 = &HBF32
                 .Data3 = &H101A
                 .Data4(0) = &H8B
                 .Data4(1) = &HBB

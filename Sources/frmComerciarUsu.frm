@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.Ocx"
 Begin VB.Form frmComerciarUsu 
    BorderStyle     =   0  'None
    ClientHeight    =   8850
@@ -616,17 +616,17 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
 
-    Me.Picture = LoadPicture(DirGUI & "frmComerciarUsu.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmComerciarUsu.jpg")
     
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
     

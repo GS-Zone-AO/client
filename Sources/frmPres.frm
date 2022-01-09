@@ -77,10 +77,10 @@ Private Sub Timer1_Timer()
 Static ticks As Byte
 ticks = ticks + 1
 If ticks = 1 Then
-    'Me.Picture = LoadPicture(DirGraficos & "Hosting.jpg")
+    'Me.Picture = LoadPicture(pathGraphics & "Hosting.jpg")
     puedo = True
 'ElseIf ticks = 2 Then
-    'Me.Picture = LoadPicture(DirGraficos & "Presentacion" & RandomNumber(5, 8) & ".jpg")
+    'Me.Picture = LoadPicture(pathGraphics & "Presentacion" & RandomNumber(5, 8) & ".jpg")
 Else
     Unload Me
 End If

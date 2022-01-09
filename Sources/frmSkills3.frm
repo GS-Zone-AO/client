@@ -991,7 +991,7 @@ Private Sub Form_Load()
     
     Call ValidarSkills
     
-    Me.Picture = LoadPicture(DirGUI & "frmSkills.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmSkills.jpg")
     Call LoadButtons
     
     Call LoadHelp
@@ -999,12 +999,12 @@ Private Sub Form_Load()
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
     
@@ -1020,173 +1020,173 @@ Private Sub LoadButtons()
 
     Set LastButtonPressed = New clsGraphicalButton
     
-    Call cBotonMas(1).Initialize(imgMas1, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me, _
-                                    DirButtons & "frmSkills_BotonMasSkills.jpg", Not bPuedeMagia)
+    Call cBotonMas(1).Initialize(imgMas1, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me, _
+                                    pathButtons & "frmSkills_BotonMasSkills.jpg", Not bPuedeMagia)
 
-    Call cBotonMas(2).Initialize(imgMas2, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(2).Initialize(imgMas2, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(3).Initialize(imgMas3, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(3).Initialize(imgMas3, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(4).Initialize(imgMas4, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(4).Initialize(imgMas4, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
     
-    Call cBotonMas(5).Initialize(imgMas5, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me, _
-                                    DirButtons & "frmSkills_BotonMasSkills.jpg", Not bPuedeMeditar)
+    Call cBotonMas(5).Initialize(imgMas5, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me, _
+                                    pathButtons & "frmSkills_BotonMasSkills.jpg", Not bPuedeMeditar)
 
-    Call cBotonMas(6).Initialize(imgMas6, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(6).Initialize(imgMas6, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(7).Initialize(imgMas7, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(7).Initialize(imgMas7, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(8).Initialize(imgMas8, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(8).Initialize(imgMas8, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
     
-    Call cBotonMas(9).Initialize(imgMas9, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(9).Initialize(imgMas9, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(10).Initialize(imgMas10, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(10).Initialize(imgMas10, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(11).Initialize(imgMas11, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me, _
-                                    DirButtons & "frmSkills_BotonMasSkills.jpg", Not bPuedeEscudo)
+    Call cBotonMas(11).Initialize(imgMas11, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me, _
+                                    pathButtons & "frmSkills_BotonMasSkills.jpg", Not bPuedeEscudo)
 
-    Call cBotonMas(12).Initialize(imgMas12, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(12).Initialize(imgMas12, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
     
-    Call cBotonMas(13).Initialize(imgMas13, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(13).Initialize(imgMas13, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(14).Initialize(imgMas14, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(14).Initialize(imgMas14, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(15).Initialize(imgMas15, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(15).Initialize(imgMas15, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(16).Initialize(imgMas16, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(16).Initialize(imgMas16, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
     
-    Call cBotonMas(17).Initialize(imgMas17, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(17).Initialize(imgMas17, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(18).Initialize(imgMas18, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me, _
-                                    DirButtons & "frmSkills_BotonMasSkills.jpg", Not bPuedeCombateDistancia)
+    Call cBotonMas(18).Initialize(imgMas18, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me, _
+                                    pathButtons & "frmSkills_BotonMasSkills.jpg", Not bPuedeCombateDistancia)
 
-    Call cBotonMas(19).Initialize(imgMas19, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(19).Initialize(imgMas19, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
 
-    Call cBotonMas(20).Initialize(imgMas20, DirButtons & "frmSkills_BotonMasSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
+    Call cBotonMas(20).Initialize(imgMas20, pathButtons & "frmSkills_BotonMasSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMasClickSkills.jpg", Me)
     
-    Call cBotonMenos(1).Initialize(imgMenos1, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me, _
-                                    DirButtons & "frmSkills_BotonMenosSkills.jpg", Not bPuedeMagia)
+    Call cBotonMenos(1).Initialize(imgMenos1, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me, _
+                                    pathButtons & "frmSkills_BotonMenosSkills.jpg", Not bPuedeMagia)
 
-    Call cBotonMenos(2).Initialize(imgMenos2, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(2).Initialize(imgMenos2, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(3).Initialize(imgMenos3, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(3).Initialize(imgMenos3, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(4).Initialize(imgMenos4, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(4).Initialize(imgMenos4, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
     
-    Call cBotonMenos(5).Initialize(imgMenos5, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me, _
-                                    DirButtons & "frmSkills_BotonMenosSkills.jpg", Not bPuedeMeditar)
+    Call cBotonMenos(5).Initialize(imgMenos5, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me, _
+                                    pathButtons & "frmSkills_BotonMenosSkills.jpg", Not bPuedeMeditar)
 
-    Call cBotonMenos(6).Initialize(imgMenos6, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(6).Initialize(imgMenos6, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(7).Initialize(imgMenos7, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(7).Initialize(imgMenos7, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(8).Initialize(imgMenos8, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(8).Initialize(imgMenos8, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
     
-    Call cBotonMenos(9).Initialize(imgMenos9, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(9).Initialize(imgMenos9, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(10).Initialize(imgMenos10, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(10).Initialize(imgMenos10, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(11).Initialize(imgMenos11, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me, _
-                                    DirButtons & "frmSkills_BotonMenosSkills.jpg", Not bPuedeEscudo)
+    Call cBotonMenos(11).Initialize(imgMenos11, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me, _
+                                    pathButtons & "frmSkills_BotonMenosSkills.jpg", Not bPuedeEscudo)
 
-    Call cBotonMenos(12).Initialize(imgMenos12, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(12).Initialize(imgMenos12, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
     
-    Call cBotonMenos(13).Initialize(imgMenos13, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(13).Initialize(imgMenos13, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(14).Initialize(imgMenos14, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(14).Initialize(imgMenos14, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(15).Initialize(imgMenos15, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(15).Initialize(imgMenos15, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(16).Initialize(imgMenos16, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(16).Initialize(imgMenos16, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
     
-    Call cBotonMenos(17).Initialize(imgMenos17, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(17).Initialize(imgMenos17, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(18).Initialize(imgMenos18, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me, _
-                                    DirButtons & "frmSkills_BotonMenosSkills.jpg", Not bPuedeCombateDistancia)
+    Call cBotonMenos(18).Initialize(imgMenos18, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me, _
+                                    pathButtons & "frmSkills_BotonMenosSkills.jpg", Not bPuedeCombateDistancia)
 
-    Call cBotonMenos(19).Initialize(imgMenos19, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(19).Initialize(imgMenos19, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
-    Call cBotonMenos(20).Initialize(imgMenos20, DirButtons & "frmSkills_BotonMenosSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
-                                    DirButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
+    Call cBotonMenos(20).Initialize(imgMenos20, pathButtons & "frmSkills_BotonMenosSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosRolloverSkills.jpg", _
+                                    pathButtons & "frmSkills_BotonMenosClickSkills.jpg", Me)
 
 End Sub
 

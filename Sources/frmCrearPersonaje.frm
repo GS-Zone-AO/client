@@ -1380,17 +1380,17 @@ Private Sub Form_Load()
     UserHead = 0
     Dir = SOUTH
     
-    Me.Picture = LoadPicture(DirGUI & "frmCrearPersonaje.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmCrearPersonaje.jpg")
     
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox2))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox2))
         End If
     Next
     
@@ -1422,9 +1422,9 @@ End Sub
 
 Private Sub IniciarGraficos()
     
-    Set picFullStar = LoadPicture(DirButtons & "SetStars_EstrellaSimple.jpg")
-    Set picHalfStar = LoadPicture(DirButtons & "SetStars_EstrellaMitad.jpg")
-    Set picGlowStar = LoadPicture(DirButtons & "SetStars_EstrellaBrillante.jpg")
+    Set picFullStar = LoadPicture(pathButtons & "SetStars_EstrellaSimple.jpg")
+    Set picHalfStar = LoadPicture(pathButtons & "SetStars_EstrellaMitad.jpg")
+    Set picGlowStar = LoadPicture(pathButtons & "SetStars_EstrellaBrillante.jpg")
 
 End Sub
 
@@ -1679,7 +1679,7 @@ End Sub
 
 Private Sub lstProfesion_Click()
 On Error Resume Next
-'    Image1.Picture = LoadPicture(DirGraficos & lstProfesion.Text & ".jpg")
+'    Image1.Picture = LoadPicture(pathGraphics & lstProfesion.Text & ".jpg")
 '
     UserClase = lstProfesion.ListIndex + 1
     
@@ -2247,15 +2247,15 @@ Private Sub LoadCharInfo()
         With ModClase(i)
             SearchVar = stringSinTildes(ListaClases(i))
             
-            .Evasion = Val(GetVar(sPathINIT & "CharInfo.dat", "MODEVASION", SearchVar))
-            .AtaqueArmas = Val(GetVar(sPathINIT & "CharInfo.dat", "MODATAQUEARMAS", SearchVar))
-            .AtaqueProyectiles = Val(GetVar(sPathINIT & "CharInfo.dat", "MODATAQUEPROYECTILES", SearchVar))
-            .DañoArmas = Val(GetVar(sPathINIT & "CharInfo.dat", "MODDAÑOARMAS", SearchVar))
-            .DañoProyectiles = Val(GetVar(sPathINIT & "CharInfo.dat", "MODDAÑOPROYECTILES", SearchVar))
-            .Escudo = Val(GetVar(sPathINIT & "CharInfo.dat", "MODESCUDO", SearchVar))
-            .Hit = Val(GetVar(sPathINIT & "CharInfo.dat", "HIT", SearchVar))
-            .Magia = Val(GetVar(sPathINIT & "CharInfo.dat", "MODMAGIA", SearchVar))
-            .Vida = Val(GetVar(sPathINIT & "CharInfo.dat", "MODVIDA", SearchVar))
+            .Evasion = Val(GetVar(pathInits & "CharInfo.dat", "MODEVASION", SearchVar))
+            .AtaqueArmas = Val(GetVar(pathInits & "CharInfo.dat", "MODATAQUEARMAS", SearchVar))
+            .AtaqueProyectiles = Val(GetVar(pathInits & "CharInfo.dat", "MODATAQUEPROYECTILES", SearchVar))
+            .DañoArmas = Val(GetVar(pathInits & "CharInfo.dat", "MODDAÑOARMAS", SearchVar))
+            .DañoProyectiles = Val(GetVar(pathInits & "CharInfo.dat", "MODDAÑOPROYECTILES", SearchVar))
+            .Escudo = Val(GetVar(pathInits & "CharInfo.dat", "MODESCUDO", SearchVar))
+            .Hit = Val(GetVar(pathInits & "CharInfo.dat", "HIT", SearchVar))
+            .Magia = Val(GetVar(pathInits & "CharInfo.dat", "MODMAGIA", SearchVar))
+            .Vida = Val(GetVar(pathInits & "CharInfo.dat", "MODVIDA", SearchVar))
         End With
     Next i
     
@@ -2264,11 +2264,11 @@ Private Sub LoadCharInfo()
         With ModRaza(i)
             SearchVar = Replace(ListaRazas(i), " ", "")
         
-            .Fuerza = Val(GetVar(sPathINIT & "CharInfo.dat", "MODRAZA", SearchVar + "Fuerza"))
-            .Agilidad = Val(GetVar(sPathINIT & "CharInfo.dat", "MODRAZA", SearchVar + "Agilidad"))
-            .Inteligencia = Val(GetVar(sPathINIT & "CharInfo.dat", "MODRAZA", SearchVar + "Inteligencia"))
-            .Carisma = Val(GetVar(sPathINIT & "CharInfo.dat", "MODRAZA", SearchVar + "Carisma"))
-            .Constitucion = Val(GetVar(sPathINIT & "CharInfo.dat", "MODRAZA", SearchVar + "Constitucion"))
+            .Fuerza = Val(GetVar(pathInits & "CharInfo.dat", "MODRAZA", SearchVar + "Fuerza"))
+            .Agilidad = Val(GetVar(pathInits & "CharInfo.dat", "MODRAZA", SearchVar + "Agilidad"))
+            .Inteligencia = Val(GetVar(pathInits & "CharInfo.dat", "MODRAZA", SearchVar + "Inteligencia"))
+            .Carisma = Val(GetVar(pathInits & "CharInfo.dat", "MODRAZA", SearchVar + "Carisma"))
+            .Constitucion = Val(GetVar(pathInits & "CharInfo.dat", "MODRAZA", SearchVar + "Constitucion"))
         End With
     Next i
 

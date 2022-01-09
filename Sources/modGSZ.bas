@@ -56,7 +56,7 @@ Function ImgRequest(ByVal sFile As String) As String
             sFile = ImgRequest(sFile)
         Else
             Call MsgBox("ADVERTENCIA: El juego seguirá funcionando sin alguna imagen!", vbInformation + vbOKOnly)
-            sFile = DirGraficos & "blank.bmp"
+            sFile = pathGraphics & "blank.bmp"
         End If
     End If
     ImgRequest = sFile
@@ -261,8 +261,8 @@ End Sub
 
 Private Sub LoadCursor(ByVal sCursor As Byte, lHandle As Long)
     Dim GetCursor As Long
-    If FileExist(DirCursores & sCursor & ".ani", vbArchive) = True Then
-        GetCursor = LoadCursorFromFile(DirCursores & sCursor & ".ani")
+    If FileExist(pathCursors & sCursor & ".ani", vbArchive) = True Then
+        GetCursor = LoadCursorFromFile(pathCursors & sCursor & ".ani")
         SetClassLong lHandle, -12, GetCursor
     End If
 End Sub
@@ -389,7 +389,7 @@ On Error GoTo ErrHandler
 
     Dim nfile As Integer
     nfile = FreeFile ' obtenemos un canal
-    Open App.Path & "\Errores.log" For Append Shared As #nfile
+    Open App.Path & "\errors.log" For Append Shared As #nfile
     Print #nfile, Date & " " & Time & " " & sDesc
     Close #nfile
     
@@ -410,7 +410,7 @@ End Sub
     
         Dim nfile As Integer
         nfile = FreeFile ' obtenemos un canal
-        Open App.Path & "\Testeo.log" For Append Shared As #nfile
+        Open App.Path & "\dev.log" For Append Shared As #nfile
         Print #nfile, Date & " " & Time & " " & sDesc
         Close #nfile
         

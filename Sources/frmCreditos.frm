@@ -166,16 +166,16 @@ On Error Resume Next
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox2))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox2))
         End If
     Next
 
-    Me.Picture = LoadPicture(DirGUI & "frmCargando.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmCargando.jpg")
     Call StartCredits
     Call Audio.PlayMIDI("99.mid")
     
@@ -224,7 +224,7 @@ For i = 1 To LinesVisible
 Next
 
 FileO = FreeFile
-FileName = sPathINIT & "\Creditos.txt"
+FileName = pathInits & "\Creditos.txt"
 If Dir(FileName) = "" Then
     TotalLines = 5
     ReDim Preserve CreditLine(TotalLines) As String

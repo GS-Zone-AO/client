@@ -134,19 +134,19 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(DirGUI & "frmEligeAlineacion.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmEligeAlineacion.jpg")
     
     Call LoadButtons
     
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
     
@@ -162,24 +162,24 @@ Private Sub LoadButtons()
     Set LastButtonPressed = New clsGraphicalButton
     
     Call cBotonCriminal.Initialize(imgCriminal, "", _
-                                    DirButtons & "frmEligeAlineacion_BotonCriminal.jpg", _
-                                    DirButtons & "frmEligeAlineacion_BotonCriminal.jpg", Me)
+                                    pathButtons & "frmEligeAlineacion_BotonCriminal.jpg", _
+                                    pathButtons & "frmEligeAlineacion_BotonCriminal.jpg", Me)
 
     Call cBotonCaos.Initialize(imgCaos, "", _
-                                    DirButtons & "frmEligeAlineacion_BotonCaos.jpg", _
-                                    DirButtons & "frmEligeAlineacion_BotonCaos.jpg", Me)
+                                    pathButtons & "frmEligeAlineacion_BotonCaos.jpg", _
+                                    pathButtons & "frmEligeAlineacion_BotonCaos.jpg", Me)
 
     Call cBotonLegal.Initialize(imgLegal, "", _
-                                    DirButtons & "frmEligeAlineacion_BotonLegal.jpg", _
-                                    DirButtons & "frmEligeAlineacion_BotonLegal.jpg", Me)
+                                    pathButtons & "frmEligeAlineacion_BotonLegal.jpg", _
+                                    pathButtons & "frmEligeAlineacion_BotonLegal.jpg", Me)
 
     Call cBotonNeutral.Initialize(imgNeutral, "", _
-                                    DirButtons & "frmEligeAlineacion_BotonNeutral.jpg", _
-                                    DirButtons & "frmEligeAlineacion_BotonNeutral.jpg", Me)
+                                    pathButtons & "frmEligeAlineacion_BotonNeutral.jpg", _
+                                    pathButtons & "frmEligeAlineacion_BotonNeutral.jpg", Me)
 
     Call cBotonReal.Initialize(imgReal, "", _
-                                    DirButtons & "frmEligeAlineacion_BotonReal.jpg", _
-                                    DirButtons & "frmEligeAlineacion_BotonReal.jpg", Me)
+                                    pathButtons & "frmEligeAlineacion_BotonReal.jpg", _
+                                    pathButtons & "frmEligeAlineacion_BotonReal.jpg", Me)
 
 
 End Sub

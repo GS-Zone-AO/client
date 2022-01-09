@@ -42,10 +42,10 @@ Public Function LeerMinimapInit()
 '**************************************************************
 On Local Error Resume Next
 
-    If FileExist(sPathINIT & fMiniMapInit, vbArchive) Then
+    If FileExist(pathInits & fMiniMapInit, vbArchive) Then
         Dim N As Integer
         N = FreeFile
-        Open sPathINIT & fMiniMapInit For Binary As #N
+        Open pathInits & fMiniMapInit For Binary As #N
             Get #N, , MiCabecera
             Get #N, , Minimap.X
             Get #N, , Minimap.Y
@@ -73,7 +73,7 @@ On Local Error Resume Next
 
     Dim N As Integer
     N = FreeFile
-    Open sPathINIT & fMiniMapInit For Binary As #N
+    Open pathInits & fMiniMapInit For Binary As #N
         Put #N, , MiCabecera
         Put #N, , Minimap.X
         Put #N, , Minimap.Y
@@ -238,7 +238,7 @@ Public Sub MiniMap_ChangeTex(iMap As Integer)
     
     'Set the texture
     Dim data() As Byte
-    If Get_File_Data(DirMapas, "MAPA" & CStr(iMap) & ".BMP", data, 1) = True Then
+    If Get_File_Data(pathMaps, "MAPA" & CStr(iMap) & ".BMP", data, 1) = True Then
         Set Minimap.Texture = DirectD3D8.CreateTextureFromFileInMemoryEx(DirectDevice, data(0), UBound(data) + 1, _
                 D3DX_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_FILTER_POINT, _
                 D3DX_FILTER_POINT, &HFF000000, ByVal 0, ByVal 0)

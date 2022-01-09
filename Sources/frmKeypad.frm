@@ -494,7 +494,7 @@ Private Sub cMay_Click()
     If Modo = MAYUSCULA Then Exit Sub
     
     Call Audio.PlayWave(SND_CLICK)
-    Me.Picture = MinMayBack(e_modo_keypad.MAYUSCULA)  'LoadPicture(DirGraficos & "KeyPadMay.bmp")
+    Me.Picture = MinMayBack(e_modo_keypad.MAYUSCULA)  'LoadPicture(pathGraphics & "KeyPadMay.bmp")
     Modo = MAYUSCULA
     Me.txtPassword.SetFocus
 End Sub
@@ -503,7 +503,7 @@ Private Sub cMin_Click()
     If Modo = MINUSCULA Then Exit Sub
     
     Call Audio.PlayWave(SND_CLICK)
-    Me.Picture = MinMayBack(e_modo_keypad.MINUSCULA) 'LoadPicture(DirGraficos & "KeyPadMin.bmp")
+    Me.Picture = MinMayBack(e_modo_keypad.MINUSCULA) 'LoadPicture(pathGraphics & "KeyPadMin.bmp")
     Modo = MINUSCULA
     Me.txtPassword.SetFocus
 End Sub
@@ -535,8 +535,8 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Set MinMayBack(0) = LoadPicture(DirGUI & "frmKeypadMin.jpg")
-    Set MinMayBack(1) = LoadPicture(DirGUI & "frmKeypadMay.jpg")
+    Set MinMayBack(0) = LoadPicture(pathGUI & "frmKeypadMin.jpg")
+    Set MinMayBack(1) = LoadPicture(pathGUI & "frmKeypadMay.jpg")
     
     Me.Picture = MinMayBack(e_modo_keypad.MINUSCULA)
     
@@ -545,12 +545,12 @@ Private Sub Form_Load()
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox2))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox2))
         End If
     Next
     

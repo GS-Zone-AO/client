@@ -39,6 +39,35 @@ Public bFogata As Boolean
 Public bLluvia() As Byte ' Array para determinar si
 Public lFrameTimer As Long 'debemos mostrar la animacion de la lluvia
 
+Function FileExist(ByVal file As String, _
+                   Optional FileType As VbFileAttribute = vbNormal) As Boolean
+    '*****************************************************************
+    'Se fija si existe el archivo
+    '*****************************************************************
+
+    FileExist = LenB(Dir$(file, FileType)) <> 0
+
+End Function
+
+Function FileRequired(ByVal file As String)
+
+    If Not FileExist(file, vbArchive) Then
+        MsgBox "Se requiere el archivo de configuración " & file, vbCritical + vbOKOnly
+        End
+    End If
+
+End Function
+
+Function ValidDirectory(ByVal Path As String) As String
+
+    If Right(Path, 1) = "\" Then
+        ValidDirectory = Path
+    Else
+        ValidDirectory = Path & "\"
+    End If
+    
+End Function
+
 Public Function RandomNumber(ByVal LowerBound As Long, ByVal UpperBound As Long) As Long
     'Initialize randomizer
     Randomize Timer
@@ -73,7 +102,7 @@ On Error Resume Next
     Dim loopC As Long
     Dim ArcH As String
     
-    ArcH = sPathINIT & "armas.dat"
+    ArcH = pathInits & "armas.dat"
     
     NumWeaponAnims = Val(GetVar(ArcH, "INIT", "NumArmas"))
     
@@ -91,7 +120,7 @@ Sub CargarColores()
 On Error Resume Next
     Dim archivoC As String
     
-    archivoC = sPathINIT & "colores.dat"
+    archivoC = pathInits & "colores.dat"
     
     If Not FileExist(archivoC, vbArchive) Then
 'TODO : Si hay que reinstalar, porque no cierra???
@@ -141,7 +170,7 @@ On Error Resume Next
     Dim loopC As Long
     Dim ArcH As String
     
-    ArcH = sPathINIT & "Escudos.dat"
+    ArcH = pathInits & "Escudos.dat"
     
     NumEscudosAnims = Val(GetVar(ArcH, "INIT", "NumEscudos"))
     
@@ -513,7 +542,7 @@ On Error GoTo errorH
     Set MapReader = New clsByteBuffer
     Dim data() As Byte
     
-    If Get_File_Data(DirMapas, "MAPA" & CStr(Map) & ".MAP", data, 1) = False Then
+    If Get_File_Data(pathMaps, "MAPA" & CStr(Map) & ".MAP", data, 1) = False Then
         Call MsgBox("El Mapa " & CStr(Map) & " no existe.", vbCritical + vbOKOnly)
         Exit Sub
     End If
@@ -665,10 +694,6 @@ Function FieldCount(ByRef Text As String, ByVal SepASCII As Byte) As Long
     FieldCount = Count
 End Function
 
-Function FileExist(ByVal file As String, ByVal FileType As VbFileAttribute) As Boolean
-    FileExist = (Dir$(file, FileType) <> "")
-End Function
-
 Public Function IsIp(ByVal Ip As String) As Boolean
     Dim i As Long
     
@@ -695,7 +720,7 @@ On Error GoTo errorH
         Dim c As Integer
         Dim i As Long
         
-        F = sPathINIT & "SInfo.dat"
+        F = pathInits & "SInfo.dat"
         c = Val(GetVar(F, "INIT", "Cant"))
         
         ReDim ServersLst(1 To c) As tServerInfo
@@ -794,21 +819,33 @@ Sub Main()
     '    End
     'End If
     
-    'Constantes de Inits
-    sPathINIT = App.Path & nDirINIT
-
+    pathClient = ValidDirectory(App.Path)
+    pathInits = ValidDirectory(pathClient & "inits\")
+    If FileExist(pathClient & "..\resources\inits\", vbDirectory) Then
+        pathInits = ValidDirectory(pathClient & "..\resources\inits\")
+    End If
+    Call FileRequired(pathInits & fAOSetup)
     'Load config file
-    If FileExist(sPathINIT & fConfigInit, vbNormal) Then
+    If FileExist(pathInits & fConfigInit, vbNormal) Then
         ClientConfigInit = modGameIni.LeerConfigInit()
     Else
         Call MsgBox("Se requiere del archivo de configuración 'Config.Init' en la carpeta INIT del cliente.", vbCritical + vbOKOnly)
-        Call CloseClient ' Cerramos el cliente
+        End
     End If
     
     NoRes = 1
     
     Call modGameIni.LoadClientAOSetup 'Load AOSetup.dat config file
     Call modGameIni.InitFilePaths 'Init Paths
+    
+    If Not FileExist(pathGraphics, vbDirectory) Then
+        Call MsgBox("Se requiere la carpeta de graficos " & pathGraphics, vbCritical + vbOKOnly)
+        End
+    End If
+    If Not FileExist(pathInterface, vbDirectory) Then
+        Call MsgBox("Se requiere la carpeta de interface " & pathInterface, vbCritical + vbOKOnly)
+        End
+    End If
     
     ' GSZAO Cambiar si los recursos .AO utilizan contraseña...
     ' NOTA: Con "" se deshabilita la utilización de contraseña!
@@ -828,8 +865,8 @@ Sub Main()
         End
     End If
 #Else
-    If FileExist(App.Path & "\Testeo.log", vbArchive) Then
-        Call Kill(App.Path & "\Testeo.log")
+    If FileExist(App.Path & "\dev.log", vbArchive) Then
+        Call Kill(App.Path & "\dev.log")
     End If
 #End If
     
@@ -859,7 +896,7 @@ Sub Main()
     Call Fade_Initializate 'GSZAO
 #If Testeo <> 1 Then
     Dim PresPath As String
-    PresPath = DirGraficos & "Presentacion" & RandomNumber(1, 4) & ".jpg"
+    PresPath = pathGraphics & "Presentacion" & RandomNumber(1, 4) & ".jpg"
     
     frmPres.Picture = LoadPicture(PresPath)
     frmPres.Show vbModal    'Es modal, así que se detiene la ejecución de Main hasta que se desaparece
@@ -949,8 +986,8 @@ Private Sub LoadInitialConfig() ' 0.13.3
     UserMap = 1
     
     ' Mouse Pointer (Loaded before opening any form with buttons in it)
-    If FileExist(DirCursores & "d.ico", vbArchive) Then _
-        Set picMouseIcon = LoadPicture(DirCursores & "d.ico")
+    If FileExist(pathCursors & "d.ico", vbArchive) Then _
+        Set picMouseIcon = LoadPicture(pathCursors & "d.ico")
         
     ' Ayuda de Comandos
     Call LoadHelpCommands ' GSZAO
@@ -1036,7 +1073,7 @@ Private Sub LoadInitialConfig() ' 0.13.3
     Call AddtoRichTextBox(frmCargando.status, "Iniciando DirectSound... ", 255, 255, 255, True, False, True)
     
     ' Inicializamos el sonido
-    Call Audio.Initialize(DirectX, frmMain.hwnd, DirSound, DirMidi)
+    Call Audio.Initialize(DirectX, frmMain.hwnd, pathSound, pathMusic)
     ' Enable / Disable audio
     Audio.MusicActivated = Not ClientAOSetup.bNoMusic
     Audio.SoundActivated = Not ClientAOSetup.bNoSound

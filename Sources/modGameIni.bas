@@ -38,17 +38,16 @@ Public Const fAOSetup = "AOSetup.init"
 Public Const fConfigInit = "Config.init"
 
 ' GSZAO - Las variables de path se definen una sola vez (Ver Sub InitFilePaths())
-Public DirGraficos As String
-Public DirSound As String
-Public DirMidi As String
-Public DirMapas As String
-Public DirExtras As String
-Public DirCursores As String
-Public DirGUI As String
-Public DirButtons As String
-
-Public Const nDirINIT = "\INIT\" ' Directorio INIT
-Public sPathINIT As String ' Path de INITs
+Public pathGraphics As String
+Public pathInterface As String
+Public pathExtras As String
+Public pathCursors As String
+Public pathGUI As String
+Public pathButtons As String
+Public pathParticles As String
+Public pathSound As String
+Public pathMusic As String
+Public pathMaps As String
 
 Public Declare Function GetWindowsDirectory Lib "kernel32" Alias "GetWindowsDirectoryA" (ByVal lpBuffer As String, ByVal nSize As Long) As Long
 Public Declare Function GetVolumeInformation Lib "kernel32.dll" Alias "GetVolumeInformationA" (ByVal lpRootPathName As String, ByVal _
@@ -68,24 +67,24 @@ Public Type tConfigInit
     IndiceGraficos As String    ' Archivo de Indices de Graficos
     
     ' Usuario
-    Nombre As String            ' Nombre de usuario
+    nombre As String            ' Nombre de usuario
     Password As String          ' Contraseña del usuario
     Recordar As Byte            ' Activado el recordar!
     
     ' Directorio
-    DirMultimedia As String     ' Directorio de multimedia
-    DirMapas As String          ' Directorio de mapas
-    DirGraficos As String       ' Directorio de graficos
+    pathGraphics As String       ' Directorio de graficos
+    pathInterface As String      ' Directorio de interfaces
+    DirCursores As String       ' Directorio de cursores
+    DirGUI As String            ' Directorio del GUI
+    DirBotones As String        ' Directorio de botones
+    pathParticles As String     ' Directorio de particulas
+    DirSonidos As String        ' Directorio de sonidos
+    pathMusicas As String        ' Directorio de musicas
+    pathMaps As String          ' Directorio de mapas
+    pathExtras As String         ' Directorio de extras
     DirFotos As String          ' Directorio de fotos
-    DirExtras As String         ' Directorio de extras (dentro de inits)
-    DirSonidos As String        ' Directorio de sonidos (dentro de multimedia)
-    DirMusicas As String        ' Directorio de musicas (dentro de multimedia)
-    DirParticulas As String     ' Directorio de particulas (dentro de graficos)
-    DirCursores As String       ' Directorio de cursores (dentro de graficos)
-    DirGUI As String            ' Directorio del GUI (dentro de graficos)
-    DirBotones As String        ' Directorio de botones (dentro de GUI)
-    DirFrags As String          ' Directorio de frags (dentro de fotos)
-    DirMuertes As String        ' Directorio de muertes (dentro de fotos)
+    DirFrags As String          ' Directorio de frags
+    DirMuertes As String        ' Directorio de muertes
 End Type
 
 Public Type tAOSetup
@@ -142,12 +141,12 @@ On Local Error Resume Next
     Dim N As Integer
     Dim ConfigInit As tConfigInit
     N = FreeFile
-    Open sPathINIT & fConfigInit For Binary As #N
+    Open pathInits & fConfigInit For Binary As #N
         Get #N, , MiCabecera
         Get #N, , ConfigInit
     Close #N
     
-    ConfigInit.Password = RndCrypt(ConfigInit.Password, App.Path & ConfigInit.Nombre)
+    ConfigInit.Password = RndCrypt(ConfigInit.Password, App.Path & ConfigInit.nombre)
     
     LeerConfigInit = ConfigInit
     
@@ -161,38 +160,55 @@ Public Sub EscribirConfigInit(ByRef ImaConfigInit As tConfigInit)
 On Local Error Resume Next
 
     ' GSZAO seguridad para la contraseña
-    ImaConfigInit.Password = RndCrypt(ImaConfigInit.Password, App.Path & ImaConfigInit.Nombre)
+    ImaConfigInit.Password = RndCrypt(ImaConfigInit.Password, App.Path & ImaConfigInit.nombre)
     
     Dim N As Integer
     N = FreeFile
-    Open sPathINIT & fConfigInit For Binary As #N
+    Open pathInits & fConfigInit For Binary As #N
     Put #N, , MiCabecera
     Put #N, , ImaConfigInit
     Close #N
     
     ' La re convierte para el juego!
-    ImaConfigInit.Password = RndCrypt(ImaConfigInit.Password, App.Path & ImaConfigInit.Nombre)
+    ImaConfigInit.Password = RndCrypt(ImaConfigInit.Password, App.Path & ImaConfigInit.nombre)
     
 End Sub
 
 Public Sub InitFilePaths()
 '*************************************************
 'Author: ^[GS]^
-'Last modified: 25/07/2012 - ^[GS]^
+'Last modified: 09/01/2022 - ^[GS]^
 '*************************************************
-    If InStr(1, ClientConfigInit.IndiceGraficos, "Graficos") Then
+    If InStr(1, ClientConfigInit.IndiceGraficos, "Graficos") Then ' indice de graficos
         GraphicsFile = ClientConfigInit.IndiceGraficos
     Else
         GraphicsFile = "Graficos1.ind"
     End If
-    DirGraficos = App.Path & "\" & ClientConfigInit.DirGraficos & "\"
-    DirSound = App.Path & "\" & ClientConfigInit.DirMultimedia & "\" & ClientConfigInit.DirSonidos & "\"
-    DirMidi = App.Path & "\" & ClientConfigInit.DirMultimedia & "\" & ClientConfigInit.DirMusicas & "\"
-    DirMapas = App.Path & "\" & ClientConfigInit.DirMapas & "\"
-    DirExtras = sPathINIT & "\" & ClientConfigInit.DirExtras & "\"
-    DirCursores = App.Path & "\" & ClientConfigInit.DirGraficos & "\" & ClientConfigInit.DirCursores & "\"
-    DirGUI = App.Path & "\" & ClientConfigInit.DirGraficos & "\" & ClientConfigInit.DirGUI & "\"
-    DirButtons = App.Path & "\" & ClientConfigInit.DirGraficos & "\" & ClientConfigInit.DirGUI & "\" & ClientConfigInit.DirBotones & "\"
+    'Requeridos
+    Call FileRequired(pathInits & GraphicsFile)
+    pathGraphics = ValidDirectory(pathClient & ClientConfigInit.pathGraphics)
+    pathInterface = ValidDirectory(pathClient & ClientConfigInit.pathInterface)
+    pathCursors = ValidDirectory(pathClient & ClientConfigInit.DirCursores)
+    pathGUI = ValidDirectory(pathClient & ClientConfigInit.DirGUI)
+    pathButtons = ValidDirectory(pathClient & ClientConfigInit.DirBotones)
+    pathParticles = ValidDirectory(pathClient & ClientConfigInit.pathParticles)
+    pathSound = ValidDirectory(pathClient & ClientConfigInit.DirSonidos)
+    pathMusic = ValidDirectory(pathClient & ClientConfigInit.pathMusicas)
+    pathMaps = ValidDirectory(pathClient & ClientConfigInit.pathMaps)
+    ' Opcionales
+    pathExtras = ValidDirectory(pathClient & ClientConfigInit.pathExtras)
+    If Not FileExist(pathExtras, vbDirectory) Then
+        MkDir ValidDirectory(pathExtras)
+    End If
+    If Not FileExist(pathClient & ClientConfigInit.DirFotos, vbDirectory) Then
+        MkDir ValidDirectory(pathClient & ClientConfigInit.DirFotos)
+    End If
+    If Not FileExist(pathClient & ClientConfigInit.DirFrags, vbDirectory) Then
+        MkDir ValidDirectory(pathClient & ClientConfigInit.DirFrags)
+    End If
+    If Not FileExist(pathClient & ClientConfigInit.DirMuertes, vbDirectory) Then
+        MkDir ValidDirectory(pathClient & ClientConfigInit.DirMuertes)
+    End If
 End Sub
 
 Public Sub LoadClientAOSetup()
@@ -207,9 +223,9 @@ Public Sub LoadClientAOSetup()
     ClientAOSetup.bVertex = 0 ' software
     ClientAOSetup.bVSync = False
     
-    If FileExist(sPathINIT & fAOSetup, vbArchive) Then
+    If FileExist(pathInits & fAOSetup, vbArchive) Then
         fHandle = FreeFile
-        Open sPathINIT & fAOSetup For Binary Access Read Lock Write As fHandle
+        Open pathInits & fAOSetup For Binary Access Read Lock Write As fHandle
             Get fHandle, , ClientAOSetup
         Close fHandle
     End If
@@ -238,7 +254,7 @@ Public Sub SaveClientAOSetup()
     ClientAOSetup.lMusicVolume = Audio.MusicVolume
     ClientAOSetup.lSoundVolume = Audio.SoundVolume
     
-    Open sPathINIT & fAOSetup For Binary As fHandle
+    Open pathInits & fAOSetup For Binary As fHandle
         Put fHandle, , ClientAOSetup
     Close fHandle
     

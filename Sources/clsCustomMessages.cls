@@ -75,7 +75,7 @@ On Error GoTo ErrHandler
     'Load custom messages
     handle = FreeFile()
     
-    Open sPathINIT & MESSAGE_FILE_NAME For Input As handle
+    Open pathInits & MESSAGE_FILE_NAME For Input As handle
     
     Do While (i < MESSAGE_COUNT) And (Not EOF(handle))
         Line Input #handle, CustomMessages(i)
@@ -110,14 +110,14 @@ Private Sub Class_Terminate()
     Dim Path As String
     
     'Make sure the path exists
-    If LenB(Dir(sPathINIT, vbDirectory)) = 0 Then
-        Call MkDir(sPathINIT)
+    If LenB(Dir(pathInits, vbDirectory)) = 0 Then
+        Call MkDir(pathInits)
     End If
     
     'Serialize custom messages
     handle = FreeFile()
     
-    Open sPathINIT & MESSAGE_FILE_NAME For Output As handle
+    Open pathInits & MESSAGE_FILE_NAME For Output As handle
     
     For i = 0 To MESSAGE_COUNT - 1
         Print #handle, CustomMessages(i)

@@ -651,8 +651,8 @@ Private Sub Form_Load()
     clsFormulario.Initialize Me
     
     ' Recuadros
-    Set picRecuadroItem = LoadPicture(DirGUI & "frmConstruirHerreroRecItemsHerreria.jpg")
-    Set picRecuadroLingotes = LoadPicture(DirGUI & "frmConstruirHerreroRecLingotes.jpg")
+    Set picRecuadroItem = LoadPicture(pathGUI & "frmConstruirHerreroRecItemsHerreria.jpg")
+    Set picRecuadroLingotes = LoadPicture(pathGUI & "frmConstruirHerreroRecLingotes.jpg")
     For i = 1 To MAX_LIST_ITEMS
         imgMarcoItem(i).Picture = picRecuadroItem
         imgMarcoUpgrade(i).Picture = picRecuadroItem
@@ -660,20 +660,20 @@ Private Sub Form_Load()
     Next
     
     ' Pestañas
-    Set Pestanias(ePestania.ieArmas) = LoadPicture(DirGUI & "frmConstruirHerreroArmas.jpg")
-    Set Pestanias(ePestania.ieArmaduras) = LoadPicture(DirGUI & "frmConstruirHerreroArmaduras.jpg")
-    Set Pestanias(ePestania.ieMejorar) = LoadPicture(DirGUI & "frmConstruirHerreroMejorar.jpg")
+    Set Pestanias(ePestania.ieArmas) = LoadPicture(pathGUI & "frmConstruirHerreroArmas.jpg")
+    Set Pestanias(ePestania.ieArmaduras) = LoadPicture(pathGUI & "frmConstruirHerreroArmaduras.jpg")
+    Set Pestanias(ePestania.ieMejorar) = LoadPicture(pathGUI & "frmConstruirHerreroMejorar.jpg")
     
     ' Controles
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
     

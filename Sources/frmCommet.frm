@@ -142,7 +142,7 @@ Option Explicit
 Private clsFormulario As clsFormMovementManager
 Private Const MAX_PROPOSAL_LENGTH As Integer = 520
 
-Public Nombre As String
+Public nombre As String
 Public T As TIPO
 Public Enum TIPO
     ALIANZA = 1
@@ -159,32 +159,32 @@ End Sub
 
 Private Sub cEnviar_Click()
 
-    If Nombre = vbNullString Then Exit Sub ' GSZAO
+    If nombre = vbNullString Then Exit Sub ' GSZAO
 
     Call Audio.PlayWave(SND_CLICK)
-    If LenB(Text1) = 0 Then
+    If LenB(text1) = 0 Then
         If T = PAZ Or T = ALIANZA Then
-            MsgBox "Debes redactar un mensaje solicitando la paz o alianza al líder de " & Nombre
+            MsgBox "Debes redactar un mensaje solicitando la paz o alianza al líder de " & nombre
         Else
-            MsgBox "Debes indicar el motivo por el cual rechazas la membresía de " & Nombre
+            MsgBox "Debes indicar el motivo por el cual rechazas la membresía de " & nombre
         End If
         
         Exit Sub
     End If
     
     If T = PAZ Then
-        Call WriteGuildOfferPeace(Nombre, Replace(Text1, vbCrLf, "º"))
+        Call WriteGuildOfferPeace(nombre, Replace(text1, vbCrLf, "º"))
         
     ElseIf T = ALIANZA Then
-        Call WriteGuildOfferAlliance(Nombre, Replace(Text1, vbCrLf, "º"))
+        Call WriteGuildOfferAlliance(nombre, Replace(text1, vbCrLf, "º"))
         
     ElseIf T = RECHAZOPJ Then
-        Call WriteGuildRejectNewMember(Nombre, Replace(Replace(Text1.Text, ",", " "), vbCrLf, " "))
+        Call WriteGuildRejectNewMember(nombre, Replace(Replace(text1.Text, ",", " "), vbCrLf, " "))
         'Sacamos el char de la lista de aspirantes
         Dim i As Long
         
         For i = 0 To frmGuildLeader.solicitudes.ListCount - 1
-            If frmGuildLeader.solicitudes.List(i) = Nombre Then
+            If frmGuildLeader.solicitudes.List(i) = nombre Then
                 frmGuildLeader.solicitudes.RemoveItem i
                 Exit For
             End If
@@ -207,22 +207,22 @@ Private Sub Form_Load()
     ' Fondo
     Select Case T
         Case TIPO.ALIANZA
-            Me.Picture = LoadPicture(DirGUI & "frmCommetAlianza.jpg")
+            Me.Picture = LoadPicture(pathGUI & "frmCommetAlianza.jpg")
         Case TIPO.PAZ
-            Me.Picture = LoadPicture(DirGUI & "frmCommetPaz.jpg")
+            Me.Picture = LoadPicture(pathGUI & "frmCommetPaz.jpg")
         Case TIPO.RECHAZOPJ
-            Me.Picture = LoadPicture(DirGUI & "frmCommetRechazo.jpg")
+            Me.Picture = LoadPicture(pathGUI & "frmCommetRechazo.jpg")
     End Select
 
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
     
@@ -230,8 +230,8 @@ End Sub
 
 Private Sub Text1_Change()
 
-    If Len(Text1.Text) > MAX_PROPOSAL_LENGTH Then _
-        Text1.Text = Left$(Text1.Text, MAX_PROPOSAL_LENGTH)
+    If Len(text1.Text) > MAX_PROPOSAL_LENGTH Then _
+        text1.Text = Left$(text1.Text, MAX_PROPOSAL_LENGTH)
         
 End Sub
 

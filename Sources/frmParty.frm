@@ -350,22 +350,22 @@ Private Sub Form_Load()
     lstMembers.Clear
         
     If EsPartyLeader Then
-        Me.Picture = LoadPicture(DirGUI & "frmPartyLider.jpg")
+        Me.Picture = LoadPicture(pathGUI & "frmPartyLider.jpg")
         Me.Height = LEADER_FORM_HEIGHT
     Else
-        Me.Picture = LoadPicture(DirGUI & "frmPartyMiembro.jpg")
+        Me.Picture = LoadPicture(pathGUI & "frmPartyMiembro.jpg")
         Me.Height = NORMAL_FORM_HEIGHT
     End If
     
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
                            

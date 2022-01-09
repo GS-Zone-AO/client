@@ -133,8 +133,8 @@ Public Sub Initialize(ByRef DirectD3D As D3DX8, ByRef Picture As PictureBox, ByV
     rgbRed(3) = D3DColorARGB(255, 255, 10, 10)
     
     ' Cargamos el grafico por defecto...
-    If (FileExist(DirGUI & "hechizo.jpg", vbArchive) = True) Then
-        Set SpellEmpty = DirectD3D.CreateTextureFromFileEx(DirectDevice, DirGUI & "hechizo.jpg", _
+    If (FileExist(pathGUI & "hechizo.jpg", vbArchive) = True) Then
+        Set SpellEmpty = DirectD3D.CreateTextureFromFileEx(DirectDevice, pathGUI & "hechizo.jpg", _
                 D3DX_DEFAULT, D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
                 D3DX_FILTER_NONE, &H55000000, ByVal 0, ByVal 0) ' GSZAO
         bSpellEmpty = True

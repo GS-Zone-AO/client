@@ -236,12 +236,12 @@ Public Sub MostrarNotas()
     If cMostrar.Caption = "Ocultar" Then
         Me.Height = 540
         Me.Width = 4855
-        Me.Picture = LoadPicture(DirGUI & "frmNotasMini.jpg")
+        Me.Picture = LoadPicture(pathGUI & "frmNotasMini.jpg")
         cCerrar.Left = 4420
         txtNotas.Visible = False
         cMostrar.Caption = "Mostrar"
     Else
-        Me.Picture = LoadPicture(DirGUI & "frmNotas.jpg")
+        Me.Picture = LoadPicture(pathGUI & "frmNotas.jpg")
         txtNotas.Visible = True
         cCerrar.Left = 8320
         Me.Height = 7635
@@ -265,17 +265,17 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(DirGUI & "frmNotas.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmNotas.jpg")
     
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
     

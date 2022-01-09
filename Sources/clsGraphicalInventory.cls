@@ -583,8 +583,8 @@ Public Sub Initialize(ByRef DirectD3D As D3DX8, ByRef InvPic As PictureBox, ByVa
         InvSelectedItem = ClickItem(1, 1)   'If there is anything there we select the top left item
         
     ' Cargamos el grafico por defecto...
-    If (FileExist(DirGUI & "mochila.jpg", vbArchive) = True) And (FixY = True) Then ' Solo en FixY=True
-        Set ItemEmpty = DirectD3D.CreateTextureFromFileEx(DirectDevice, DirGUI & "mochila.jpg", _
+    If (FileExist(pathGUI & "mochila.jpg", vbArchive) = True) And (FixY = True) Then ' Solo en FixY=True
+        Set ItemEmpty = DirectD3D.CreateTextureFromFileEx(DirectDevice, pathGUI & "mochila.jpg", _
                 D3DX_DEFAULT, D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
                 D3DX_FILTER_NONE, &H0, ByVal 0, ByVal 0)        ' GSZAO
                 'ARGB(255, 20, 20, 60)

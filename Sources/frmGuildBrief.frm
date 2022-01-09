@@ -593,27 +593,27 @@ End Sub
 
 Private Sub cDeclararGuerra_Click()
     Call Audio.PlayWave(SND_CLICK)
-    Call WriteGuildDeclareWar(Nombre.Caption)
+    Call WriteGuildDeclareWar(nombre.Caption)
     Unload Me
 End Sub
 
 Private Sub cOfrecerAlianza_Click()
     Call Audio.PlayWave(SND_CLICK)
-    frmCommet.Nombre = Nombre.Caption
+    frmCommet.nombre = nombre.Caption
     frmCommet.T = TIPO.ALIANZA
     Call frmCommet.Show(vbModal, frmGuildBrief)
 End Sub
 
 Private Sub cOfrecerPaz_Click()
     Call Audio.PlayWave(SND_CLICK)
-    frmCommet.Nombre = Nombre.Caption
+    frmCommet.nombre = nombre.Caption
     frmCommet.T = TIPO.PAZ
     Call frmCommet.Show(vbModal, frmGuildBrief)
 End Sub
 
 Private Sub cSolicitarIngreso_Click()
     Call Audio.PlayWave(SND_CLICK)
-    Call frmGuildSol.RecieveSolicitud(Nombre.Caption)
+    Call frmGuildSol.RecieveSolicitud(nombre.Caption)
     Call frmGuildSol.Show(vbModal, frmGuildBrief)
 End Sub
 
@@ -622,7 +622,7 @@ Private Sub Form_Load()
     Set clsFormulario = New clsFormMovementManager
     clsFormulario.Initialize Me
     
-    Me.Picture = LoadPicture(DirGUI & "frmGuildBrief.jpg")
+    Me.Picture = LoadPicture(pathGUI & "frmGuildBrief.jpg")
     
     If Not EsLeader Then
         cDeclararGuerra.Visible = False
@@ -633,12 +633,12 @@ Private Sub Form_Load()
     Dim cControl As Control
     For Each cControl In Me.Controls
         If TypeOf cControl Is uAOButton Then
-            cControl.PictureEsquina = LoadPicture(ImgRequest(DirButtons & sty_bEsquina))
-            cControl.PictureFondo = LoadPicture(ImgRequest(DirButtons & sty_bFondo))
-            cControl.PictureHorizontal = LoadPicture(ImgRequest(DirButtons & sty_bHorizontal))
-            cControl.PictureVertical = LoadPicture(ImgRequest(DirButtons & sty_bVertical))
+            cControl.PictureEsquina = LoadPicture(ImgRequest(pathButtons & sty_bEsquina))
+            cControl.PictureFondo = LoadPicture(ImgRequest(pathButtons & sty_bFondo))
+            cControl.PictureHorizontal = LoadPicture(ImgRequest(pathButtons & sty_bHorizontal))
+            cControl.PictureVertical = LoadPicture(ImgRequest(pathButtons & sty_bVertical))
         ElseIf TypeOf cControl Is uAOCheckbox Then
-            cControl.Picture = LoadPicture(ImgRequest(DirButtons & sty_cCheckbox))
+            cControl.Picture = LoadPicture(ImgRequest(pathButtons & sty_cCheckbox))
         End If
     Next
     
@@ -652,11 +652,11 @@ pbLogo.AutoRedraw = True
 If Not pStr = vbNullString Then
     Set pClan = LoadPicture(pStr)
 Else
-    Set pClan = VB.LoadPicture(DirGraficos & "Sin avatar - Casco.jpg")
+    Set pClan = VB.LoadPicture(pathGraphics & "Sin avatar - Casco.jpg")
 End If
 
 If Not ResizePicture(pbLogo, pClan) Then
-    Set pClan = VB.LoadPicture(DirGraficos & "Sin avatar - Casco.jpg")
+    Set pClan = VB.LoadPicture(pathGraphics & "Sin avatar - Casco.jpg")
     pbLogo.Picture = pClan
 End If
 

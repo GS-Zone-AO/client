@@ -85,6 +85,7 @@ Sub Engine_Init_ParticleEngine(Optional ByVal SkipToTextures As Boolean = False)
 'Loads all particles into memory - unlike normal textures, these stay in memory. This isn't
 'done for any reason in particular, they just use so little memory since they are so small
 '*****************************************************************
+On Error Resume Next
 Dim i As Byte
  
     If Not SkipToTextures Then
@@ -97,7 +98,7 @@ Dim i As Byte
    
     For i = 1 To UBound(ParticleTexture())
         If Not ParticleTexture(i) Is Nothing Then Set ParticleTexture(i) = Nothing
-        Set ParticleTexture(i) = DirectD3D8.CreateTextureFromFileEx(DirectDevice, DirGraficos & ClientConfigInit.DirParticulas & "\p" & i & ".png", D3DX_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_FILTER_NONE, &HFF000000, ByVal 0, ByVal 0)
+        Set ParticleTexture(i) = DirectD3D8.CreateTextureFromFileEx(DirectDevice, pathParticles & "\p" & i & ".png", D3DX_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_FILTER_NONE, &HFF000000, ByVal 0, ByVal 0)
     Next i
  
 End Sub
