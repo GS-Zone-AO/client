@@ -774,9 +774,10 @@ Public Function Get_File_Data(ByRef ResourcePath As String, ByRef FileName As St
     Else
         Get_File_Data = False
         If Modo = 1 Then
-            data = Get_FileRaw(pathMaps & FileName & MAPS_SOURCE_FILE_EXT)
-            FileName = FileName & MAPS_SOURCE_FILE_EXT
-            Get_File_Data = True
+            If FileExist(pathMaps & FileName) Then
+                data = Get_FileRaw(pathMaps & FileName)
+                Get_File_Data = True
+            End If
         Else
             If FileExist(pathGraphics & FileName & BMP_SOURCE_FILE_EXT) Then
                 data = Get_FileRaw(pathGraphics & FileName & BMP_SOURCE_FILE_EXT)
@@ -794,14 +795,14 @@ End Function
 Public Function Get_FileRaw(ByVal sFile As String) As Byte()
 
     If FileExist(sFile, vbArchive) Then
-        Dim nFile As Integer
-        nFile = FreeFile
-        Open sFile For Binary Access Read As #nFile
-        If LOF(nFile) > 0 Then
-            ReDim Get_FileRaw(0 To LOF(nFile) - 1)
-            Get nFile, , Get_FileRaw
+        Dim nfile As Integer
+        nfile = FreeFile
+        Open sFile For Binary Access Read As #nfile
+        If LOF(nfile) > 0 Then
+            ReDim Get_FileRaw(0 To LOF(nfile) - 1)
+            Get nfile, , Get_FileRaw
         End If
-        Close #nFile
+        Close #nfile
     End If
 
 End Function

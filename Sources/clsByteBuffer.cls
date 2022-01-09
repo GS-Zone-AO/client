@@ -33,11 +33,16 @@ Private Const SINGLE_SIZE As Byte = 4
 Private Const DOUBLE_SIZE As Byte = 8
  
 Public Sub initializeReader(ByRef arrayByte() As Byte)
+On Error GoTo error
     lastPos = UBound(arrayByte)
     ReDim data(lastPos) As Byte
      
     Call CopyMemory(data(0), arrayByte(0), lastPos + 1)
     CurrentPos = 0
+    Exit Sub
+error:
+    Call LogError("initializeReader " & Err.Number & ": " & Err.Description)
+    End
 End Sub
  
 Public Sub initializeWriter(ByVal fileHandler As Integer)

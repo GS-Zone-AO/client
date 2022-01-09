@@ -1,4 +1,5 @@
 Sources/*.log
+Sources/*.bak
 *.exe
 *.obj
 *.log
