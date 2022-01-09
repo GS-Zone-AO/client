@@ -750,19 +750,62 @@ End Function
 Public Function Get_File_Data(ByRef ResourcePath As String, ByRef FileName As String, ByRef data() As Byte, Optional Modo As Byte = 0) As Boolean
 '*****************************************************************
 'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 16/07/2012 - ^[GS]^
+'Last Modify Date: 09/01/2022 - ^[GS]^
 'Retrieves a byte array with the specified file data
 '*****************************************************************
     Dim InfoHead As INFOHEADER
+    Dim fileCompressed As String
+    fileCompressed = ""
+    If Modo = 1 Then
+        fileCompressed = MAPS_RESOURCE_FILE
+    Else
+        fileCompressed = GRH_RESOURCE_FILE
+    End If
     
-    If Get_InfoHeader(ResourcePath, FileName, InfoHead, Modo) Then
-        'Extract!
-        Get_File_Data = Extract_File(ResourcePath, InfoHead, data, Modo)
+    If FileExist(fileCompressed, vbArchive) Then
+
+        If Get_InfoHeader(ResourcePath, FileName, InfoHead, Modo) Then
+            'Extract!
+            Get_File_Data = Extract_File(ResourcePath, InfoHead, data, Modo)
+        Else
+            Get_File_Data = False
+            'Call MsgBox("No se se encontro el recurso " & FileName)
+        End If
     Else
         Get_File_Data = False
-        'Call MsgBox("No se se encontro el recurso " & FileName)
+        If Modo = 1 Then
+            data = Get_FileRaw(pathMaps & FileName & MAPS_SOURCE_FILE_EXT)
+            FileName = FileName & MAPS_SOURCE_FILE_EXT
+            Get_File_Data = True
+        Else
+            If FileExist(pathGraphics & FileName & BMP_SOURCE_FILE_EXT) Then
+                data = Get_FileRaw(pathGraphics & FileName & BMP_SOURCE_FILE_EXT)
+                FileName = FileName & BMP_SOURCE_FILE_EXT
+                Get_File_Data = True
+            ElseIf FileExist(pathGraphics & FileName & PNG_SOURCE_FILE_EXT) Then
+                data = Get_FileRaw(pathGraphics & FileName & PNG_SOURCE_FILE_EXT)
+                FileName = FileName & PNG_SOURCE_FILE_EXT
+                Get_File_Data = True
+            End If
+        End If
     End If
 End Function
+
+Public Function Get_FileRaw(ByVal sFile As String) As Byte()
+
+    If FileExist(sFile, vbArchive) Then
+        Dim nFile As Integer
+        nFile = FreeFile
+        Open sFile For Binary Access Read As #nFile
+        If LOF(nFile) > 0 Then
+            ReDim Get_FileRaw(0 To LOF(nFile) - 1)
+            Get nFile, , Get_FileRaw
+        End If
+        Close #nFile
+    End If
+
+End Function
+
 
 ''
 ' Retrieves image file data.
@@ -777,32 +820,41 @@ End Function
 Public Function Get_Image(ByRef ResourcePath As String, ByRef FileName As String, ByRef data() As Byte, Optional SoloBMP As Boolean = False) As Boolean
 '*****************************************************************
 'Author: Nicolas Matias Gonzalez (NIGO)
-'Last Modify Date: 09/10/2012 - ^[GS]^
+'Last Modify Date: 09/01/2022 - ^[GS]^
 'Retrieves image file data
 '*****************************************************************
     Dim InfoHead As INFOHEADER
     Dim ExistFile As Boolean
     
     ExistFile = False
-    
-    If SoloBMP = True Then
-        If Get_InfoHeader(ResourcePath, FileName & ".BMP", InfoHead, 0) Then ' ¿BMP?
+    If Not FileExist(ResourcePath & GRH_RESOURCE_FILE, vbArchive) Then ' Buscar el grafico
+        If FileExist(ResourcePath & FileName & ".BMP", vbArchive) Then
+            data = Get_FileRaw(ResourcePath & FileName & ".BMP")
             FileName = FileName & ".BMP"
             ExistFile = True
+        ElseIf Not SoloBMP Then
+            If FileExist(ResourcePath & FileName & ".PNG", vbArchive) Then
+                data = Get_FileRaw(ResourcePath & FileName & ".PNG")
+                FileName = FileName & ".PNG"
+                ExistFile = True
+            End If
         End If
-    Else
+    Else ' Utilizar graficos.ao
         If Get_InfoHeader(ResourcePath, FileName & ".BMP", InfoHead, 0) Then ' ¿BMP?
             FileName = FileName & ".BMP"
             ExistFile = True
-        ElseIf Get_InfoHeader(ResourcePath, FileName & ".PNG", InfoHead, 0) Then ' Existe PNG?
-            FileName = FileName & ".PNG" ' usamos el PNG
-            ExistFile = True
+        ElseIf Not SoloBMP Then
+            If Get_InfoHeader(ResourcePath, FileName & ".PNG", InfoHead, 0) Then  ' Existe PNG?
+                FileName = FileName & ".PNG" ' usamos el PNG
+                ExistFile = True
+            End If
+        End If
+        If ExistFile = True Then
+            If Extract_File(ResourcePath, InfoHead, data, 0) Then Get_Image = True
         End If
     End If
-    
-    If ExistFile = True Then
-        If Extract_File(ResourcePath, InfoHead, data, 0) Then Get_Image = True
-    Else
+
+    If Not ExistFile Then
         Call LogError("Get_Image::No se encontro el recurso " & FileName)
         Call MsgBox("Get_Image::No se encontro el recurso " & FileName)
     End If

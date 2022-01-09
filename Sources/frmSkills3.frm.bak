@@ -1204,9 +1204,6 @@ Private Sub SumarSkillPoint(ByVal SkillIndex As Integer)
             text1(SkillIndex).Caption = Val(text1(SkillIndex).Caption) + 1
             flags(SkillIndex) = flags(SkillIndex) + 1
             Alocados = Alocados - 1
-             'fix skill helios
-            frmMain.lblSkills.Caption = Alocados
-            
         End If
             
     End If
@@ -1221,8 +1218,6 @@ Private Sub RestarSkillPoint(ByVal SkillIndex As Integer)
             text1(SkillIndex).Caption = Val(text1(SkillIndex).Caption) - 1
             flags(SkillIndex) = flags(SkillIndex) - 1
             Alocados = Alocados + 1
-             'fix skill helios
-            frmMain.lblSkills.Caption = Alocados
         End If
     End If
     
