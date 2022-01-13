@@ -779,6 +779,7 @@ On Error Resume Next
     
     Call DrawGrhtoHdc(Pic.hdc, GrhIndex, SR, DR)
     Pic.Refresh
+    
 End Sub
 
 Public Sub RenderList(ByVal Inicio As Integer)

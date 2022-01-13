@@ -91,6 +91,8 @@ Sub DrawGrhtoHdc(ByVal desthDC As Long, ByVal grh_index As Integer, ByRef Source
         DeleteDC hdcsrc
         
         Set bmpData = Nothing
+    Else
+        Call LogError("DrawGrhToHdc: " & pathGraphics & CStr(GrhData(grh_index).FileNum) & " no devolvio la imagen.")
     End If
 
 End Sub

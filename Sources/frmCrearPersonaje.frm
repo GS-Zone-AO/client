@@ -1403,6 +1403,7 @@ Private Sub Form_Load()
     Call LoadHelp
     
     Call DrawImageInPicture(picPJ, Me.Picture, 0, 0, , , picPJ.Left, picPJ.Top)
+    Call DarCuerpoYCabeza
         
     Cargando = False
 End Sub
@@ -1737,8 +1738,7 @@ On Error Resume Next
     Dim DR As RECT
     Dim Grh As Long
     Static Frame As Byte
-    
-    If frmMain.Visible = False Then Exit Sub
+
     If currentGrh = 0 Then Exit Sub
     UserHead = CheckCabeza(UserHead)
     
@@ -1783,6 +1783,7 @@ On Error Resume Next
         Call DrawGrhtoHdc(picTemp.hdc, Grh, SR, DR)
         Call DrawTransparentGrhtoHdc(picPJ.hdc, picTemp.hdc, DR, DR, vbBlack)
     End With
+    
 End Sub
 
 Private Sub DrawHead(ByVal Head As Integer, ByVal PicIndex As Integer)

@@ -829,24 +829,24 @@ Public Function Get_Image(ByRef ResourcePath As String, ByRef FileName As String
     
     ExistFile = False
     If Not FileExist(ResourcePath & GRH_RESOURCE_FILE, vbArchive) Then ' Buscar el grafico
-        If FileExist(ResourcePath & FileName & ".BMP", vbArchive) Then
-            data = Get_FileRaw(ResourcePath & FileName & ".BMP")
-            FileName = FileName & ".BMP"
+        If FileExist(ResourcePath & FileName & BMP_SOURCE_FILE_EXT, vbArchive) Then
+            data = Get_FileRaw(ResourcePath & FileName & BMP_SOURCE_FILE_EXT)
+            FileName = FileName & BMP_SOURCE_FILE_EXT
             ExistFile = True
         ElseIf Not SoloBMP Then
-            If FileExist(ResourcePath & FileName & ".PNG", vbArchive) Then
-                data = Get_FileRaw(ResourcePath & FileName & ".PNG")
-                FileName = FileName & ".PNG"
+            If FileExist(ResourcePath & FileName & PNG_SOURCE_FILE_EXT, vbArchive) Then
+                data = Get_FileRaw(ResourcePath & FileName & PNG_SOURCE_FILE_EXT)
+                FileName = FileName & PNG_SOURCE_FILE_EXT
                 ExistFile = True
             End If
         End If
     Else ' Utilizar graficos.ao
-        If Get_InfoHeader(ResourcePath, FileName & ".BMP", InfoHead, 0) Then ' ¿BMP?
-            FileName = FileName & ".BMP"
+        If Get_InfoHeader(ResourcePath, FileName & BMP_SOURCE_FILE_EXT, InfoHead, 0) Then ' ¿BMP?
+            FileName = FileName & BMP_SOURCE_FILE_EXT
             ExistFile = True
         ElseIf Not SoloBMP Then
-            If Get_InfoHeader(ResourcePath, FileName & ".PNG", InfoHead, 0) Then  ' Existe PNG?
-                FileName = FileName & ".PNG" ' usamos el PNG
+            If Get_InfoHeader(ResourcePath, FileName & PNG_SOURCE_FILE_EXT, InfoHead, 0) Then  ' Existe PNG?
+                FileName = FileName & PNG_SOURCE_FILE_EXT ' usamos el PNG
                 ExistFile = True
             End If
         End If
@@ -859,6 +859,9 @@ Public Function Get_Image(ByRef ResourcePath As String, ByRef FileName As String
         Call LogError("Get_Image::No se encontro el recurso " & FileName)
         Call MsgBox("Get_Image::No se encontro el recurso " & FileName)
     End If
+    
+    Get_Image = ExistFile
+    
 End Function
 
 ''
