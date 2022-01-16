@@ -1,5 +1,6 @@
 Sources/*.log
 Sources/*.bak
+notas-*.txt
 *.exe
 *.obj
 *.log
