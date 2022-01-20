@@ -67,9 +67,7 @@ Public Type tConfigInit
     IndiceGraficos As String    ' Archivo de Indices de Graficos
     
     ' Usuario
-    nombre As String            ' Nombre de usuario
-    Password As String          ' Contraseña del usuario
-    Recordar As Byte            ' Activado el recordar!
+    Token As String             ' Token del usuario
     
     ' Directorio
     pathGraphics As String       ' Directorio de graficos
@@ -119,22 +117,23 @@ End Type
 Public MiCabecera As tCabecera
 Public ClientConfigInit As tConfigInit
 Public ClientAOSetup As tAOSetup
+Public LastConfigInit As Date
 
 Public Sub IniciarCabecera(ByRef Cabecera As tCabecera)
 '**************************************************************
 'Author: Unknown
-'Last Modify Date: 29/08/2012 - ^[GS]^
+'Last Modify Date: 19/01/2022 - ^[GS]^
 '**************************************************************
-    Cabecera.Desc = "GS-Zone Argentum Online MOD - Copyright GS-Zone 2013 - info@gs-zone.org - Original by Pablo Marquez " ' GSZAO
+    Cabecera.Desc = "GS-Zone Argentum Online MOD - Copyright GS-Zone 2022 - info@gs-zone.org - Original by Pablo Marquez " ' GSZAO
     Cabecera.CRC = Rnd * 100
     Cabecera.MagicWord = Rnd * 10
     
 End Sub
 
-Public Function LeerConfigInit() As tConfigInit
+Public Function LoadConfigInit() As tConfigInit
 '**************************************************************
 'Author: ^[GS]^
-'Last Modify Date: 29/08/2012 - ^[GS]^
+'Last Modify Date: 19/01/2022 - ^[GS]^
 '**************************************************************
 On Local Error Resume Next
 
@@ -146,31 +145,27 @@ On Local Error Resume Next
         Get #N, , ConfigInit
     Close #N
     
-    ConfigInit.Password = RndCrypt(ConfigInit.Password, App.Path & ConfigInit.nombre)
-    
-    LeerConfigInit = ConfigInit
+    LastConfigInit = FileDateTime(pathInits & fConfigInit)
+    LoadConfigInit = ConfigInit
     
 End Function
 
-Public Sub EscribirConfigInit(ByRef ImaConfigInit As tConfigInit)
+Public Sub SaveConfigInit()
 '**************************************************************
 'Author: ^[GS]^
-'Last Modify Date: 29/08/2012 - ^[GS]^
+'Last Modify Date: 19/01/2022 - ^[GS]^
 '**************************************************************
 On Local Error Resume Next
 
-    ' GSZAO seguridad para la contraseña
-    ImaConfigInit.Password = RndCrypt(ImaConfigInit.Password, App.Path & ImaConfigInit.nombre)
-    
+    Dim ImaConfigInit As tConfigInit
+    ImaConfigInit = ClientConfigInit
+
     Dim N As Integer
     N = FreeFile
     Open pathInits & fConfigInit For Binary As #N
     Put #N, , MiCabecera
     Put #N, , ImaConfigInit
     Close #N
-    
-    ' La re convierte para el juego!
-    ImaConfigInit.Password = RndCrypt(ImaConfigInit.Password, App.Path & ImaConfigInit.nombre)
     
 End Sub
 

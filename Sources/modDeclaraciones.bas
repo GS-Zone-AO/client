@@ -37,6 +37,8 @@ Option Explicit
 Public pathClient As String
 Public pathInits As String
 
+Public saltClient As String
+
 'Code by Shige
 Public Type TGUID
         data1 As Long

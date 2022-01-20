@@ -231,23 +231,6 @@ Public Sub RefreshAllChars()
     Next loopC
 End Sub
 
-Sub SaveConfigInit(Optional Modo As Byte = 0)
-
-    If Modo = 1 Then
-        'Grabamos los datos del usuario
-        If (frmConnect.chkRecordar.Checked = True) Then
-            If ClientConfigInit.Nombre <> frmConnect.txtNombre.Text Then ClientConfigInit.Nombre = frmConnect.txtNombre.Text
-            If ClientConfigInit.Password <> frmConnect.txtPasswd.Text Then ClientConfigInit.Password = frmConnect.txtPasswd.Text
-            ClientConfigInit.Recordar = 1
-        ElseIf (frmConnect.chkRecordar.Checked = False) Then
-            ClientConfigInit.Password = vbNullString
-            ClientConfigInit.Recordar = 0
-        End If
-    End If
-
-    Call EscribirConfigInit(ClientConfigInit)
-End Sub
-
 Function AsciiValidos(ByVal cad As String) As Boolean
     Dim car As Byte
     Dim i As Long
@@ -355,7 +338,7 @@ Sub SetConnected()
     'Set Connected
     Connected = True
     
-    Call SaveConfigInit(1)
+    Call SaveConfigInit
     
     'Unload the connect form
     Unload frmCrearPersonaje
@@ -811,13 +794,15 @@ End Function
 Sub Main()
 '********************************
 'Author: Unknown
-'Last Modification: 24/09/2012 - ^[GS]^
+'Last Modification: 19/01/2022 - ^[GS]^
 '**************************************
 
     'If Not StrComp(command$, "1") = 0 Then
     '    MsgBox "Debe ejecutar el launcher para abrir el cliente."
     '    End
     'End If
+    
+    saltClient = SHA1TRUNC(App.Major & App.Minor & App.Revision & Environ("USERNAME") & Environ("USERDOMAIN")) 'GSZAO Salt
     
     pathClient = ValidDirectory(App.Path)
     pathInits = ValidDirectory(pathClient & "inits\")
@@ -827,10 +812,24 @@ Sub Main()
     Call FileRequired(pathInits & fAOSetup)
     'Load config file
     If FileExist(pathInits & fConfigInit, vbNormal) Then
-        ClientConfigInit = modGameIni.LeerConfigInit()
+        ClientConfigInit = modGameIni.LoadConfigInit()
     Else
         Call MsgBox("Se requiere del archivo de configuración 'Config.Init' en la carpeta INIT del cliente.", vbCritical + vbOKOnly)
         End
+    End If
+    
+    If Len(command$) > 0 Then
+        If StrComp(command$, "?token=") Then 'GSZAO
+            Dim sToken As String
+            Dim iStart As Integer
+            iStart = InStr(command$, "?token=") + Len("?token=")
+            sToken = mid$(command$, iStart, Len(command$) - iStart)
+            ClientConfigInit.Token = sToken
+            Call modGameIni.SaveConfigInit
+            'If App.PrevInstance Then 'GS Solo funciona cuando esta usando desde compilado a compilado! de VB6 a compilado, es diferente siempre
+                End ' Close
+            'End If
+        End If
     End If
     
     NoRes = 1
@@ -978,11 +977,6 @@ Private Sub LoadInitialConfig() ' 0.13.3
     Call modProtocol.InitFonts
     frmCargando.cCargando.Value = frmCargando.cCargando.Value + 1 ' 2
     
-    With frmConnect
-        .txtNombre = ClientConfigInit.Nombre
-        .txtNombre.SelStart = 0
-        .txtNombre.SelLength = Len(.txtNombre)
-    End With
     UserMap = 1
     
     ' Mouse Pointer (Loaded before opening any form with buttons in it)
@@ -1273,16 +1267,16 @@ Public Sub LeerLineaComandos()
 'Last modified: 25/11/2008 (BrianPr)
 '
 '*************************************************
-    Dim T() As String
+    Dim t() As String
     Dim i As Long
     
     Dim UpToDate As Boolean
     Dim Patch As String
     
     'Parseo los comandos
-    T = Split(command, " ")
-    For i = LBound(T) To UBound(T)
-        Select Case UCase$(T(i))
+    t = Split(command, " ")
+    For i = LBound(t) To UBound(t)
+        Select Case UCase$(t(i))
             Case "/NORES" 'no cambiar la resolucion
                 NoRes = True
             Case "/UPTODATE"
@@ -1593,7 +1587,7 @@ Public Sub CloseClient()
     
     'Actualizar tip
     ClientConfigInit.MostrarTips = tipf
-    Call EscribirConfigInit(ClientConfigInit)
+    Call SaveConfigInit
     
     End ' THE END
     
@@ -1604,7 +1598,7 @@ Public Sub ResetAllInfo() ' 0.13.3
 '*******************************************************
 
     ' Save config.ini
-    Call SaveConfigInit(0)
+    Call SaveConfigInit
     
     ' Disable timers
     frmMain.Second.Enabled = False
