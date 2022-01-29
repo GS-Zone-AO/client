@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.Ocx"
-Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.Ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.ocx"
 Object = "{33101C00-75C3-11CF-A8A0-444553540000}#1.0#0"; "CSWSK32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmMain 
@@ -525,6 +525,7 @@ Begin VB.Form frmMain
       _ExtentY        =   3096
       _Version        =   393217
       BackColor       =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1138,7 +1139,7 @@ Public Sub RequestAsignarSkills()
     Loop
     LlegaronSkills = False
     For i = 1 To NUMSKILLS
-        frmSkills.text1(i).Caption = UserSkills(i)
+        frmSkills.Text1(i).Caption = UserSkills(i)
     Next i
     Alocados = SkillPoints
     frmSkills.puntos.Caption = SkillPoints
@@ -2577,6 +2578,9 @@ Private Sub Socket1_Connect()
     Call frmConnect.EstadoSocket ' GSZAO
 
     Select Case EstadoLogin
+        Case E_MODO.Token
+            Call Login
+            
         Case E_MODO.CrearNuevoPj
             Call Login
         
@@ -2676,8 +2680,8 @@ If tX >= MinXBorder And tY >= MinYBorder And _
             M.SetMenuId 1
             M.ListaInit 2, False
             
-            If LenB(CharList(MapData(tX, tY).CharIndex).nombre) <> 0 Then
-                M.ListaSetItem 0, CharList(MapData(tX, tY).CharIndex).nombre, True
+            If LenB(CharList(MapData(tX, tY).CharIndex).Nombre) <> 0 Then
+                M.ListaSetItem 0, CharList(MapData(tX, tY).CharIndex).Nombre, True
             Else
                 M.ListaSetItem 0, "<NPC>", True
             End If

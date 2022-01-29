@@ -49,6 +49,8 @@ Public pathSound As String
 Public pathMusic As String
 Public pathMaps As String
 
+Public HDSerial As Long
+
 Public Declare Function GetWindowsDirectory Lib "kernel32" Alias "GetWindowsDirectoryA" (ByVal lpBuffer As String, ByVal nSize As Long) As Long
 Public Declare Function GetVolumeInformation Lib "kernel32.dll" Alias "GetVolumeInformationA" (ByVal lpRootPathName As String, ByVal _
 lpVolumeNameBuffer As String, ByVal nVolumeNameSize As Integer, lpVolumeSerialNumber As Long, lpMaximumComponentLength As Long, _
@@ -265,7 +267,7 @@ Private Function SystemDrive() As String
     SystemDrive = Left$(windows_dir, 3) ' C:\
 End Function
 
-Function GetSerialHD() As Long
+Sub GetHDSerial()
 ' GSZ-AO - Obtiene el numero de serie del disco de sistema
     Dim SerialNum As Long
     Dim res As Long
@@ -275,8 +277,8 @@ Function GetSerialHD() As Long
     Temp2 = String$(255, Chr$(0))
     res = GetVolumeInformation(SystemDrive(), Temp1, _
     Len(Temp1), SerialNum, 0, 0, Temp2, Len(Temp2))
-    GetSerialHD = SerialNum
-End Function
+    HDSerial = SerialNum
+End Sub
 
 Public Function SEncriptar(ByVal Cadena As String) As String
 ' GSZ-AO - Encripta una cadena de texto

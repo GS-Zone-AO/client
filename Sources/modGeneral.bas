@@ -826,9 +826,9 @@ Sub Main()
             sToken = mid$(command$, iStart, Len(command$) - iStart)
             ClientConfigInit.Token = sToken
             Call modGameIni.SaveConfigInit
-            'If App.PrevInstance Then 'GS Solo funciona cuando esta usando desde compilado a compilado! de VB6 a compilado, es diferente siempre
+            If App.PrevInstance Then 'GS Solo funciona cuando esta usando desde compilado a compilado! de VB6 a compilado, es diferente siempre
                 End ' Close
-            'End If
+            End If
         End If
     End If
     
@@ -836,6 +836,7 @@ Sub Main()
     
     Call modGameIni.LoadClientAOSetup 'Load AOSetup.dat config file
     Call modGameIni.InitFilePaths 'Init Paths
+    Call modGameIni.GetHDSerial 'GSZAO
     
     If Not FileExist(pathGraphics, vbDirectory) Then
         Call MsgBox("Se requiere la carpeta de graficos " & pathGraphics, vbCritical + vbOKOnly)
@@ -891,7 +892,6 @@ Sub Main()
     
     Call ChangeCursorMain(cur_Normal) ' GSZAO
     
-    
     Call Fade_Initializate 'GSZAO
 #If Testeo <> 1 Then
     Dim PresPath As String
@@ -923,6 +923,8 @@ Sub Main()
     
     ' Load the form for screenshots
     Call Load(frmScreenshots)
+    
+    Call frmConnect.TryConnectToken
 
     Do While prgRun
         'Sólo dibujamos si la ventana no está minimizada

@@ -57,12 +57,15 @@ PuedoQuitarFoco = True
 End Function
 
 Sub Login()
-    If EstadoLogin = E_MODO.Normal Then
+    If EstadoLogin = E_MODO.Token Then
+        If modGSZ.ValidJWT(ClientConfigInit.Token) Then
+            Call WriteLoginToken
+        End If
+    ElseIf EstadoLogin = E_MODO.Normal Then
         Call WriteLoginExistingChar
     ElseIf EstadoLogin = E_MODO.CrearNuevoPj Then
         Call WriteLoginNewChar
     End If
-    
     Call FlushBuffer
     DoEvents
 End Sub

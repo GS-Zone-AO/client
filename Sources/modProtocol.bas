@@ -659,9 +659,7 @@ Private Enum ServerPacketID
 End Enum
 
 Private Enum ClientPacketID
-    TorneoEventoInfo
-    TorneoEvento
-    
+    LoginToken              'GSZ Token Login
     LoginExistingChar       'OLOGIN
     ThrowDices              'TIRDAD
     LoginNewChar            'NLOGIN
@@ -792,6 +790,9 @@ Private Enum ClientPacketID
     ShareNpc                '/COMPARTIRNPC
     StopSharingNpc          '/NOCOMPARTIRNPC
     Consultation
+    
+    TorneoEventoInfo
+    TorneoEvento
     
     Quest                   ' GSZAO - /QUEST
     QuestAccept             ' GSZAO
@@ -1660,12 +1661,12 @@ With incomingData
             Call AddtoRichTextBox(frmMain.RecTxt, MENSAJE_GOLPE_CRIATURA_1 & CStr(incomingData.ReadLong()) & MENSAJE_2, 255, 0, 0, True, False, True)
         
         Case eMessages.UserAttackedSwing
-            Call AddtoRichTextBox(frmMain.RecTxt, MENSAJE_1 & CharList(incomingData.ReadInteger()).Nombre & MENSAJE_ATAQUE_FALLO, 255, 0, 0, True, False, True)
+            Call AddtoRichTextBox(frmMain.RecTxt, MENSAJE_1 & CharList(incomingData.ReadInteger()).nombre & MENSAJE_ATAQUE_FALLO, 255, 0, 0, True, False, True)
         
         Case eMessages.UserHittedByUser
             Dim AttackerName As String
             
-            AttackerName = GetRawName(CharList(incomingData.ReadInteger()).Nombre)
+            AttackerName = GetRawName(CharList(incomingData.ReadInteger()).nombre)
             BodyPart = incomingData.ReadByte()
             Daño = incomingData.ReadInteger()
             
@@ -1693,7 +1694,7 @@ With incomingData
 
             Dim VictimName As String
             
-            VictimName = GetRawName(CharList(incomingData.ReadInteger()).Nombre)
+            VictimName = GetRawName(CharList(incomingData.ReadInteger()).nombre)
             BodyPart = incomingData.ReadByte()
             Daño = incomingData.ReadInteger()
             
@@ -1761,13 +1762,13 @@ With incomingData
             KilledUser = .ReadInteger
             Exp = .ReadLong
             
-            Call ShowConsoleMsg(MENSAJE_HAS_MATADO_A & CharList(KilledUser).Nombre & MENSAJE_22, 255, 0, 0, True, False)
+            Call ShowConsoleMsg(MENSAJE_HAS_MATADO_A & CharList(KilledUser).nombre & MENSAJE_22, 255, 0, 0, True, False)
             Call ShowConsoleMsg(MENSAJE_HAS_GANADO_EXPE_1 & Exp & MENSAJE_HAS_GANADO_EXPE_2, 255, 0, 0, True, False)
             
             'Sacamos un screenshot si está activado el FragShooter:
             If ClientAOSetup.bKill And ClientAOSetup.bActive Then
                 If Exp \ 2 > ClientAOSetup.byMurderedLevel Then
-                    FragShooterNickname = CharList(KilledUser).Nombre
+                    FragShooterNickname = CharList(KilledUser).nombre
                     FragShooterKilledSomeone = True
                     FragShooterCapturePending = True
                 End If
@@ -1778,11 +1779,11 @@ With incomingData
             
             KillerUser = .ReadInteger
             
-            Call ShowConsoleMsg(CharList(KillerUser).Nombre & MENSAJE_TE_HA_MATADO, 255, 0, 0, True, False)
+            Call ShowConsoleMsg(CharList(KillerUser).nombre & MENSAJE_TE_HA_MATADO, 255, 0, 0, True, False)
             
             'Sacamos un screenshot si está activado el FragShooter:
             If ClientAOSetup.bDie And ClientAOSetup.bActive Then
-                FragShooterNickname = CharList(KillerUser).Nombre
+                FragShooterNickname = CharList(KillerUser).nombre
                 FragShooterKilledSomeone = False
                 FragShooterCapturePending = True
             End If
@@ -2781,7 +2782,7 @@ Private Sub HandleUserAttackedSwing()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    Call AddtoRichTextBox(frmMain.RecTxt, MENSAJE_1 & CharList(incomingData.ReadInteger()).Nombre & MENSAJE_ATAQUE_FALLO, 255, 0, 0, True, False, True)
+    Call AddtoRichTextBox(frmMain.RecTxt, MENSAJE_1 & CharList(incomingData.ReadInteger()).nombre & MENSAJE_ATAQUE_FALLO, 255, 0, 0, True, False, True)
 End Sub
 
 ''
@@ -2803,7 +2804,7 @@ Private Sub HandleUserHittedByUser()
     
     Dim attacker As String
     
-    attacker = CharList(incomingData.ReadInteger()).Nombre
+    attacker = CharList(incomingData.ReadInteger()).nombre
     
     Select Case incomingData.ReadByte
         Case bCabeza
@@ -2840,7 +2841,7 @@ Private Sub HandleUserHittedUser()
     
     Dim Victim As String
     
-    Victim = CharList(incomingData.ReadInteger()).Nombre
+    Victim = CharList(incomingData.ReadInteger()).nombre
     
     Select Case incomingData.ReadByte
         Case bCabeza
@@ -3315,7 +3316,7 @@ On Error GoTo ErrHandler
     With CharList(CharIndex)
         Call SetCharacterFx(CharIndex, Buffer.ReadInteger(), Buffer.ReadInteger())
         
-        .Nombre = Buffer.ReadASCIIString()
+        .nombre = Buffer.ReadASCIIString()
         NickColor = Buffer.ReadByte()
         
         If (NickColor And eNickColor.ieCriminal) <> 0 Then
@@ -3406,7 +3407,7 @@ Private Sub HandleCharacterChangeNick()
     Call incomingData.ReadByte
     Dim CharIndex As Integer
     CharIndex = incomingData.ReadInteger
-    CharList(CharIndex).Nombre = incomingData.ReadASCIIString
+    CharList(CharIndex).nombre = incomingData.ReadASCIIString
     
 End Sub
 
@@ -7523,7 +7524,7 @@ On Error GoTo ErrHandler
             .cPeticion.Visible = True
         End If
         
-        .Nombre.Caption = Buffer.ReadASCIIString()
+        .nombre.Caption = Buffer.ReadASCIIString()
         .Raza.Caption = ListaRazas(Buffer.ReadByte())
         .Clase.Caption = ListaClases(Buffer.ReadByte())
         
@@ -7696,7 +7697,7 @@ On Error GoTo ErrHandler
         .cOfrecerAlianza.Visible = .EsLeader
         .cOfrecerPaz.Visible = .EsLeader
         
-        .Nombre.Caption = Buffer.ReadASCIIString()
+        .nombre.Caption = Buffer.ReadASCIIString()
         .fundador.Caption = Buffer.ReadASCIIString()
         .creacion.Caption = Buffer.ReadASCIIString()
         .lider.Caption = Buffer.ReadASCIIString()
@@ -8510,7 +8511,7 @@ On Error GoTo ErrHandler
         
         .Atacable = (NickColor And eNickColor.ieAtacable) <> 0
         
-        .Nombre = UserTag
+        .nombre = UserTag
     End With
     
     'If we got here then packet is complete, copy data back to original queue
@@ -8674,6 +8675,27 @@ On Error GoTo 0
 End Sub
 
 
+Public Sub WriteLoginToken()
+'***************************************************
+'Author: ^[GS]^
+'Last Modification: 29/01/2022 - ^[GS]^
+'***************************************************
+    Dim i As Long
+    
+    With outgoingData
+        Call .WriteByte(ClientPacketID.LoginToken)
+        Call .WriteASCIIString(ClientConfigInit.Token)
+        Call .WriteByte(App.Major)
+        Call .WriteByte(App.Minor)
+        Call .WriteByte(App.Revision)
+        Call .WriteASCIIString(SEncriptar(HDSerial)) ' GSZAO
+    End With
+    
+#If Testeo = 1 Then
+    Call LogTesteo("El token " & ClientConfigInit.Token & " intenta conectarse.")
+#End If
+End Sub
+
 ''
 ' Writes the "LoginExistingChar" message to the outgoing data buffer.
 '
@@ -8695,7 +8717,7 @@ Public Sub WriteLoginExistingChar()
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)
         Call .WriteByte(App.Revision)
-        Call .WriteASCIIString(SEncriptar(GetSerialHD())) ' GSZAO
+        Call .WriteASCIIString(SEncriptar(HDSerial)) ' GSZAO
         
     End With
     
@@ -8740,7 +8762,7 @@ Public Sub WriteLoginNewChar()
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)
         Call .WriteByte(App.Revision)
-        Call .WriteASCIIString(SEncriptar(GetSerialHD())) ' GSZAO
+        Call .WriteASCIIString(SEncriptar(HDSerial)) ' GSZAO
         Call .WriteByte(UserRaza)
         Call .WriteByte(UserSexo)
         Call .WriteByte(UserClase)

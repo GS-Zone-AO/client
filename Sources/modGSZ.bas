@@ -297,18 +297,18 @@ End Function
 Public Function UpdateUserPos()
 
     'Update pos label
-    frmMain.Coord.Caption = UserMap & " X: " & UserPos.x & " Y: " & UserPos.Y
+    frmMain.Coord.Caption = UserMap & " X: " & UserPos.X & " Y: " & UserPos.Y
     'frmMain.pUserMap.Left = UserPos.X - 2
     'frmMain.pUserMap.Top = UserPos.Y - 2
     DoEvents
     
 End Function
 
-Public Function TechoActivo(x As Long, Y As Long) As Boolean
+Public Function TechoActivo(X As Long, Y As Long) As Boolean
 
     TechoActivo = False
     ' El usuario está bajo techo?
-    If (MapData(UserPos.x, UserPos.Y).Trigger = 1 Or MapData(UserPos.x, UserPos.Y).Trigger = 2) Then
+    If (MapData(UserPos.X, UserPos.Y).Trigger = 1 Or MapData(UserPos.X, UserPos.Y).Trigger = 2) Then
         Dim lmY As Long
         Dim liY As Long
         Dim lmX As Long
@@ -316,7 +316,7 @@ Public Function TechoActivo(x As Long, Y As Long) As Boolean
         Dim tY As Long
         Dim tX As Long
         
-        tX = UserPos.x
+        tX = UserPos.X
         For tY = UserPos.Y To maxY
             If MapData(tX, tY).Graphic(4).GrhIndex = 0 Then
                 lmY = tY - 1 ' limite superior
@@ -331,25 +331,44 @@ Public Function TechoActivo(x As Long, Y As Long) As Boolean
         Next
         
         tY = UserPos.Y
-        For tX = UserPos.x To maxX
+        For tX = UserPos.X To maxX
             If MapData(tX, tY).Graphic(4).GrhIndex = 0 Then
                 lmX = tX - 1 ' limite derecho
                 Exit For
             End If
         Next
-        For tX = UserPos.x To minX Step -1
+        For tX = UserPos.X To minX Step -1
             If MapData(tX, tY).Graphic(4).GrhIndex = 0 Then
                 liX = tX + 1 ' limite izquierdo
                 Exit For
             End If
         Next
         
-        If (x >= liX And x <= lmX And Y >= liY And Y <= lmY) Then
+        If (X >= liX And X <= lmX And Y >= liY And Y <= lmY) Then
             TechoActivo = True
         End If
     
     End If
     
+End Function
+
+Public Function ValidJWT(ByVal sToken As String) As Boolean
+
+    If Len(sToken) < 32 Then
+        ValidJWT = False
+        Exit Function
+    End If
+    
+    Dim sItems() As String
+    sItems = Split(sToken, ".")
+    ValidJWT = False
+
+    If (UBound(sItems) + 1) = 3 Then
+        If Len(sItems(0)) = 36 And Len(sItems(1)) > 180 And Len(sItems(2)) = 43 Then
+            ValidJWT = True
+        End If
+    End If
+
 End Function
 
 Public Sub LogError(ByVal sDesc As String)

@@ -51,17 +51,25 @@ Begin VB.Form frmConnect
          TabIndex        =   17
          Top             =   720
          Width           =   2175
-         _extentx        =   3836
-         _extenty        =   873
-         tx              =   "Token Manual"
-         enab            =   -1  'True
-         fcol            =   7314354
-         ocol            =   16777215
-         pice            =   "frmConnect.frx":45744
-         picf            =   "frmConnect.frx":45760
-         pich            =   "frmConnect.frx":4577C
-         picv            =   "frmConnect.frx":45798
-         font            =   "frmConnect.frx":457B4
+         _ExtentX        =   3836
+         _ExtentY        =   873
+         TX              =   "Token Manual"
+         ENAB            =   -1  'True
+         FCOL            =   7314354
+         OCOL            =   16777215
+         PICE            =   "frmConnect.frx":45744
+         PICF            =   "frmConnect.frx":45760
+         PICH            =   "frmConnect.frx":4577C
+         PICV            =   "frmConnect.frx":45798
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   12
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
       End
       Begin VB.Label lblAccediendo2 
          Alignment       =   2  'Center
@@ -96,11 +104,11 @@ Begin VB.Form frmConnect
       TabIndex        =   12
       Top             =   5640
       Width           =   195
-      _extentx        =   344
-      _extenty        =   344
-      chck            =   0   'False
-      enab            =   -1  'True
-      picc            =   "frmConnect.frx":457D8
+      _ExtentX        =   344
+      _ExtentY        =   344
+      CHCK            =   0   'False
+      ENAB            =   -1  'True
+      PICC            =   "frmConnect.frx":457B4
    End
    Begin ClientGSZAO.uAOButton cSalir 
       Height          =   495
@@ -108,17 +116,25 @@ Begin VB.Form frmConnect
       TabIndex        =   11
       Top             =   8280
       Width           =   1935
-      _extentx        =   3413
-      _extenty        =   873
-      tx              =   "Salir"
-      enab            =   -1  'True
-      fcol            =   7314354
-      ocol            =   16777215
-      pice            =   "frmConnect.frx":45838
-      picf            =   "frmConnect.frx":45854
-      pich            =   "frmConnect.frx":45870
-      picv            =   "frmConnect.frx":4588C
-      font            =   "frmConnect.frx":458A8
+      _ExtentX        =   3413
+      _ExtentY        =   873
+      TX              =   "Salir"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":45812
+      PICF            =   "frmConnect.frx":4582E
+      PICH            =   "frmConnect.frx":4584A
+      PICV            =   "frmConnect.frx":45866
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin ClientGSZAO.uAOButton cCreditos 
       Height          =   495
@@ -126,17 +142,25 @@ Begin VB.Form frmConnect
       TabIndex        =   10
       Top             =   8280
       Width           =   1455
-      _extentx        =   2566
-      _extenty        =   873
-      tx              =   "Creditos"
-      enab            =   -1  'True
-      fcol            =   7314354
-      ocol            =   16777215
-      pice            =   "frmConnect.frx":458CC
-      picf            =   "frmConnect.frx":458E8
-      pich            =   "frmConnect.frx":45904
-      picv            =   "frmConnect.frx":45920
-      font            =   "frmConnect.frx":4593C
+      _ExtentX        =   2566
+      _ExtentY        =   873
+      TX              =   "Creditos"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":45882
+      PICF            =   "frmConnect.frx":4589E
+      PICH            =   "frmConnect.frx":458BA
+      PICV            =   "frmConnect.frx":458D6
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin ClientGSZAO.uAOButton cSitioOficial 
       Height          =   495
@@ -144,17 +168,25 @@ Begin VB.Form frmConnect
       TabIndex        =   9
       Top             =   8280
       Width           =   1455
-      _extentx        =   2566
-      _extenty        =   873
-      tx              =   "Sitio Oficial"
-      enab            =   -1  'True
-      fcol            =   7314354
-      ocol            =   16777215
-      pice            =   "frmConnect.frx":45960
-      picf            =   "frmConnect.frx":4597C
-      pich            =   "frmConnect.frx":45998
-      picv            =   "frmConnect.frx":459B4
-      font            =   "frmConnect.frx":459D0
+      _ExtentX        =   2566
+      _ExtentY        =   873
+      TX              =   "Sitio Oficial"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":458F2
+      PICF            =   "frmConnect.frx":4590E
+      PICH            =   "frmConnect.frx":4592A
+      PICV            =   "frmConnect.frx":45946
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin ClientGSZAO.uAOButton cCrearPJ 
       Height          =   495
@@ -162,17 +194,25 @@ Begin VB.Form frmConnect
       TabIndex        =   8
       Top             =   8280
       Width           =   4575
-      _extentx        =   8070
-      _extenty        =   873
-      tx              =   "Nuevo Personaje"
-      enab            =   -1  'True
-      fcol            =   7314354
-      ocol            =   16777215
-      pice            =   "frmConnect.frx":459F4
-      picf            =   "frmConnect.frx":45A10
-      pich            =   "frmConnect.frx":45A2C
-      picv            =   "frmConnect.frx":45A48
-      font            =   "frmConnect.frx":45A64
+      _ExtentX        =   8070
+      _ExtentY        =   873
+      TX              =   "Nuevo Personaje"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":45962
+      PICF            =   "frmConnect.frx":4597E
+      PICH            =   "frmConnect.frx":4599A
+      PICV            =   "frmConnect.frx":459B6
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin ClientGSZAO.uAOButton cConectar 
       Height          =   495
@@ -180,17 +220,25 @@ Begin VB.Form frmConnect
       TabIndex        =   7
       Top             =   6000
       Width           =   2775
-      _extentx        =   4895
-      _extenty        =   873
-      tx              =   "Conectarse"
-      enab            =   -1  'True
-      fcol            =   7314354
-      ocol            =   16777215
-      pice            =   "frmConnect.frx":45A88
-      picf            =   "frmConnect.frx":45AA4
-      pich            =   "frmConnect.frx":45AC0
-      picv            =   "frmConnect.frx":45ADC
-      font            =   "frmConnect.frx":45AF8
+      _ExtentX        =   4895
+      _ExtentY        =   873
+      TX              =   "Conectarse"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":459D2
+      PICF            =   "frmConnect.frx":459EE
+      PICH            =   "frmConnect.frx":45A0A
+      PICV            =   "frmConnect.frx":45A26
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin ClientGSZAO.uAOButton cTeclas 
       Height          =   495
@@ -198,17 +246,25 @@ Begin VB.Form frmConnect
       TabIndex        =   6
       Top             =   6000
       Width           =   1335
-      _extentx        =   2355
-      _extenty        =   873
-      tx              =   "Teclas"
-      enab            =   -1  'True
-      fcol            =   7314354
-      ocol            =   16777215
-      pice            =   "frmConnect.frx":45B1C
-      picf            =   "frmConnect.frx":45B38
-      pich            =   "frmConnect.frx":45B54
-      picv            =   "frmConnect.frx":45B70
-      font            =   "frmConnect.frx":45B8C
+      _ExtentX        =   2355
+      _ExtentY        =   873
+      TX              =   "Teclas"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":45A42
+      PICF            =   "frmConnect.frx":45A5E
+      PICH            =   "frmConnect.frx":45A7A
+      PICV            =   "frmConnect.frx":45A96
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.TextBox IPTxt 
       Alignment       =   2  'Center
@@ -302,17 +358,25 @@ Begin VB.Form frmConnect
       TabIndex        =   13
       Top             =   8280
       Width           =   1935
-      _extentx        =   3413
-      _extenty        =   873
-      tx              =   "Opciones"
-      enab            =   -1  'True
-      fcol            =   7314354
-      ocol            =   16777215
-      pice            =   "frmConnect.frx":45BB0
-      picf            =   "frmConnect.frx":45BCC
-      pich            =   "frmConnect.frx":45BE8
-      picv            =   "frmConnect.frx":45C04
-      font            =   "frmConnect.frx":45C20
+      _ExtentX        =   3413
+      _ExtentY        =   873
+      TX              =   "Opciones"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":45AB2
+      PICF            =   "frmConnect.frx":45ACE
+      PICH            =   "frmConnect.frx":45AEA
+      PICV            =   "frmConnect.frx":45B06
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin ClientGSZAO.uAOButton cAcceder 
       Height          =   495
@@ -320,17 +384,25 @@ Begin VB.Form frmConnect
       TabIndex        =   14
       Top             =   4200
       Width           =   2775
-      _extentx        =   4895
-      _extenty        =   873
-      tx              =   "Acceder"
-      enab            =   -1  'True
-      fcol            =   7314354
-      ocol            =   16777215
-      pice            =   "frmConnect.frx":45C44
-      picf            =   "frmConnect.frx":45C60
-      pich            =   "frmConnect.frx":45C7C
-      picv            =   "frmConnect.frx":45C98
-      font            =   "frmConnect.frx":45CB4
+      _ExtentX        =   4895
+      _ExtentY        =   873
+      TX              =   "Acceder"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":45B22
+      PICF            =   "frmConnect.frx":45B3E
+      PICH            =   "frmConnect.frx":45B5A
+      PICV            =   "frmConnect.frx":45B76
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin ClientGSZAO.uAOButton cCerrar 
       Height          =   495
@@ -339,17 +411,25 @@ Begin VB.Form frmConnect
       Top             =   3720
       Visible         =   0   'False
       Width           =   2775
-      _extentx        =   4895
-      _extenty        =   873
-      tx              =   "Cerrar sesión"
-      enab            =   -1  'True
-      fcol            =   7314354
-      ocol            =   16777215
-      pice            =   "frmConnect.frx":45CD8
-      picf            =   "frmConnect.frx":45CF4
-      pich            =   "frmConnect.frx":45D10
-      picv            =   "frmConnect.frx":45D2C
-      font            =   "frmConnect.frx":45D48
+      _ExtentX        =   4895
+      _ExtentY        =   873
+      TX              =   "Cerrar sesión"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":45B92
+      PICF            =   "frmConnect.frx":45BAE
+      PICH            =   "frmConnect.frx":45BCA
+      PICV            =   "frmConnect.frx":45BE6
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.Label lRemember 
       Alignment       =   1  'Right Justify
@@ -472,9 +552,14 @@ End Sub
 Private Sub cCerrar_Click()
 
     cCerrar.Visible = False
-    cAcceder.Visible = True
     ClientConfigInit.Token = vbNullString
     Call modGameIni.SaveConfigInit
+    If frmMain.Socket1.Connected Then
+        frmMain.Socket1.Disconnect
+        frmMain.Socket1.Cleanup
+        DoEvents
+    End If
+    cAcceder.Visible = True
     
 End Sub
 
@@ -492,22 +577,6 @@ End Sub
 
 Private Sub Form_Activate()
     Call Audio.PlayMIDI("0.mid")
-End Sub
-
-Private Sub tAccediendo_Timer()
-    ' Revisar si config.init cambio
-    Dim fileStamp As Date
-    fileStamp = FileDateTime(pathInits & fConfigInit)
-    If fileStamp <> LastConfigInit Then ' Cambio!
-        ClientConfigInit = modGameIni.LoadConfigInit
-        If Len(ClientConfigInit.Token) > 0 Then
-            MsgBox "GSZAO Accedio con " & ClientConfigInit.Token
-            Me.WindowState = vbNormal
-            fAccediendo.Visible = False
-            cCerrar.Visible = True
-            tAccediendo.Enabled = False
-        End If
-    End If
 End Sub
 
 Private Sub tEfectos_Timer()
@@ -569,12 +638,6 @@ On Error Resume Next
     '[CODE 002]:MatuX
     EngineRun = False
     '[END]
-    
-    If Len(ClientConfigInit.Token) > 0 Then
-        cCerrar.Visible = True
-        cAcceder.Visible = False
-        MsgBox "GSZAO Falta programar. Tiene token, es valido? " & ClientConfigInit.Token
-    End If
 
     CargarServidores ' Cargamos
     
@@ -630,6 +693,41 @@ On Error Resume Next
      
     Call Audio.PlayMIDI("0.mid")
      
+End Sub
+
+Public Sub TryConnectToken()
+
+    If Len(ClientConfigInit.Token) > 0 And modGSZ.ValidJWT(ClientConfigInit.Token) Then
+        fAccediendo.Visible = False
+        cCerrar.Visible = True
+        cAcceder.Visible = False
+        tAccediendo.Enabled = False
+        If frmMain.Socket1.Connected Then
+            frmMain.Socket1.Disconnect
+            frmMain.Socket1.Cleanup
+            DoEvents
+        End If
+        EstadoLogin = E_MODO.Token
+        frmMain.Socket1.HostAddress = CurServerIp
+        frmMain.Socket1.RemotePort = CurServerPort
+        frmMain.Socket1.Connect
+        DoEvents
+    End If
+
+End Sub
+
+Private Sub tAccediendo_Timer()
+    ' Revisar si config.init cambio
+    Dim fileStamp As Date
+    fileStamp = FileDateTime(pathInits & fConfigInit)
+    If fileStamp <> LastConfigInit Then ' Cambio!
+        ClientConfigInit = modGameIni.LoadConfigInit
+        If Len(ClientConfigInit.Token) > 0 Then
+            Me.WindowState = vbNormal
+            DoEvents
+            Call TryConnectToken
+        End If
+    End If
 End Sub
 
 Public Sub EstadoSocket()
@@ -711,7 +809,7 @@ Private Sub lRemember_Click()
     Call chkRecordar_Click
 End Sub
 
-Private Sub lRemember_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub lRemember_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Call chkRecordar.SetFocus
 End Sub
 
