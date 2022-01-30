@@ -431,6 +431,16 @@ Begin VB.Form frmConnect
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.Label lblAccountName 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      ForeColor       =   &H0080FF80&
+      Height          =   195
+      Left            =   240
+      TabIndex        =   20
+      Top             =   480
+      Width           =   60
+   End
    Begin VB.Label lRemember 
       Alignment       =   1  'Right Justify
       BackStyle       =   0  'Transparent
@@ -551,15 +561,7 @@ End Sub
 
 Private Sub cCerrar_Click()
 
-    cCerrar.Visible = False
-    ClientConfigInit.Token = vbNullString
-    Call modGameIni.SaveConfigInit
-    If frmMain.Socket1.Connected Then
-        frmMain.Socket1.Disconnect
-        frmMain.Socket1.Cleanup
-        DoEvents
-    End If
-    cAcceder.Visible = True
+    Call CleanToken
     
 End Sub
 
@@ -695,9 +697,27 @@ On Error Resume Next
      
 End Sub
 
+Public Sub CleanToken()
+
+    If Len(ClientConfigInit.Token) > 0 Then
+        lblAccountName.Caption = vbNullString
+        cCerrar.Visible = False
+        ClientConfigInit.Token = vbNullString
+        Call modGameIni.SaveConfigInit
+        If frmMain.Socket1.Connected Then
+            frmMain.Socket1.Disconnect
+            frmMain.Socket1.Cleanup
+            DoEvents
+        End If
+        cAcceder.Visible = True
+    End If
+
+End Sub
+
 Public Sub TryConnectToken()
 
     If Len(ClientConfigInit.Token) > 0 And modGSZ.ValidJWT(ClientConfigInit.Token) Then
+        lblAccountName.Caption = vbNullString
         fAccediendo.Visible = False
         cCerrar.Visible = True
         cAcceder.Visible = False
@@ -730,30 +750,26 @@ Private Sub tAccediendo_Timer()
     End If
 End Sub
 
-Public Sub EstadoSocket()
-    If frmMain.Socket1.Connected Then
-        txtNombre.Enabled = False
-        txtPasswd.Enabled = False
-        Me.MousePointer = 11
-    Else
-        txtNombre.Enabled = True
-        txtPasswd.Enabled = True
-        Me.MousePointer = 0
-    End If
-End Sub
-
 Private Sub cCrearPJ_Click()
     Call Audio.PlayWave(SND_CLICK)
-    EstadoLogin = E_MODO.Dados
-    CaptchaKey = RandomNumber(1, 255) ' GSZAO
-    If frmMain.Socket1.Connected Then
-        frmMain.Socket1.Disconnect
-        frmMain.Socket1.Cleanup
+    
+    If Not frmMain.Socket1.Connected Then
+        Call TryConnectToken
         DoEvents
     End If
-    frmMain.Socket1.HostAddress = CurServerIp
-    frmMain.Socket1.RemotePort = CurServerPort
-    frmMain.Socket1.Connect
+    
+    Call WriteLoginNewChar
+    
+'    EstadoLogin = E_MODO.Dados
+'    CaptchaKey = RandomNumber(1, 255) ' GSZAO
+'    If frmMain.Socket1.Connected Then
+'        frmMain.Socket1.Disconnect
+'        frmMain.Socket1.Cleanup
+'        DoEvents
+'    End If
+'    frmMain.Socket1.HostAddress = CurServerIp
+'    frmMain.Socket1.RemotePort = CurServerPort
+'    frmMain.Socket1.Connect
 End Sub
 
 Private Sub cCreditos_Click()
@@ -827,24 +843,36 @@ End Sub
 
 Private Sub cConectar_Click()
     Call Audio.PlayWave(SND_CLICK)
-
-    If frmMain.Socket1.Connected Then
-        frmMain.Socket1.Disconnect
-        frmMain.Socket1.Cleanup
+    
+    If Not frmMain.Socket1.Connected Then
+        Call TryConnectToken
         DoEvents
     End If
     
     Dim eMD5 As New clsMD5
-    'update user info
     UserName = txtNombre.Text
     UserPassword = eMD5.DigestStrToHexStr(txtPasswd.Text) ' GSZ
-    If CheckUserData(False) = True Then
-        EstadoLogin = Normal
-        frmMain.Socket1.HostAddress = CurServerIp
-        frmMain.Socket1.RemotePort = CurServerPort
-        frmMain.Socket1.Connect
-        DoEvents
-    End If
+    
+    Call WriteLoginExistingChar
+
+
+'    If frmMain.Socket1.Connected Then
+'        frmMain.Socket1.Disconnect
+'        frmMain.Socket1.Cleanup
+'        DoEvents
+'    End If
+'
+'    Dim eMD5 As New clsMD5
+'    'update user info
+'    UserName = txtNombre.Text
+'    UserPassword = eMD5.DigestStrToHexStr(txtPasswd.Text) ' GSZ
+'    If CheckUserData(False) = True Then
+'        EstadoLogin = Normal
+'        frmMain.Socket1.HostAddress = CurServerIp
+'        frmMain.Socket1.RemotePort = CurServerPort
+'        frmMain.Socket1.Connect
+'        DoEvents
+'    End If
     
 
 End Sub

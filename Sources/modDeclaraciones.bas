@@ -703,6 +703,8 @@ Public MirandoHerreria As Boolean ' 0.13.3
 Public bFormYesNo As Boolean
 '<-------------------------NUEVO-------------------------->
 
+Public AccountName As String
+
 Public UserClase As eClass
 Public UserSexo As eGenero
 Public UserRaza As eRaza

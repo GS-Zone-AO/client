@@ -533,6 +533,7 @@ Public Enum eMensajes 'By TwIsT
 End Enum 'By TwIsT
 
 Private Enum ServerPacketID
+    LoggedToken             ' Token
     Logged                  ' LOGGED
     InfoTorneo
     ClientConfig            ' CLIENTCFG - GSZAO especial para opciones en el cliente
@@ -659,6 +660,7 @@ Private Enum ServerPacketID
 End Enum
 
 Private Enum ClientPacketID
+    EmptyPacket
     LoginToken              'GSZ Token Login
     LoginExistingChar       'OLOGIN
     ThrowDices              'TIRDAD
@@ -1215,6 +1217,9 @@ On Error Resume Next
 #End If
     
     Select Case Packet
+        Case ServerPacketID.LoggedToken             ' Token
+            Call HandleLoggedToken
+            
         Case ServerPacketID.Logged                  ' LOGGED
             Call HandleLogged
         
@@ -1826,6 +1831,24 @@ End With
 
 End Sub
 
+Private Sub HandleLoggedToken()
+'***************************************************
+'Author: ^[GS]^
+'Last Modification: 29/01/2022 - ^[GS]^
+'
+'***************************************************
+#If Testeo = 1 Then
+    Debug.Print Now & " - IN: HandleLoggedToken"
+#End If
+    
+    'Remove packet ID
+    Call incomingData.ReadByte
+    
+    ' Variable initialization
+    AccountName = incomingData.ReadASCIIString
+    frmConnect.lblAccountName.Caption = AccountName
+
+End Sub
 
 
 ''
@@ -6667,7 +6690,9 @@ On Error GoTo ErrHandler
     'Remove packet ID
     Call Buffer.ReadByte
     
-    Call MsgBox(Buffer.ReadASCIIString())
+    Dim Message As String
+    Message = Buffer.ReadASCIIString()
+    Call MsgBox(Message)
     
     If frmConnect.Visible And (Not frmCrearPersonaje.Visible) Then
         frmMain.Socket1.Disconnect
@@ -6676,9 +6701,11 @@ On Error GoTo ErrHandler
         'frmconnect.
         frmConnect.Visible = True
         Call frmConnect.Show ' GSZAO
-        Call frmConnect.EstadoSocket ' GSZAO
     End If
-
+    
+    If InStr(Message, "Token invalido.") <> 0 Then
+        Call frmConnect.CleanToken
+    End If
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(Buffer)

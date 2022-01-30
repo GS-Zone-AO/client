@@ -1139,7 +1139,7 @@ Public Sub RequestAsignarSkills()
     Loop
     LlegaronSkills = False
     For i = 1 To NUMSKILLS
-        frmSkills.Text1(i).Caption = UserSkills(i)
+        frmSkills.text1(i).Caption = UserSkills(i)
     Next i
     Alocados = SkillPoints
     frmSkills.puntos.Caption = SkillPoints
@@ -2575,7 +2575,6 @@ Private Sub Socket1_Connect()
     #End If
     
     Second.Enabled = True
-    Call frmConnect.EstadoSocket ' GSZAO
 
     Select Case EstadoLogin
         Case E_MODO.Token
@@ -2602,8 +2601,7 @@ Private Sub Socket1_Disconnect()
     
     ResetAllInfo
     Socket1.Cleanup
-    Call frmConnect.EstadoSocket ' GSZAO
-    
+
 End Sub
 
 Private Sub Socket1_LastError(ErrorCode As Integer, ErrorString As String, Response As Integer)
@@ -2680,8 +2678,8 @@ If tX >= MinXBorder And tY >= MinYBorder And _
             M.SetMenuId 1
             M.ListaInit 2, False
             
-            If LenB(CharList(MapData(tX, tY).CharIndex).Nombre) <> 0 Then
-                M.ListaSetItem 0, CharList(MapData(tX, tY).CharIndex).Nombre, True
+            If LenB(CharList(MapData(tX, tY).CharIndex).nombre) <> 0 Then
+                M.ListaSetItem 0, CharList(MapData(tX, tY).CharIndex).nombre, True
             Else
                 M.ListaSetItem 0, "<NPC>", True
             End If
