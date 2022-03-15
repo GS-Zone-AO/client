@@ -525,7 +525,6 @@ Begin VB.Form frmMain
       _ExtentY        =   3096
       _Version        =   393217
       BackColor       =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -1139,7 +1138,7 @@ Public Sub RequestAsignarSkills()
     Loop
     LlegaronSkills = False
     For i = 1 To NUMSKILLS
-        frmSkills.text1(i).Caption = UserSkills(i)
+        frmSkills.Text1(i).Caption = UserSkills(i)
     Next i
     Alocados = SkillPoints
     frmSkills.puntos.Caption = SkillPoints
@@ -1375,7 +1374,7 @@ With GrhData(GrhIndex)
     DR.Bottom = .pixelHeight
 End With
 
-Call DrawGrhtoHdc(picSM(Index).hdc, GrhIndex, SR, DR)
+Call DrawGrhtoHdc(picSM(Index).hDC, GrhIndex, SR, DR)
 picSM(Index).Refresh
 
 Select Case Index
@@ -2576,20 +2575,15 @@ Private Sub Socket1_Connect()
     
     Second.Enabled = True
 
-    Select Case EstadoLogin
-        Case E_MODO.Token
-            Call Login
-            
-        Case E_MODO.CrearNuevoPj
-            Call Login
-        
-        Case E_MODO.Normal
-            Call Login
-        
-        Case E_MODO.Dados
-            Call TirarDados ' GSZAO
-            
-    End Select
+    If modGSZ.ValidJWT(ClientConfigInit.Token) Then
+        Call WriteLoginToken
+        Call frmConnect.Connected
+    Else
+        Call frmConnect.Disconnected
+        Exit Sub
+    End If
+    Call FlushBuffer
+
 End Sub
 
 Private Sub Socket1_Disconnect()
@@ -2609,7 +2603,6 @@ Private Sub Socket1_LastError(ErrorCode As Integer, ErrorString As String, Respo
     'Handle socket errors
     '*********************************************
     
-
     #If Testeo = 1 Then
         Debug.Print "Socket1_LastError..." & ErrorCode & " " & ErrorString
         Call LogTesteo("Socket1_LastError..." & ErrorCode & " " & ErrorString)
@@ -2637,10 +2630,13 @@ Private Sub Socket1_LastError(ErrorCode As Integer, ErrorString As String, Respo
     frmConnect.MousePointer = 1
     Response = 0
 
+    Call frmConnect.Disconnected
     frmMain.Socket1.Disconnect
+    
 End Sub
 
 Private Sub Socket1_Read(dataLength As Integer, IsUrgent As Integer)
+
     Dim RD As String
     Dim data() As Byte
     
@@ -2657,8 +2653,13 @@ Private Sub Socket1_Read(dataLength As Integer, IsUrgent As Integer)
     'Put data in the buffer
     Call incomingData.WriteBlock(data)
     
+    #If Testeo Then
+        Debug.Print "SOCKET <- " & RD
+    #End If
+    
     'Send buffer to Handle data
     Call HandleIncomingData
+    
 End Sub
 
 Private Sub AbrirMenuViewPort()
@@ -2678,8 +2679,8 @@ If tX >= MinXBorder And tY >= MinYBorder And _
             M.SetMenuId 1
             M.ListaInit 2, False
             
-            If LenB(CharList(MapData(tX, tY).CharIndex).nombre) <> 0 Then
-                M.ListaSetItem 0, CharList(MapData(tX, tY).CharIndex).nombre, True
+            If LenB(CharList(MapData(tX, tY).CharIndex).Nombre) <> 0 Then
+                M.ListaSetItem 0, CharList(MapData(tX, tY).CharIndex).Nombre, True
             Else
                 M.ListaSetItem 0, "<NPC>", True
             End If

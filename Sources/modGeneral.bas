@@ -254,36 +254,18 @@ Function CheckUserData(ByVal checkemail As Boolean) As Boolean
     Dim loopC As Long
     Dim CharAscii As Integer
     
-    If checkemail And LenB(UserEmail) = 0 Then
-        MsgBox ("Dirección de email inválida.")
-        Exit Function
-    End If
-    
-    If LenB(UserPassword) = 0 Then
-        MsgBox ("Ingrese un password.")
-        Exit Function
-    End If
-    
-    For loopC = 1 To Len(UserPassword)
-        CharAscii = Asc(mid$(UserPassword, loopC, 1))
-        If Not LegalCharacter(CharAscii) Then
-            MsgBox ("Password inválido. El caracter " & Chr$(CharAscii) & " no está permitido.")
-            Exit Function
-        End If
-    Next loopC
-    
-    If LenB(UserName) = 0 Then
+    If LenB(CharName) = 0 Then
         MsgBox ("Ingrese un nombre de personaje.")
         Exit Function
     End If
     
-    If Len(UserName) > 30 Then
+    If Len(CharName) > 30 Then
         MsgBox ("El nombre debe tener menos de 30 letras.")
         Exit Function
     End If
     
-    For loopC = 1 To Len(UserName)
-        CharAscii = Asc(mid$(UserName, loopC, 1))
+    For loopC = 1 To Len(CharName)
+        CharAscii = Asc(mid$(CharName, loopC, 1))
         If Not LegalCharacter(CharAscii) Then
             MsgBox ("Nombre inválido. El caracter " & Chr$(CharAscii) & " no está permitido.")
             Exit Function
@@ -344,10 +326,10 @@ Sub SetConnected()
     Unload frmCrearPersonaje
     Unload frmConnect
     
-    frmMain.lblName.Caption = UserName
+    frmMain.lblName.Caption = CharName
     'Load main form
     
-    Call SetMusicInfo("Jugando " & NombreCliente & " [" & UserName & "] - [" & SitioOficial & "]", "Games", "{1}{0}") ' GSZAO
+    Call SetMusicInfo("Jugando " & NombreCliente & " [" & CharName & "] - [" & SitioOficial & "]", "Games", "{1}{0}") ' GSZAO
     
     frmMain.Visible = True
     
@@ -836,7 +818,6 @@ Sub Main()
     
     Call modGameIni.LoadClientAOSetup 'Load AOSetup.dat config file
     Call modGameIni.InitFilePaths 'Init Paths
-    Call modGameIni.GetHDSerial 'GSZAO
     
     If Not FileExist(pathGraphics, vbDirectory) Then
         Call MsgBox("Se requiere la carpeta de graficos " & pathGraphics, vbCritical + vbOKOnly)
@@ -1664,8 +1645,6 @@ Public Sub ResetAllInfo() ' 0.13.3
     UserClase = 0
     UserSexo = 0
     UserRaza = 0
-    UserHogar = 0
-    UserEmail = vbNullString
     SkillPoints = 0
     Alocados = 0
     

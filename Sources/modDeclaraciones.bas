@@ -77,7 +77,7 @@ Public Const NombreCliente As String = "GS-Zone AO"
 Public Const SitioOficial As String = "www.gs-zone.org"
 ' SitioOficial:
 ' Define cual es la web oficial del juego. Colocar sin "http://"!!!
-Public Const TutorialDefualt As Boolean = False
+Public Const TutorialDefault As Boolean = False
 ' Ciudades:
 Public Const NUMCIUDADES As Byte = 3 ' GSZAO
 Public Ciudades(1 To NUMCIUDADES) As String ' Ciudades, configurarlas en Private Sub InicializarNombres()
@@ -291,7 +291,7 @@ Public CnTd As Byte
 Public Const MAX_BANCOINVENTORY_SLOTS As Byte = 40
 Public UserBancoInventory(1 To MAX_BANCOINVENTORY_SLOTS) As Inventory
 
-Public TradingUserName As String
+Public TradingCharName As String
 
 Public Tips() As String * 255
 Public Const LoopAdEternum As Integer = 999
@@ -653,8 +653,7 @@ End Type
 
 Public NPCInventory(1 To MAX_NPC_INVENTORY_SLOTS) As NpCinV
 Public UserMeditar As Boolean
-Public UserName As String
-Public UserPassword As String
+Public CharName As String
 Public UserMaxHP As Integer
 Public UserMinHP As Integer
 Public UserMaxMAN As Integer
@@ -682,7 +681,6 @@ Public FPSFLAG As Boolean
 Public pausa As Boolean
 Public UserParalizado As Boolean
 Public UserNavegando As Boolean
-Public UserHogar As eCiudad
 
 Public UserFuerza As Byte
 Public UserAgilidad As Byte
@@ -703,12 +701,9 @@ Public MirandoHerreria As Boolean ' 0.13.3
 Public bFormYesNo As Boolean
 '<-------------------------NUEVO-------------------------->
 
-Public AccountName As String
-
 Public UserClase As eClass
 Public UserSexo As eGenero
 Public UserRaza As eRaza
-Public UserEmail As String
 
 Public Const NUMSKILLS As Byte = 20
 Public Const NUMATRIBUTOS As Byte = 5
@@ -745,10 +740,6 @@ Public Enum E_MODO
     Dados = 3
     Token = 4
 End Enum
-
-Public EstadoLogin As E_MODO
-Public CaptchaKey As Byte       ' GSZAO
-Public CaptchaCode(3) As Byte   ' GSZAO
    
 Public Enum FxMeditar
     CHICO = 4

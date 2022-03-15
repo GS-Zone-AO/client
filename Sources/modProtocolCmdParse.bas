@@ -31,21 +31,21 @@ Public Enum eNumber_Types
     ent_Trigger
 End Enum
 
-Public Sub AuxWriteWhisper(ByVal UserName As String, ByVal Mensaje As String)
+Public Sub AuxWriteWhisper(ByVal CharName As String, ByVal Mensaje As String)
 '***************************************************
 'Author: Unknown
 'Last Modification: 23/11/2011 - ^[GS]^
 '03/12/2010: Enanoh - Ahora se envía el nick en vez del index del usuario.
 '***************************************************
-    If LenB(UserName) = 0 Then Exit Sub
+    If LenB(CharName) = 0 Then Exit Sub
     
-    If (InStrB(UserName, "+") <> 0) Then
-        UserName = Replace$(UserName, "+", " ")
+    If (InStrB(CharName, "+") <> 0) Then
+        CharName = Replace$(CharName, "+", " ")
     End If
     
-    UserName = UCase$(UserName)
+    CharName = UCase$(CharName)
 
-    Call WriteWhisper(UserName, Mensaje)
+    Call WriteWhisper(CharName, Mensaje)
 
 End Sub
 
@@ -401,9 +401,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg("Faltan parámetros. Utilice /penas NICKNAME.")
                 End If
-                
-            Case "/CONTRASEÑA"
-                Call frmNewPassword.Show(vbModal, frmMain)
             
             Case "/APOSTAR"
                 If UserEstado = 1 Then 'Muerto
@@ -908,27 +905,6 @@ Public Sub ParseUserCommand(ByVal RawCommand As String)
                 Else
                     'Avisar que falta el parametro
                     Call ShowConsoleMsg("Faltan parámetros. Utilice /ejecutar NICKNAME.")
-                End If
-                
-            Case "/VERHD" ' GSZ-AO
-                If notNullArguments Then
-                    Call WriteVerHD(ArgumentosRaw)
-                Else
-                    Call ShowConsoleMsg("Faltan parámetros. Utilice /verhd NICKNAME.")
-                End If
-               
-            Case "/BANHD" ' GSZ-AO
-                If notNullArguments Then
-                    Call WriteBanHD(ArgumentosRaw)
-                Else
-                    Call ShowConsoleMsg("Faltan parámetros. Utilice /banhd NICKNAME.")
-                End If
-               
-            Case "/UNBANHD" ' GSZ-AO
-                If notNullArguments Then
-                    Call WriteUnBanHD(ArgumentosRaw)
-                Else
-                    Call ShowConsoleMsg("Faltan parámetros. Utilice /unbanhd NROHD.")
                 End If
                 
             Case "/BAN"

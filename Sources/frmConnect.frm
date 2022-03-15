@@ -27,40 +27,258 @@ Begin VB.Form frmConnect
    PaletteMode     =   1  'UseZOrder
    Picture         =   "frmConnect.frx":0682
    ScaleHeight     =   600
-   ScaleMode       =   3  'Pixel
-   ScaleWidth      =   800
+   ScaleMode       =   0  'User
+   ScaleWidth      =   600
    StartUpPosition =   2  'CenterScreen
    Visible         =   0   'False
+   Begin VB.Frame fChar 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00000000&
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
+      Height          =   2775
+      Left            =   3720
+      TabIndex        =   18
+      Top             =   3960
+      Width           =   4455
+      Begin VB.Label lblLastConnect 
+         Alignment       =   1  'Right Justify
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "[Fecha conectado]"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H0000FF00&
+         Height          =   270
+         Left            =   2025
+         TabIndex        =   25
+         Top             =   2280
+         Width           =   2250
+      End
+      Begin VB.Label lblGold 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Oro: ?"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H0000FFFF&
+         Height          =   270
+         Left            =   120
+         TabIndex        =   24
+         Top             =   840
+         Visible         =   0   'False
+         Width           =   810
+      End
+      Begin VB.Label lblRace 
+         Alignment       =   1  'Right Justify
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Clase"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H0000FF00&
+         Height          =   270
+         Left            =   3645
+         TabIndex        =   22
+         Top             =   120
+         Visible         =   0   'False
+         Width           =   675
+      End
+      Begin VB.Label lblClass 
+         Alignment       =   1  'Right Justify
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Clase"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H0000FF00&
+         Height          =   270
+         Left            =   3645
+         TabIndex        =   21
+         Top             =   480
+         Visible         =   0   'False
+         Width           =   675
+      End
+      Begin VB.Label lblLevel 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Nivel ?"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H0000FF00&
+         Height          =   270
+         Left            =   120
+         TabIndex        =   20
+         Top             =   480
+         Visible         =   0   'False
+         Width           =   855
+      End
+      Begin VB.Label lblCharName 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Nombre"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H0000FF00&
+         Height          =   270
+         Left            =   120
+         TabIndex        =   19
+         Top             =   120
+         Visible         =   0   'False
+         Width           =   1050
+      End
+   End
+   Begin ClientGSZAO.uAOButton cCrearPJ 
+      Height          =   495
+      Left            =   8760
+      TabIndex        =   5
+      Top             =   7080
+      Visible         =   0   'False
+      Width           =   2775
+      _ExtentX        =   4895
+      _ExtentY        =   873
+      TX              =   "&Crear Nuevo"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":4E450
+      PICF            =   "frmConnect.frx":4E46C
+      PICH            =   "frmConnect.frx":4E488
+      PICV            =   "frmConnect.frx":4E4A4
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+   End
    Begin VB.Timer tAccediendo 
       Enabled         =   0   'False
       Interval        =   1000
-      Left            =   10200
-      Top             =   3360
+      Left            =   10320
+      Top             =   1440
    End
-   Begin VB.Frame fAccediendo 
-      BackColor       =   &H001F1B12&
-      Height          =   1935
-      Left            =   8640
-      TabIndex        =   15
-      Top             =   4800
+   Begin VB.ListBox lPersonajes 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00202020&
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   11.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H000080FF&
+      Height          =   3540
+      ItemData        =   "frmConnect.frx":4E4C0
+      Left            =   8760
+      List            =   "frmConnect.frx":4E4C2
+      TabIndex        =   1
+      Top             =   3480
       Visible         =   0   'False
       Width           =   2775
-      Begin ClientGSZAO.uAOButton cManualToken 
+   End
+   Begin VB.Frame fAccount 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00202020&
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
+      Height          =   2535
+      Left            =   240
+      TabIndex        =   12
+      Top             =   1080
+      Visible         =   0   'False
+      Width           =   3015
+      Begin ClientGSZAO.uAOButton cCerrar 
          Height          =   495
-         Left            =   360
-         TabIndex        =   17
-         Top             =   720
-         Width           =   2175
-         _ExtentX        =   3836
+         Left            =   120
+         TabIndex        =   13
+         Top             =   1320
+         Visible         =   0   'False
+         Width           =   2775
+         _ExtentX        =   4895
          _ExtentY        =   873
-         TX              =   "Token Manual"
+         TX              =   "Cerrar sesión"
          ENAB            =   -1  'True
          FCOL            =   7314354
          OCOL            =   16777215
-         PICE            =   "frmConnect.frx":45744
-         PICF            =   "frmConnect.frx":45760
-         PICH            =   "frmConnect.frx":4577C
-         PICV            =   "frmConnect.frx":45798
+         PICE            =   "frmConnect.frx":4E4C4
+         PICF            =   "frmConnect.frx":4E4E0
+         PICH            =   "frmConnect.frx":4E4FC
+         PICV            =   "frmConnect.frx":4E518
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+      End
+      Begin ClientGSZAO.uAOButton cOpciones 
+         Height          =   495
+         Left            =   120
+         TabIndex        =   14
+         Top             =   120
+         Width           =   2775
+         _ExtentX        =   4895
+         _ExtentY        =   873
+         TX              =   "Opciones"
+         ENAB            =   -1  'True
+         FCOL            =   7314354
+         OCOL            =   16777215
+         PICE            =   "frmConnect.frx":4E534
+         PICF            =   "frmConnect.frx":4E550
+         PICH            =   "frmConnect.frx":4E56C
+         PICV            =   "frmConnect.frx":4E588
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "Arial"
             Size            =   12
@@ -71,50 +289,95 @@ Begin VB.Form frmConnect
             Strikethrough   =   0   'False
          EndProperty
       End
-      Begin VB.Label lblAccediendo2 
-         Alignment       =   2  'Center
-         BackStyle       =   0  'Transparent
-         Caption         =   "Si tiene problemas, utilice el token manualmente."
-         ForeColor       =   &H00808080&
-         Height          =   435
-         Left            =   240
-         TabIndex        =   18
-         Top             =   1200
-         Width           =   2340
+      Begin ClientGSZAO.uAOButton cCreditos 
+         Height          =   495
+         Left            =   120
+         TabIndex        =   15
+         Top             =   720
+         Width           =   2775
+         _ExtentX        =   4895
+         _ExtentY        =   873
+         TX              =   "Creditos"
+         ENAB            =   -1  'True
+         FCOL            =   7314354
+         OCOL            =   16777215
+         PICE            =   "frmConnect.frx":4E5A4
+         PICF            =   "frmConnect.frx":4E5C0
+         PICH            =   "frmConnect.frx":4E5DC
+         PICV            =   "frmConnect.frx":4E5F8
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   12
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
       End
-      Begin VB.Label lblAccediendo 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "Accediendo..."
-         ForeColor       =   &H0080FF80&
-         Height          =   195
-         Left            =   840
+      Begin ClientGSZAO.uAOButton cSitioOficial 
+         Height          =   495
+         Left            =   120
          TabIndex        =   16
-         Top             =   240
-         Width           =   1155
+         Top             =   1920
+         Width           =   2775
+         _ExtentX        =   4895
+         _ExtentY        =   873
+         TX              =   "Sitio Oficial"
+         ENAB            =   -1  'True
+         FCOL            =   7314354
+         OCOL            =   16777215
+         PICE            =   "frmConnect.frx":4E614
+         PICF            =   "frmConnect.frx":4E630
+         PICH            =   "frmConnect.frx":4E64C
+         PICV            =   "frmConnect.frx":4E668
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   12
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
       End
+   End
+   Begin ClientGSZAO.uAOButton cManualToken 
+      Height          =   495
+      Left            =   4080
+      TabIndex        =   9
+      Top             =   5640
+      Width           =   3855
+      _ExtentX        =   6800
+      _ExtentY        =   873
+      TX              =   "Ingreso manual"
+      ENAB            =   -1  'True
+      FCOL            =   7314354
+      OCOL            =   16777215
+      PICE            =   "frmConnect.frx":4E684
+      PICF            =   "frmConnect.frx":4E6A0
+      PICH            =   "frmConnect.frx":4E6BC
+      PICV            =   "frmConnect.frx":4E6D8
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.Timer tEfectos 
-      Left            =   7320
-      Top             =   3240
-   End
-   Begin ClientGSZAO.uAOCheckbox chkRecordar 
-      Height          =   195
-      Left            =   4560
-      TabIndex        =   12
-      Top             =   5640
-      Width           =   195
-      _ExtentX        =   344
-      _ExtentY        =   344
-      CHCK            =   0   'False
-      ENAB            =   -1  'True
-      PICC            =   "frmConnect.frx":457B4
+      Enabled         =   0   'False
+      Left            =   9720
+      Top             =   1440
    End
    Begin ClientGSZAO.uAOButton cSalir 
       Height          =   495
-      Left            =   9960
-      TabIndex        =   11
-      Top             =   8280
+      Left            =   9840
+      TabIndex        =   6
+      Top             =   240
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   873
@@ -122,88 +385,10 @@ Begin VB.Form frmConnect
       ENAB            =   -1  'True
       FCOL            =   7314354
       OCOL            =   16777215
-      PICE            =   "frmConnect.frx":45812
-      PICF            =   "frmConnect.frx":4582E
-      PICH            =   "frmConnect.frx":4584A
-      PICV            =   "frmConnect.frx":45866
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   12
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
-   Begin ClientGSZAO.uAOButton cCreditos 
-      Height          =   495
-      Left            =   6360
-      TabIndex        =   10
-      Top             =   8280
-      Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   873
-      TX              =   "Creditos"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":45882
-      PICF            =   "frmConnect.frx":4589E
-      PICH            =   "frmConnect.frx":458BA
-      PICV            =   "frmConnect.frx":458D6
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   12
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
-   Begin ClientGSZAO.uAOButton cSitioOficial 
-      Height          =   495
-      Left            =   4800
-      TabIndex        =   9
-      Top             =   8280
-      Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   873
-      TX              =   "Sitio Oficial"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":458F2
-      PICF            =   "frmConnect.frx":4590E
-      PICH            =   "frmConnect.frx":4592A
-      PICV            =   "frmConnect.frx":45946
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   12
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
-   Begin ClientGSZAO.uAOButton cCrearPJ 
-      Height          =   495
-      Left            =   120
-      TabIndex        =   8
-      Top             =   8280
-      Width           =   4575
-      _ExtentX        =   8070
-      _ExtentY        =   873
-      TX              =   "Nuevo Personaje"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":45962
-      PICF            =   "frmConnect.frx":4597E
-      PICH            =   "frmConnect.frx":4599A
-      PICV            =   "frmConnect.frx":459B6
+      PICE            =   "frmConnect.frx":4E6F4
+      PICF            =   "frmConnect.frx":4E710
+      PICH            =   "frmConnect.frx":4E72C
+      PICV            =   "frmConnect.frx":4E748
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   12
@@ -216,9 +401,10 @@ Begin VB.Form frmConnect
    End
    Begin ClientGSZAO.uAOButton cConectar 
       Height          =   495
-      Left            =   5280
-      TabIndex        =   7
-      Top             =   6000
+      Left            =   8760
+      TabIndex        =   4
+      Top             =   8280
+      Visible         =   0   'False
       Width           =   2775
       _ExtentX        =   4895
       _ExtentY        =   873
@@ -226,36 +412,10 @@ Begin VB.Form frmConnect
       ENAB            =   -1  'True
       FCOL            =   7314354
       OCOL            =   16777215
-      PICE            =   "frmConnect.frx":459D2
-      PICF            =   "frmConnect.frx":459EE
-      PICH            =   "frmConnect.frx":45A0A
-      PICV            =   "frmConnect.frx":45A26
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   12
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
-   Begin ClientGSZAO.uAOButton cTeclas 
-      Height          =   495
-      Left            =   3840
-      TabIndex        =   6
-      Top             =   6000
-      Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   873
-      TX              =   "Teclas"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":45A42
-      PICF            =   "frmConnect.frx":45A5E
-      PICH            =   "frmConnect.frx":45A7A
-      PICV            =   "frmConnect.frx":45A96
+      PICE            =   "frmConnect.frx":4E764
+      PICF            =   "frmConnect.frx":4E780
+      PICH            =   "frmConnect.frx":4E79C
+      PICV            =   "frmConnect.frx":4E7B8
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   12
@@ -281,8 +441,8 @@ Begin VB.Form frmConnect
       EndProperty
       ForeColor       =   &H00008000&
       Height          =   285
-      Left            =   10320
-      TabIndex        =   4
+      Left            =   6000
+      TabIndex        =   3
       Text            =   "127.0.0.1"
       Top             =   240
       Visible         =   0   'False
@@ -303,99 +463,31 @@ Begin VB.Form frmConnect
       EndProperty
       ForeColor       =   &H00008000&
       Height          =   285
-      Left            =   9330
-      TabIndex        =   3
+      Left            =   5010
+      TabIndex        =   2
       Text            =   "7666"
       Top             =   240
       Visible         =   0   'False
       Width           =   825
    End
-   Begin VB.TextBox txtPasswd 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Wingdings"
-         Size            =   12
-         Charset         =   2
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   255
-      IMEMode         =   3  'DISABLE
-      Left            =   4560
-      PasswordChar    =   "l"
-      TabIndex        =   1
-      Text            =   "gs"
-      Top             =   5160
-      Width           =   2940
-   End
-   Begin VB.TextBox txtNombre 
-      BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   12
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   285
-      Left            =   4560
-      TabIndex        =   0
-      Text            =   "GS"
-      Top             =   4380
-      Width           =   2940
-   End
-   Begin ClientGSZAO.uAOButton cOpciones 
-      Height          =   495
-      Left            =   7920
-      TabIndex        =   13
-      Top             =   8280
-      Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   873
-      TX              =   "Opciones"
-      ENAB            =   -1  'True
-      FCOL            =   7314354
-      OCOL            =   16777215
-      PICE            =   "frmConnect.frx":45AB2
-      PICF            =   "frmConnect.frx":45ACE
-      PICH            =   "frmConnect.frx":45AEA
-      PICV            =   "frmConnect.frx":45B06
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   12
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-   End
    Begin ClientGSZAO.uAOButton cAcceder 
-      Height          =   495
-      Left            =   8640
-      TabIndex        =   14
-      Top             =   4200
-      Width           =   2775
-      _ExtentX        =   4895
-      _ExtentY        =   873
+      Height          =   615
+      Left            =   4080
+      TabIndex        =   7
+      Top             =   4920
+      Width           =   3855
+      _ExtentX        =   6800
+      _ExtentY        =   1085
       TX              =   "Acceder"
       ENAB            =   -1  'True
       FCOL            =   7314354
       OCOL            =   16777215
-      PICE            =   "frmConnect.frx":45B22
-      PICF            =   "frmConnect.frx":45B3E
-      PICH            =   "frmConnect.frx":45B5A
-      PICV            =   "frmConnect.frx":45B76
+      PICE            =   "frmConnect.frx":4E7D4
+      PICF            =   "frmConnect.frx":4E7F0
+      PICH            =   "frmConnect.frx":4E80C
+      PICV            =   "frmConnect.frx":4E828
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
+         Name            =   "Verdana"
          Size            =   12
          Charset         =   0
          Weight          =   400
@@ -404,25 +496,39 @@ Begin VB.Form frmConnect
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin ClientGSZAO.uAOButton cCerrar 
+   Begin ClientGSZAO.uAOButton cBorrar 
       Height          =   495
-      Left            =   8640
-      TabIndex        =   19
-      Top             =   3720
+      Left            =   120
+      TabIndex        =   23
+      Top             =   8280
       Visible         =   0   'False
-      Width           =   2775
-      _ExtentX        =   4895
+      Width           =   2655
+      _ExtentX        =   4683
       _ExtentY        =   873
-      TX              =   "Cerrar sesión"
+      TX              =   "Borrar personaje"
       ENAB            =   -1  'True
-      FCOL            =   7314354
+      FCOL            =   8421631
       OCOL            =   16777215
-      PICE            =   "frmConnect.frx":45B92
-      PICF            =   "frmConnect.frx":45BAE
-      PICH            =   "frmConnect.frx":45BCA
-      PICV            =   "frmConnect.frx":45BE6
+      PICE            =   "frmConnect.frx":4E844
+      PICF            =   "frmConnect.frx":4E860
+      PICH            =   "frmConnect.frx":4E87C
+      PICV            =   "frmConnect.frx":4E898
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
+         Size            =   11.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+   End
+   Begin VB.Label lblPersonajes 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Mis personajes"
+      BeginProperty Font 
+         Name            =   "Verdana"
          Size            =   12
          Charset         =   0
          Weight          =   400
@@ -430,36 +536,81 @@ Begin VB.Form frmConnect
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      ForeColor       =   &H000080FF&
+      Height          =   270
+      Left            =   9240
+      TabIndex        =   17
+      Top             =   3000
+      Visible         =   0   'False
+      Width           =   1845
+   End
+   Begin VB.Shape sAccount 
+      BackColor       =   &H00202020&
+      BackStyle       =   1  'Opaque
+      Height          =   3015
+      Left            =   120
+      Shape           =   4  'Rounded Rectangle
+      Top             =   840
+      Visible         =   0   'False
+      Width           =   3255
+   End
+   Begin VB.Image iAccount 
+      Height          =   735
+      Left            =   120
+      Top             =   120
+      Width           =   3255
+   End
+   Begin VB.Label lblAccessing 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Accede para continuar."
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H0000FF00&
+      Height          =   270
+      Left            =   4080
+      TabIndex        =   11
+      Top             =   4560
+      Width           =   2805
+   End
+   Begin VB.Label lblConnecting 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Conectando..."
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H000080FF&
+      Height          =   270
+      Left            =   4080
+      TabIndex        =   10
+      Top             =   4560
+      Visible         =   0   'False
+      Width           =   1710
    End
    Begin VB.Label lblAccountName 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
+      Caption         =   "[Invitado]"
       ForeColor       =   &H0080FF80&
       Height          =   195
       Left            =   240
-      TabIndex        =   20
+      TabIndex        =   8
       Top             =   480
-      Width           =   60
-   End
-   Begin VB.Label lRemember 
-      Alignment       =   1  'Right Justify
-      BackStyle       =   0  'Transparent
-      Caption         =   "Recordar contraseña"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00E0E0E0&
-      Height          =   255
-      Left            =   4560
-      TabIndex        =   5
-      Top             =   5640
-      Width           =   2415
+      Width           =   855
    End
    Begin VB.Image imgServArgentina 
       Height          =   795
@@ -485,9 +636,19 @@ Begin VB.Form frmConnect
       ForeColor       =   &H00000080&
       Height          =   195
       Left            =   240
-      TabIndex        =   2
+      TabIndex        =   0
       Top             =   240
       Width           =   360
+   End
+   Begin VB.Shape sPersonajes 
+      BackColor       =   &H00202020&
+      BackStyle       =   1  'Opaque
+      Height          =   4935
+      Left            =   8520
+      Shape           =   4  'Rounded Rectangle
+      Top             =   2880
+      Visible         =   0   'False
+      Width           =   3255
    End
 End
 Attribute VB_Name = "frmConnect"
@@ -548,86 +709,245 @@ Private Fuerza As Double
 
 Private clsFormulario       As clsFormMovementManager
 
-
 Private Sub cAcceder_Click()
+
     'Abrir la web y minimizar el cliente
     Dim r As Long
     r = ShellExecute(0, "open", "https://www.gs-zone.org/login_server.php?code=gszoneao", 0, 0, 1)
     Me.WindowState = vbMinimized
-    fAccediendo.Visible = True
     tAccediendo.Enabled = True
-    cAcceder.Visible = False
+    
+End Sub
+
+Private Sub cBorrar_Click()
+
+    Dim Name As String
+    Name = InputBox("Vuelve a ingresar tal como está escrito el nombre del personaje que deseas borrar.", "Borrar personaje", "")
+    If lblCharName.Caption <> Name Then
+       Call MsgBox("El personaje " & lblCharName.Caption & " no será eliminado.", vbExclamation + vbOKOnly)
+       Exit Sub
+    End If
+    Dim confirm As Long
+    confirm = MsgBox("¿Está completamente seguro de que desea eliminar el personaje de " & Name & "?" & vbCrLf & vbCrLf & _
+                "ADVERTENCIA: Está acción es irreversible, no tiene recuperación.", vbCritical + vbYesNoCancel, "ADVERTENCIA")
+    If confirm = vbYes Then
+        If frmMain.Socket1.Connected Then
+            Call WriteDeleteChar(Name)
+        Else
+            Call Disconnected
+        End If
+    End If
+
 End Sub
 
 Private Sub cCerrar_Click()
 
+    Call Audio.PlayWave(SND_CLICK)
+    Call ShowMenu(False)
     Call CleanToken
     
 End Sub
 
 Private Sub cManualToken_Click()
-    Dim sToken As String
-    sToken = InputBox("Ingresa el Token obtenido en GS-Zone", "Token")
-    ClientConfigInit.Token = sToken
-    Call modGameIni.SaveConfigInit
+
+    frmConnectToken.Show
+    
 End Sub
 
 Private Sub cOpciones_Click()
     Call Audio.PlayWave(SND_CLICK)
+    Call ShowMenu(False)
     frmOpciones.Show vbModal
 End Sub
 
 Private Sub Form_Activate()
+
     Call Audio.PlayMIDI("0.mid")
+    
+    If frmMain.Socket1.Connected Then
+        Call Connected
+    End If
+    
+End Sub
+
+Sub ShowMenu(ByVal Visible As Boolean)
+
+    sAccount.Visible = Visible
+    fAccount.Visible = sAccount.Visible
+    
+End Sub
+
+Sub Connected()
+
+    ' Header
+    lblAccountName.Caption = AccountName
+
+    ' Mensajes
+    lblConnecting.Visible = False
+
+    ' Acciones
+    tAccediendo.Enabled = False
+    cCerrar.Visible = True
+    cAcceder.Visible = False
+    cManualToken.Visible = False
+    
+    ' Personajes
+    lblPersonajes.Visible = True
+    sPersonajes.Visible = True
+    lPersonajes.Visible = True
+    cCrearPJ.Visible = True
+    fChar.Visible = True
+    cBorrar.Visible = False
+    cConectar.Visible = False
+    
+    If NumberOfCharacters > 0 Then
+        Call LoadCharacters
+    End If
+    
+    lblCharName.Caption = "Seleciona un personaje"
+    lblLevel.Visible = False
+    lblGold.Visible = False
+    lblLastConnect.Visible = False
+    lblClass.Visible = False
+    lblRace.Visible = False
+
+End Sub
+
+Sub Disconnected()
+
+    ' Header
+    lblAccountName.Caption = "[Invitado]"
+    
+    ' Acciones
+    tAccediendo.Enabled = False
+    cCerrar.Visible = False
+    cAcceder.Visible = True
+    cManualToken.Visible = True
+
+    ' Mensajes
+    lblConnecting.Visible = False
+    lblAccessing.Visible = True
+    
+    ' Personajes
+    lblPersonajes.Visible = False
+    sPersonajes.Visible = False
+    lPersonajes.Visible = False
+    cCrearPJ.Visible = False
+    cBorrar.Visible = False
+    cConectar.Visible = False
+    fChar.Visible = False
+    
+    If Not frmConnect.Visible Then
+        frmConnect.Visible = True
+    End If
+
+End Sub
+
+
+Public Sub CleanToken()
+
+    ' Token
+    TokenConnected = vbNullString
+    ClientConfigInit.Token = vbNullString
+    Call modGameIni.SaveConfigInit
+    If frmMain.Socket1.Connected Then
+        frmMain.Socket1.Disconnect
+        frmMain.Socket1.Cleanup
+        DoEvents
+    End If
+    
+    Call Disconnected
+
+End Sub
+
+Private Sub iAccount_Click()
+
+    Call Audio.PlayWave(SND_CLICK)
+    Call ShowMenu(Not sAccount.Visible)
+    
+End Sub
+
+Private Sub lPersonajes_Click()
+    
+    CharName = Split(lPersonajes.List(lPersonajes.ListIndex), " [")(0)
+    Dim i As Byte
+    For i = 1 To NumberOfCharacters
+        If Characters(i).Name = CharName Then
+            If Characters(i).Level = 0 Then Exit For
+        
+            lblCharName.Caption = CharName
+            lblLevel.Caption = "Nivel " & Characters(i).Level
+            lblClass.Caption = ListaClases(Characters(i).Class)
+            lblRace.Caption = ListaRazas(Characters(i).Race)
+            lblGold.Caption = "Oro: " & Characters(i).Gold
+            lblLastConnect.Caption = Characters(i).LastConnect
+            
+            ' Campos
+            lblCharName.Visible = True
+            lblLevel.Visible = True
+            lblGold.Visible = True
+            lblLastConnect.Visible = True
+            lblClass.Visible = True
+            lblRace.Visible = True
+            
+            ' Acciones
+            cBorrar.Visible = True
+            cConectar.Visible = True
+            
+            Exit For
+        End If
+    Next
+    fChar.Visible = True
+    
 End Sub
 
 Private Sub tEfectos_Timer()
-    Dim oTop As Integer
-    Dim i As Integer
-    For i = 1 To 7
-        If AnimControl(i).Activo = True Then
-            Select Case i
-                Case 1: oTop = cTeclas.Top
-                Case 2: oTop = cConectar.Top
-                Case 3: oTop = cCrearPJ.Top
-                Case 4: oTop = cSitioOficial.Top
-                Case 5: oTop = cCreditos.Top
-                Case 6: oTop = cSalir.Top
-                Case 7: oTop = cOpciones.Top
-            End Select
-            If oTop > AnimControl(i).Top Then
-                oTop = AnimControl(i).Top
-                AnimControl(i).Velocidad = AnimControl(i).Velocidad * -0.6
-            End If
-            If AnimControl(i).Velocidad >= -0.6 And AnimControl(i).Velocidad <= -0.5 Then
-                AnimControl(i).Activo = False
-            Else
-                AnimControl(i).Velocidad = AnimControl(i).Velocidad + Fuerza
-                oTop = oTop + AnimControl(i).Velocidad
-            End If
-            Select Case i
-                Case 1: cTeclas.Top = oTop
-                Case 2: cConectar.Top = oTop
-                Case 3: cCrearPJ.Top = oTop
-                Case 4: cSitioOficial.Top = oTop
-                Case 5: cCreditos.Top = oTop
-                Case 6: cSalir.Top = oTop
-                Case 7: cOpciones.Top = oTop
-            End Select
-        End If
-    Next
-    If AnimControl(1).Activo = False And AnimControl(2).Activo = False And AnimControl(3).Activo = False And _
-       AnimControl(4).Activo = False And AnimControl(5).Activo = False And AnimControl(6).Activo = False And _
-       AnimControl(7).Activo = False Then
-        tEfectos.Enabled = False
-        cTeclas.Top = AnimControl(1).Top
-        cConectar.Top = AnimControl(2).Top
-        cCrearPJ.Top = AnimControl(3).Top
-        cSitioOficial.Top = AnimControl(4).Top
-        cCreditos.Top = AnimControl(5).Top
-        cSalir.Top = AnimControl(6).Top
-        cOpciones.Top = AnimControl(7).Top
-    End If
+'    Dim oTop As Integer
+'    Dim i As Integer
+'    For i = 1 To 7
+'        If AnimControl(i).Activo = True Then
+'            Select Case i
+'                Case 1: oTop = cTeclas.Top
+'                Case 2: oTop = cConectar.Top
+'                Case 3: oTop = cCrearPJ.Top
+'                Case 4: oTop = cSitioOficial.Top
+'                Case 5: oTop = cCreditos.Top
+'                Case 6: oTop = cSalir.Top
+'                Case 7: oTop = cOpciones.Top
+'            End Select
+'            If oTop > AnimControl(i).Top Then
+'                oTop = AnimControl(i).Top
+'                AnimControl(i).Velocidad = AnimControl(i).Velocidad * -0.6
+'            End If
+'            If AnimControl(i).Velocidad >= -0.6 And AnimControl(i).Velocidad <= -0.5 Then
+'                AnimControl(i).Activo = False
+'            Else
+'                AnimControl(i).Velocidad = AnimControl(i).Velocidad + Fuerza
+'                oTop = oTop + AnimControl(i).Velocidad
+'            End If
+'            Select Case i
+'                Case 1: cTeclas.Top = oTop
+'                Case 2: cConectar.Top = oTop
+'                Case 3: cCrearPJ.Top = oTop
+'                Case 4: cSitioOficial.Top = oTop
+'                Case 5: cCreditos.Top = oTop
+'                Case 6: cSalir.Top = oTop
+'                Case 7: cOpciones.Top = oTop
+'            End Select
+'        End If
+'    Next
+'    If AnimControl(1).Activo = False And AnimControl(2).Activo = False And AnimControl(3).Activo = False And _
+'       AnimControl(4).Activo = False And AnimControl(5).Activo = False And AnimControl(6).Activo = False And _
+'       AnimControl(7).Activo = False Then
+'        tEfectos.Enabled = False
+'        cTeclas.Top = AnimControl(1).Top
+'        cConectar.Top = AnimControl(2).Top
+'        cCrearPJ.Top = AnimControl(3).Top
+'        cSitioOficial.Top = AnimControl(4).Top
+'        cCreditos.Top = AnimControl(5).Top
+'        cSalir.Top = AnimControl(6).Top
+'        cOpciones.Top = AnimControl(7).Top
+'    End If
 End Sub
 
 Private Sub Form_Load()
@@ -660,74 +980,63 @@ On Error Resume Next
     Next
     
     ' GSZAO - Animación...
-    cTeclas.Top = 10
-    AnimControl(1).Activo = True
-    AnimControl(1).Velocidad = 0
-    AnimControl(1).Top = 400
-    cConectar.Top = 10
-    AnimControl(2).Activo = True
-    AnimControl(2).Velocidad = 0
-    AnimControl(2).Top = 400
-    cCrearPJ.Top = 10
-    AnimControl(3).Activo = True
-    AnimControl(3).Velocidad = 0
-    AnimControl(3).Top = 552
-    cSitioOficial.Top = 10
-    AnimControl(4).Activo = True
-    AnimControl(4).Velocidad = 0
-    AnimControl(4).Top = 552
-    cCreditos.Top = 10
-    AnimControl(5).Activo = True
-    AnimControl(5).Velocidad = 0
-    AnimControl(5).Top = 552
-    cSalir.Top = 10
-    AnimControl(6).Activo = True
-    AnimControl(6).Velocidad = 0
-    AnimControl(6).Top = 552
-    cOpciones.Top = 10
-    AnimControl(7).Activo = True
-    AnimControl(7).Velocidad = 0
-    AnimControl(7).Top = 552
-    
-    Fuerza = 3.7 ' Gravedad... 1.7
-    tEfectos.Interval = 10
-    tEfectos.Enabled = True
+'    cTeclas.Top = 10
+'    AnimControl(1).Activo = True
+'    AnimControl(1).Velocidad = 0
+'    AnimControl(1).Top = 400
+'    cConectar.Top = 10
+'    AnimControl(2).Activo = True
+'    AnimControl(2).Velocidad = 0
+'    AnimControl(2).Top = 400
+'    cCrearPJ.Top = 10
+'    AnimControl(3).Activo = True
+'    AnimControl(3).Velocidad = 0
+'    AnimControl(3).Top = 552
+'    cSitioOficial.Top = 10
+'    AnimControl(4).Activo = True
+'    AnimControl(4).Velocidad = 0
+'    AnimControl(4).Top = 552
+'    cCreditos.Top = 10
+'    AnimControl(5).Activo = True
+'    AnimControl(5).Velocidad = 0
+'    AnimControl(5).Top = 552
+'    cSalir.Top = 10
+'    AnimControl(6).Activo = True
+'    AnimControl(6).Velocidad = 0
+'    AnimControl(6).Top = 552
+'    cOpciones.Top = 10
+'    AnimControl(7).Activo = True
+'    AnimControl(7).Velocidad = 0
+'    AnimControl(7).Top = 552
+'
+'    Fuerza = 3.7 ' Gravedad... 1.7
+'    tEfectos.Interval = 10
+'    tEfectos.Enabled = True
+
+    If Len(ClientConfigInit.Token) = 0 Then
+        Call Disconnected
+    End If
      
     Call Audio.PlayMIDI("0.mid")
      
 End Sub
 
-Public Sub CleanToken()
-
-    If Len(ClientConfigInit.Token) > 0 Then
-        lblAccountName.Caption = vbNullString
-        cCerrar.Visible = False
-        ClientConfigInit.Token = vbNullString
-        Call modGameIni.SaveConfigInit
-        If frmMain.Socket1.Connected Then
-            frmMain.Socket1.Disconnect
-            frmMain.Socket1.Cleanup
-            DoEvents
-        End If
-        cAcceder.Visible = True
-    End If
-
-End Sub
-
 Public Sub TryConnectToken()
 
     If Len(ClientConfigInit.Token) > 0 And modGSZ.ValidJWT(ClientConfigInit.Token) Then
-        lblAccountName.Caption = vbNullString
-        fAccediendo.Visible = False
-        cCerrar.Visible = True
-        cAcceder.Visible = False
+        lblAccountName.Caption = "[Accediendo...]"
         tAccediendo.Enabled = False
+        lblConnecting.Visible = True
+        lblAccessing.Visible = False
+        cAcceder.Visible = False
+        cManualToken.Visible = False
+
         If frmMain.Socket1.Connected Then
             frmMain.Socket1.Disconnect
             frmMain.Socket1.Cleanup
             DoEvents
         End If
-        EstadoLogin = E_MODO.Token
+        
         frmMain.Socket1.HostAddress = CurServerIp
         frmMain.Socket1.RemotePort = CurServerPort
         frmMain.Socket1.Connect
@@ -737,75 +1046,72 @@ Public Sub TryConnectToken()
 End Sub
 
 Private Sub tAccediendo_Timer()
+
     ' Revisar si config.init cambio
     Dim fileStamp As Date
     fileStamp = FileDateTime(pathInits & fConfigInit)
-    If fileStamp <> LastConfigInit Then ' Cambio!
+    If fileStamp <> LastConfigInit And _
+        TokenConnected <> ClientConfigInit.Token Then ' Cambio!
+        
         ClientConfigInit = modGameIni.LoadConfigInit
         If Len(ClientConfigInit.Token) > 0 Then
             Me.WindowState = vbNormal
             DoEvents
             Call TryConnectToken
         End If
+        
     End If
+    
 End Sub
 
 Private Sub cCrearPJ_Click()
+
     Call Audio.PlayWave(SND_CLICK)
+    Me.Visible = False
+    frmCrearPersonaje.Visible = True
     
-    If Not frmMain.Socket1.Connected Then
-        Call TryConnectToken
-        DoEvents
-    End If
-    
-    Call WriteLoginNewChar
-    
-'    EstadoLogin = E_MODO.Dados
-'    CaptchaKey = RandomNumber(1, 255) ' GSZAO
-'    If frmMain.Socket1.Connected Then
-'        frmMain.Socket1.Disconnect
-'        frmMain.Socket1.Cleanup
-'        DoEvents
-'    End If
-'    frmMain.Socket1.HostAddress = CurServerIp
-'    frmMain.Socket1.RemotePort = CurServerPort
-'    frmMain.Socket1.Connect
 End Sub
 
 Private Sub cCreditos_Click()
+
     Call Audio.PlayWave(SND_CLICK)
+    Call ShowMenu(False)
     frmCreditos.Show vbModal
+    
 End Sub
 
 Private Sub chkRecordar_Click()
+
     Call Audio.PlayWave(SND_CLICK)
+    
 End Sub
 
 Private Sub cSalir_Click()
+
+    Call Audio.PlayWave(SND_CLICK)
     prgRun = False
     End
+    
 End Sub
 
 Private Sub cSitioOficial_Click()
+
     Call Audio.PlayWave(SND_CLICK)
+    Call ShowMenu(False)
     Call ShellExecute(0, "Open", "http://" & SitioOficial, "", App.Path, SW_SHOWNORMAL)
+    
 End Sub
-
-Private Sub cTeclas_Click()
-    Call Audio.PlayWave(SND_CLICK)
-    Load frmKeypad
-    frmKeypad.Show vbModal
-    Unload frmKeypad
-End Sub
-
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+
     If KeyCode = 27 Then
         prgRun = False
     End If
+    
 End Sub
 
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
+
 'Make Server IP and Port box visible
 'Hacer CONTROL+I
 If KeyCode = vbKeyI And Shift = vbCtrlMask Then
@@ -820,28 +1126,8 @@ End If
 
 End Sub
 
-Private Sub lRemember_Click()
-    chkRecordar.Checked = Not chkRecordar.Checked
-    Call chkRecordar_Click
-End Sub
-
-Private Sub lRemember_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call chkRecordar.SetFocus
-End Sub
-
-Private Sub txtNombre_KeyPress(KeyAscii As Integer)
-    If KeyAscii = vbKeyReturn Then ' GSZAO
-        If LenB(txtPasswd.Text) <> 0 Then
-            Call cConectar_Click
-        End If
-    End If
-End Sub
-
-Private Sub txtPasswd_KeyPress(KeyAscii As Integer)
-    If KeyAscii = vbKeyReturn Then Call cConectar_Click
-End Sub
-
 Private Sub cConectar_Click()
+
     Call Audio.PlayWave(SND_CLICK)
     
     If Not frmMain.Socket1.Connected Then
@@ -849,30 +1135,6 @@ Private Sub cConectar_Click()
         DoEvents
     End If
     
-    Dim eMD5 As New clsMD5
-    UserName = txtNombre.Text
-    UserPassword = eMD5.DigestStrToHexStr(txtPasswd.Text) ' GSZ
-    
-    Call WriteLoginExistingChar
-
-
-'    If frmMain.Socket1.Connected Then
-'        frmMain.Socket1.Disconnect
-'        frmMain.Socket1.Cleanup
-'        DoEvents
-'    End If
-'
-'    Dim eMD5 As New clsMD5
-'    'update user info
-'    UserName = txtNombre.Text
-'    UserPassword = eMD5.DigestStrToHexStr(txtPasswd.Text) ' GSZ
-'    If CheckUserData(False) = True Then
-'        EstadoLogin = Normal
-'        frmMain.Socket1.HostAddress = CurServerIp
-'        frmMain.Socket1.RemotePort = CurServerPort
-'        frmMain.Socket1.Connect
-'        DoEvents
-'    End If
-    
+    Call WriteExistingChar
 
 End Sub

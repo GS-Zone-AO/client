@@ -455,12 +455,6 @@ Private Sub cAceptar_Click()
     End If
 End Sub
 
-Private Sub cCambiarContrasena_Click()
-    If Not loading Then _
-        Call Audio.PlayWave(SND_CLICK)
-    Call frmNewPassword.Show(vbModal, Me)
-End Sub
-
 Private Sub cConfigurarTeclas_Click()
     If Not loading Then _
         Call Audio.PlayWave(SND_CLICK)

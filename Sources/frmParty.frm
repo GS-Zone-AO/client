@@ -318,7 +318,7 @@ Private Sub cExpulsar_Click()
         Call WritePartyKick(fName)
         Unload Me
         ' Para que no llame al form si disolvió la party
-        If UCase$(fName) <> UCase$(UserName) Then Call WriteRequestPartyForm
+        If UCase$(fName) <> UCase$(CharName) Then Call WriteRequestPartyForm
     End If
 End Sub
 

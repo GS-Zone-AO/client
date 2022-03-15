@@ -533,8 +533,10 @@ Public Enum eMensajes 'By TwIsT
 End Enum 'By TwIsT
 
 Private Enum ServerPacketID
-    LoggedToken             ' Token
+    ' Accounts
+    LoggedToken             ' Account logged
     Logged                  ' LOGGED
+    
     InfoTorneo
     ClientConfig            ' CLIENTCFG - GSZAO especial para opciones en el cliente
     CreateParticleInChar    ' CPCHAR - GSZAO crea particulas en chars
@@ -637,7 +639,7 @@ Private Enum ServerPacketID
     ShowSOSForm             ' MSOS
     ShowMOTDEditionForm     ' ZMOTD
     ShowGMPanelForm         ' ABPANEL
-    UserNameList            ' LISTUSU
+    CharNameList            ' LISTUSU
     ' 0.13.3
     ShowDenounces
     RecordList
@@ -660,11 +662,15 @@ Private Enum ServerPacketID
 End Enum
 
 Private Enum ClientPacketID
-    EmptyPacket
+    ' Accounts
     LoginToken              'GSZ Token Login
-    LoginExistingChar       'OLOGIN
-    ThrowDices              'TIRDAD
-    LoginNewChar            'NLOGIN
+    AccountChars            'Traer los personajes de la cuenta
+    ' Characters
+    ThrowDices              'Tirar datos
+    NewChar                 'Nuevo personaje
+    ExistingChar            'Ingresar personaje
+    DeleteChar              'Borrar personaje
+    ' Gameplay
     Talk                    ';
     Yell                    '-
     Whisper                 '\
@@ -946,9 +952,6 @@ Public Enum eGMCommands
     
     ' GSZAO
     AdminCargos             '/ADMIN <tipo> <accion> <nick> --  Tipos: D S C R   Accion: + - =
-    VerHD                   '/VERHD USUARIO
-    BanHD                   '/BANHD USUARIO
-    UnBanHD                 '/UNBANHD NROHD
     SearchObj               '/BUSCAROBJ NOMBRE
     SearchNpc               '/BUSCARNPC NOMBRE
     LluviaDeORO             '/LLUVIADEORO
@@ -1525,8 +1528,8 @@ On Error Resume Next
         Case ServerPacketID.ShowGMPanelForm         ' ABPANEL
             Call HandleShowGMPanelForm
         
-        Case ServerPacketID.UserNameList            ' LISTUSU
-            Call HandleUserNameList
+        Case ServerPacketID.CharNameList            ' LISTUSU
+            Call HandleCharNameList
             
         Case ServerPacketID.ShowGuildAlign
             Call HandleShowGuildAlign
@@ -1846,7 +1849,32 @@ Private Sub HandleLoggedToken()
     
     ' Variable initialization
     AccountName = incomingData.ReadASCIIString
+    NumberOfCharacters = incomingData.ReadByte
+    
+    ReDim Characters(1 To NumberOfCharacters) As AccountUser
+    If NumberOfCharacters > 0 Then
+        Dim i As Byte
+        For i = 1 To NumberOfCharacters
+            Characters(i).Name = incomingData.ReadASCIIString
+            Characters(i).Body = incomingData.ReadInteger
+            Characters(i).Head = incomingData.ReadInteger
+            Characters(i).Weapon = incomingData.ReadInteger
+            Characters(i).Shield = incomingData.ReadInteger
+            Characters(i).Helmet = incomingData.ReadInteger
+            Characters(i).Class = incomingData.ReadByte
+            Characters(i).Race = incomingData.ReadByte
+            Characters(i).Map = incomingData.ReadASCIIString
+            Characters(i).Level = incomingData.ReadByte
+            Characters(i).Gold = incomingData.ReadLong
+            Characters(i).LastConnect = incomingData.ReadASCIIString
+            Characters(i).Criminal = incomingData.ReadBoolean
+            Characters(i).Dead = incomingData.ReadBoolean
+            Characters(i).GameMaster = incomingData.ReadBoolean
+        Next
+    End If
+    
     frmConnect.lblAccountName.Caption = AccountName
+    Call modAccount.LoadCharacters
 
 End Sub
 
@@ -1873,6 +1901,12 @@ Private Sub HandleLogged()
     Nombres = True
     bRain = False
     bRangoReducido = False
+    If frmCrearPersonaje.Visible = True Then
+        frmCrearPersonaje.Visible = False
+    End If
+    If frmConnect.Visible = True Then
+        frmConnect.Visible = False
+    End If
     
     'Set connected state
     Call SetConnected
@@ -1963,7 +1997,7 @@ End Sub
 Private Sub HandleDisconnect()
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
-'Last Modification: 23/11/2011 - ^[GS]^
+'Last Modification: 01/03/2022 - ^[GS]^
 '
 '***************************************************
     Dim i As Long
@@ -1972,9 +2006,12 @@ Private Sub HandleDisconnect()
     Call incomingData.ReadByte
     
     'Close connection
-    frmMain.Socket1.Disconnect
+    'frmMain.Socket1.Disconnect
     
     ResetAllInfo ' 0.13.3
+    
+    Call frmConnect.Connected
+    Call frmConnect.Show
 
 End Sub
 
@@ -2134,7 +2171,7 @@ Private Sub HandleUserCommerceInit()
     'Remove packet ID
     Call incomingData.ReadByte
     
-    TradingUserName = incomingData.ReadASCIIString
+    TradingCharName = incomingData.ReadASCIIString
     
     Set InvComUsu = New clsGraphicalInventory
     Set InvOfferComUsu(0) = New clsGraphicalInventory
@@ -2215,7 +2252,7 @@ Private Sub HandleUserOfferConfirm()
         ' Now he can accept the offer or reject it
         .HabilitarAceptarRechazar True
         
-        .PrintCommerceMsg "¡" & TradingUserName & " ha confirmado su oferta!", FontTypeNames.FONTTYPE_CONSEJERO
+        .PrintCommerceMsg "¡" & TradingCharName & " ha confirmado su oferta!", FontTypeNames.FONTTYPE_CONSEJERO
     End With
     
 End Sub
@@ -6349,18 +6386,15 @@ Private Sub HandleAtributes()
     Next i
     
     'Show them in character creation
-    If EstadoLogin = E_MODO.Dados Then
-        With frmCrearPersonaje
-            If .Visible Then
-                For i = 1 To NUMATRIBUTES
-                    .lblAtributos(i).Caption = UserAtributos(i)
-                Next i
-                .UpdateStats
-            End If
-        End With
-    Else
-        LlegaronAtrib = True
-    End If
+    With frmCrearPersonaje
+        If .Visible Then
+            For i = 1 To NUMATRIBUTES
+                .lblAtributos(i).Caption = UserAtributos(i)
+            Next i
+            .UpdateStats
+        End If
+    End With
+    'LlegaronAtrib = True
 
 End Sub
 
@@ -7099,12 +7133,6 @@ Private Sub HandleDiceRoll()
     UserAtributos(eAtributos.Inteligencia) = incomingData.ReadByte()
     UserAtributos(eAtributos.Carisma) = incomingData.ReadByte()
     UserAtributos(eAtributos.Constitucion) = incomingData.ReadByte()
-    
-    ' GSZAO
-    CaptchaCode(0) = incomingData.ReadByte() Xor CaptchaKey
-    CaptchaCode(1) = incomingData.ReadByte() Xor CaptchaKey
-    CaptchaCode(2) = incomingData.ReadByte() Xor CaptchaKey
-    CaptchaCode(3) = incomingData.ReadByte() Xor CaptchaKey
     
     With frmCrearPersonaje
         .lblAtributos(eAtributos.Fuerza) = UserAtributos(eAtributos.Fuerza)
@@ -7988,7 +8016,7 @@ On Error GoTo ErrHandler
         End If
     End With
     
-    Call frmComerciarUsu.PrintCommerceMsg(TradingUserName & " ha modificado su oferta.", FontTypeNames.FONTTYPE_VENENO)
+    Call frmComerciarUsu.PrintCommerceMsg(TradingCharName & " ha modificado su oferta.", FontTypeNames.FONTTYPE_VENENO)
     
     'If we got here then packet is complete, copy data back to original queue
     Call incomingData.CopyBuffer(Buffer)
@@ -8346,9 +8374,9 @@ Private Sub HandleShowGMPanelForm()
 End Sub
 
 ''
-' Handles the UserNameList message.
+' Handles the CharNameList message.
 
-Private Sub HandleUserNameList()
+Private Sub HandleCharNameList()
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 23/11/2011 - ^[GS]^
@@ -8705,7 +8733,7 @@ End Sub
 Public Sub WriteLoginToken()
 '***************************************************
 'Author: ^[GS]^
-'Last Modification: 29/01/2022 - ^[GS]^
+'Last Modification: 27/02/2022 - ^[GS]^
 '***************************************************
     Dim i As Long
     
@@ -8715,8 +8743,9 @@ Public Sub WriteLoginToken()
         Call .WriteByte(App.Major)
         Call .WriteByte(App.Minor)
         Call .WriteByte(App.Revision)
-        Call .WriteASCIIString(SEncriptar(HDSerial)) ' GSZAO
     End With
+    
+    TokenConnected = ClientConfigInit.Token
     
 #If Testeo = 1 Then
     Call LogTesteo("El token " & ClientConfigInit.Token & " intenta conectarse.")
@@ -8724,32 +8753,27 @@ Public Sub WriteLoginToken()
 End Sub
 
 ''
-' Writes the "LoginExistingChar" message to the outgoing data buffer.
+' Writes the "ExistingChar" message to the outgoing data buffer.
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLoginExistingChar()
+Public Sub WriteExistingChar()
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
-'Last Modification: 08/06/2012 - ^[GS]^
-'Writes the "LoginExistingChar" message to the outgoing data buffer
+'Last Modification: 27/02/2022 - ^[GS]^
+'Writes the "ExistingChar" message to the outgoing data buffer
 '***************************************************
     Dim i As Long
     
     With outgoingData
-        Call .WriteByte(ClientPacketID.LoginExistingChar)
+        Call .WriteByte(ClientPacketID.ExistingChar)
         
-        Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(UserPassword)
-        Call .WriteByte(App.Major)
-        Call .WriteByte(App.Minor)
-        Call .WriteByte(App.Revision)
-        Call .WriteASCIIString(SEncriptar(HDSerial)) ' GSZAO
+        Call .WriteASCIIString(CharName)
         
     End With
     
 #If Testeo = 1 Then
-    Call LogTesteo("El usuario " & UserName & " intenta conectarse.")
+    Call LogTesteo("El usuario " & CharName & " intenta conectarse.")
 #End If
 End Sub
 
@@ -8765,40 +8789,56 @@ Public Sub WriteThrowDices()
 'Writes the "ThrowDices" message to the outgoing data buffer
 '***************************************************
     Call outgoingData.WriteByte(ClientPacketID.ThrowDices)
-    Call outgoingData.WriteByte(CaptchaKey)   ' GSZAO
 End Sub
 
 ''
-' Writes the "LoginNewChar" message to the outgoing data buffer.
+' Writes the "NewChar" message to the outgoing data buffer.
 '
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLoginNewChar()
+Public Sub WriteNewChar()
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
-'Last Modification: 08/06/2012 - ^[GS]^
+'Last Modification: 28/02/2022 - ^[GS]^
 'Writes the "LoginNewChar" message to the outgoing data buffer
 '***************************************************
     Dim i As Long
     
     With outgoingData
-        Call .WriteByte(ClientPacketID.LoginNewChar)
+        Call .WriteByte(ClientPacketID.NewChar)
         
-        Call .WriteASCIIString(UserName)
-        Call .WriteASCIIString(UserPassword)
-        Call .WriteByte(App.Major)
-        Call .WriteByte(App.Minor)
-        Call .WriteByte(App.Revision)
-        Call .WriteASCIIString(SEncriptar(HDSerial)) ' GSZAO
+        Call .WriteASCIIString(CharName)
         Call .WriteByte(UserRaza)
         Call .WriteByte(UserSexo)
         Call .WriteByte(UserClase)
         Call .WriteInteger(UserHead)
-        
-        Call .WriteASCIIString(UserEmail)
-        
-        Call .WriteByte(UserHogar)
     End With
+    
+    Call FlushBuffer
+    DoEvents
+End Sub
+
+''
+' Writes the "DeleteChar" message to the outgoing data buffer.
+'
+' @remarks  The data is not actually sent until the buffer is properly flushed.
+
+Public Sub WriteDeleteChar(ByVal CharName As String)
+'***************************************************
+'Author: ^[GS]^
+'Last Modification: 01/03/2022 - ^[GS]^
+'Writes the "DeleteChar" message to the outgoing data buffer
+'***************************************************
+    Dim i As Long
+    
+    With outgoingData
+        Call .WriteByte(ClientPacketID.DeleteChar)
+        
+        Call .WriteASCIIString(CharName)
+    End With
+    
+    Call FlushBuffer
+    DoEvents
 End Sub
 
 ''
@@ -9867,10 +9907,10 @@ End Sub
 ''
 ' Writes the "GuildRequestJoinerInfo" message to the outgoing data buffer.
 '
-' @param    username The user who wants to join the guild whose info is requested.
+' @param    CharName The user who wants to join the guild whose info is requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGuildRequestJoinerInfo(ByVal UserName As String)
+Public Sub WriteGuildRequestJoinerInfo(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -9879,7 +9919,7 @@ Public Sub WriteGuildRequestJoinerInfo(ByVal UserName As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.GuildRequestJoinerInfo)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -9952,10 +9992,10 @@ End Sub
 ''
 ' Writes the "GuildAcceptNewMember" message to the outgoing data buffer.
 '
-' @param    username The name of the accepted player.
+' @param    CharName The name of the accepted player.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGuildAcceptNewMember(ByVal UserName As String)
+Public Sub WriteGuildAcceptNewMember(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -9964,18 +10004,18 @@ Public Sub WriteGuildAcceptNewMember(ByVal UserName As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.GuildAcceptNewMember)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "GuildRejectNewMember" message to the outgoing data buffer.
 '
-' @param    username The name of the rejected player.
+' @param    CharName The name of the rejected player.
 ' @param    reason The reason for which the player was rejected.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGuildRejectNewMember(ByVal UserName As String, ByVal Reason As String)
+Public Sub WriteGuildRejectNewMember(ByVal CharName As String, ByVal Reason As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -9984,7 +10024,7 @@ Public Sub WriteGuildRejectNewMember(ByVal UserName As String, ByVal Reason As S
     With outgoingData
         Call .WriteByte(ClientPacketID.GuildRejectNewMember)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteASCIIString(Reason)
     End With
 End Sub
@@ -9992,10 +10032,10 @@ End Sub
 ''
 ' Writes the "GuildKickMember" message to the outgoing data buffer.
 '
-' @param    username The name of the kicked player.
+' @param    CharName The name of the kicked player.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGuildKickMember(ByVal UserName As String)
+Public Sub WriteGuildKickMember(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -10004,7 +10044,7 @@ Public Sub WriteGuildKickMember(ByVal UserName As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.GuildKickMember)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -10030,10 +10070,10 @@ End Sub
 ''
 ' Writes the "GuildMemberInfo" message to the outgoing data buffer.
 '
-' @param    username The user whose info is requested.
+' @param    CharName The user whose info is requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGuildMemberInfo(ByVal UserName As String)
+Public Sub WriteGuildMemberInfo(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -10042,7 +10082,7 @@ Public Sub WriteGuildMemberInfo(ByVal UserName As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.GuildMemberInfo)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -10644,10 +10684,10 @@ End Sub
 ''
 ' Writes the "GuildVote" message to the outgoing data buffer.
 '
-' @param    username The user to vote for clan leader.
+' @param    CharName The user to vote for clan leader.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGuildVote(ByVal UserName As String)
+Public Sub WriteGuildVote(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -10656,17 +10696,17 @@ Public Sub WriteGuildVote(ByVal UserName As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.GuildVote)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "Punishments" message to the outgoing data buffer.
 '
-' @param    username The user whose's  punishments are requested.
+' @param    CharName The user whose's  punishments are requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WritePunishments(ByVal UserName As String)
+Public Sub WritePunishments(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -10675,7 +10715,7 @@ Public Sub WritePunishments(ByVal UserName As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.Punishments)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -10847,10 +10887,10 @@ End Sub
 ''
 ' Writes the "PartyKick" message to the outgoing data buffer.
 '
-' @param    username The user to kick fro mthe party.
+' @param    CharName The user to kick fro mthe party.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WritePartyKick(ByVal UserName As String)
+Public Sub WritePartyKick(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -10859,17 +10899,17 @@ Public Sub WritePartyKick(ByVal UserName As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.PartyKick)
             
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "PartySetLeader" message to the outgoing data buffer.
 '
-' @param    username The user to set as the party's leader.
+' @param    CharName The user to set as the party's leader.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WritePartySetLeader(ByVal UserName As String)
+Public Sub WritePartySetLeader(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -10878,17 +10918,17 @@ Public Sub WritePartySetLeader(ByVal UserName As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.PartySetLeader)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "PartyAcceptMember" message to the outgoing data buffer.
 '
-' @param    username The user to accept into the party.
+' @param    CharName The user to accept into the party.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WritePartyAcceptMember(ByVal UserName As String)
+Public Sub WritePartyAcceptMember(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -10897,7 +10937,7 @@ Public Sub WritePartyAcceptMember(ByVal UserName As String)
     With outgoingData
         Call .WriteByte(ClientPacketID.PartyAcceptMember)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -11024,10 +11064,10 @@ End Sub
 ''
 ' Writes the "GoNearby" message to the outgoing data buffer.
 '
-' @param    username The suer to approach.
+' @param    CharName The suer to approach.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGoNearby(ByVal UserName As String)
+Public Sub WriteGoNearby(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11037,7 +11077,7 @@ Public Sub WriteGoNearby(ByVal UserName As String)
         Call outgoingData.WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.GoNearby)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -11079,10 +11119,10 @@ End Sub
 ''
 ' Writes the "Where" message to the outgoing data buffer.
 '
-' @param    username The user whose position is requested.
+' @param    CharName The user whose position is requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWhere(ByVal UserName As String)
+Public Sub WriteWhere(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11092,7 +11132,7 @@ Public Sub WriteWhere(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.Where)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -11134,13 +11174,13 @@ End Sub
 ''
 ' Writes the "WarpChar" message to the outgoing data buffer.
 '
-' @param    username The user to be warped. "YO" represent's the user's char.
+' @param    CharName The user to be warped. "YO" represent's the user's char.
 ' @param    map The map to which to warp the character.
 ' @param    x The x position in the map to which to waro the character.
 ' @param    y The y position in the map to which to waro the character.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
+Public Sub WriteWarpChar(ByVal CharName As String, ByVal Map As Integer, ByVal X As Byte, ByVal Y As Byte)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11150,7 +11190,7 @@ Public Sub WriteWarpChar(ByVal UserName As String, ByVal Map As Integer, ByVal X
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.WarpChar)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         
         Call .WriteInteger(Map)
         
@@ -11162,10 +11202,10 @@ End Sub
 ''
 ' Writes the "Silence" message to the outgoing data buffer.
 '
-' @param    username The user to silence.
+' @param    CharName The user to silence.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteSilence(ByVal UserName As String)
+Public Sub WriteSilence(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11175,7 +11215,7 @@ Public Sub WriteSilence(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.Silence)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -11197,10 +11237,10 @@ End Sub
 ''
 ' Writes the "SOSRemove" message to the outgoing data buffer.
 '
-' @param    username The user whose SOS call has been already attended.
+' @param    CharName The user whose SOS call has been already attended.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteSOSRemove(ByVal UserName As String)
+Public Sub WriteSOSRemove(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11210,17 +11250,17 @@ Public Sub WriteSOSRemove(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.SOSRemove)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "GoToChar" message to the outgoing data buffer.
 '
-' @param    username The user to be approached.
+' @param    CharName The user to be approached.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteGoToChar(ByVal UserName As String)
+Public Sub WriteGoToChar(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11230,7 +11270,7 @@ Public Sub WriteGoToChar(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.GoToChar)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -11312,12 +11352,12 @@ End Sub
 ''
 ' Writes the "Jail" message to the outgoing data buffer.
 '
-' @param    username The user to be sent to jail.
+' @param    CharName The user to be sent to jail.
 ' @param    reason The reason for which to send him to jail.
 ' @param    time The time (in minutes) the user will have to spend there.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteJail(ByVal UserName As String, ByVal Reason As String, ByVal Time As Byte)
+Public Sub WriteJail(ByVal CharName As String, ByVal Reason As String, ByVal Time As Byte)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11327,7 +11367,7 @@ Public Sub WriteJail(ByVal UserName As String, ByVal Reason As String, ByVal Tim
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.Jail)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteASCIIString(Reason)
         
         Call .WriteByte(Time)
@@ -11352,11 +11392,11 @@ End Sub
 ''
 ' Writes the "WarnUser" message to the outgoing data buffer.
 '
-' @param    username The user to be warned.
+' @param    CharName The user to be warned.
 ' @param    reason Reason for the warning.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteWarnUser(ByVal UserName As String, ByVal Reason As String)
+Public Sub WriteWarnUser(ByVal CharName As String, ByVal Reason As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11366,7 +11406,7 @@ Public Sub WriteWarnUser(ByVal UserName As String, ByVal Reason As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.WarnUser)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteASCIIString(Reason)
     End With
 End Sub
@@ -11374,13 +11414,13 @@ End Sub
 ''
 ' Writes the "EditChar" message to the outgoing data buffer.
 '
-' @param    UserName    The user to be edited.
+' @param    CharName    The user to be edited.
 ' @param    editOption  Indicates what to edit in the char.
 ' @param    arg1        Additional argument 1. Contents depend on editoption.
 ' @param    arg2        Additional argument 2. Contents depend on editoption.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteEditChar(ByVal UserName As String, ByVal EditOption As eEditOptions, ByVal arg1 As String, ByVal arg2 As String)
+Public Sub WriteEditChar(ByVal CharName As String, ByVal EditOption As eEditOptions, ByVal arg1 As String, ByVal arg2 As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11390,7 +11430,7 @@ Public Sub WriteEditChar(ByVal UserName As String, ByVal EditOption As eEditOpti
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.EditChar)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         
         Call .WriteByte(EditOption)
         
@@ -11402,10 +11442,10 @@ End Sub
 ''
 ' Writes the "RequestCharInfo" message to the outgoing data buffer.
 '
-' @param    username The user whose information is requested.
+' @param    CharName The user whose information is requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRequestCharInfo(ByVal UserName As String)
+Public Sub WriteRequestCharInfo(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11415,17 +11455,17 @@ Public Sub WriteRequestCharInfo(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RequestCharInfo)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "RequestCharStats" message to the outgoing data buffer.
 '
-' @param    username The user whose stats are requested.
+' @param    CharName The user whose stats are requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRequestCharStats(ByVal UserName As String)
+Public Sub WriteRequestCharStats(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11435,17 +11475,17 @@ Public Sub WriteRequestCharStats(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RequestCharStats)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "RequestCharGold" message to the outgoing data buffer.
 '
-' @param    username The user whose gold is requested.
+' @param    CharName The user whose gold is requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRequestCharGold(ByVal UserName As String)
+Public Sub WriteRequestCharGold(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11455,17 +11495,17 @@ Public Sub WriteRequestCharGold(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RequestCharGold)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
     
 ''
 ' Writes the "RequestCharInventory" message to the outgoing data buffer.
 '
-' @param    username The user whose inventory is requested.
+' @param    CharName The user whose inventory is requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRequestCharInventory(ByVal UserName As String)
+Public Sub WriteRequestCharInventory(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11475,17 +11515,17 @@ Public Sub WriteRequestCharInventory(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RequestCharInventory)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "RequestCharBank" message to the outgoing data buffer.
 '
-' @param    username The user whose banking information is requested.
+' @param    CharName The user whose banking information is requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRequestCharBank(ByVal UserName As String)
+Public Sub WriteRequestCharBank(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11495,17 +11535,17 @@ Public Sub WriteRequestCharBank(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RequestCharBank)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "RequestCharSkills" message to the outgoing data buffer.
 '
-' @param    username The user whose skills are requested.
+' @param    CharName The user whose skills are requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRequestCharSkills(ByVal UserName As String)
+Public Sub WriteRequestCharSkills(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11515,17 +11555,17 @@ Public Sub WriteRequestCharSkills(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RequestCharSkills)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "ReviveChar" message to the outgoing data buffer.
 '
-' @param    username The user to eb revived.
+' @param    CharName The user to eb revived.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteReviveChar(ByVal UserName As String)
+Public Sub WriteReviveChar(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11535,7 +11575,7 @@ Public Sub WriteReviveChar(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.ReviveChar)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -11577,10 +11617,10 @@ End Sub
 ''
 ' Writes the "Forgive" message to the outgoing data buffer.
 '
-' @param    username The user to be forgiven.
+' @param    CharName The user to be forgiven.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteForgive(ByVal UserName As String)
+Public Sub WriteForgive(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11590,17 +11630,17 @@ Public Sub WriteForgive(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.Forgive)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "Kick" message to the outgoing data buffer.
 '
-' @param    username The user to be kicked.
+' @param    CharName The user to be kicked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteKick(ByVal UserName As String)
+Public Sub WriteKick(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11610,17 +11650,17 @@ Public Sub WriteKick(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.Kick)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "Execute" message to the outgoing data buffer.
 '
-' @param    username The user to be executed.
+' @param    CharName The user to be executed.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteExecute(ByVal UserName As String)
+Public Sub WriteExecute(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11630,18 +11670,18 @@ Public Sub WriteExecute(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.Execute)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "BanChar" message to the outgoing data buffer.
 '
-' @param    username The user to be banned.
+' @param    CharName The user to be banned.
 ' @param    reason The reson for which the user is to be banned.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteBanChar(ByVal UserName As String, ByVal Reason As String)
+Public Sub WriteBanChar(ByVal CharName As String, ByVal Reason As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11651,7 +11691,7 @@ Public Sub WriteBanChar(ByVal UserName As String, ByVal Reason As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.banChar)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         
         Call .WriteASCIIString(Reason)
     End With
@@ -11660,10 +11700,10 @@ End Sub
 ''
 ' Writes the "UnbanChar" message to the outgoing data buffer.
 '
-' @param    username The user to be unbanned.
+' @param    CharName The user to be unbanned.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteUnbanChar(ByVal UserName As String)
+Public Sub WriteUnbanChar(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11673,7 +11713,7 @@ Public Sub WriteUnbanChar(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.UnbanChar)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -11695,10 +11735,10 @@ End Sub
 ''
 ' Writes the "SummonChar" message to the outgoing data buffer.
 '
-' @param    username The user to be summoned.
+' @param    CharName The user to be summoned.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteSummonChar(ByVal UserName As String)
+Public Sub WriteSummonChar(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11708,7 +11748,7 @@ Public Sub WriteSummonChar(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.SummonChar)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -11820,10 +11860,10 @@ End Sub
 ''
 ' Writes the "NickToIP" message to the outgoing data buffer.
 '
-' @param    username The user whose IP is requested.
+' @param    CharName The user whose IP is requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteNickToIP(ByVal UserName As String)
+Public Sub WriteNickToIP(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -11833,7 +11873,7 @@ Public Sub WriteNickToIP(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.nickToIP)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -12129,10 +12169,10 @@ End Sub
 ''
 ' Writes the "AcceptRoyalCouncilMember" message to the outgoing data buffer.
 '
-' @param    username The name of the user to be accepted into the royal army council.
+' @param    CharName The name of the user to be accepted into the royal army council.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAcceptRoyalCouncilMember(ByVal UserName As String)
+Public Sub WriteAcceptRoyalCouncilMember(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12142,17 +12182,17 @@ Public Sub WriteAcceptRoyalCouncilMember(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.AcceptRoyalCouncilMember)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "AcceptChaosCouncilMember" message to the outgoing data buffer.
 '
-' @param    username The name of the user to be accepted as a chaos council member.
+' @param    CharName The name of the user to be accepted as a chaos council member.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAcceptChaosCouncilMember(ByVal UserName As String)
+Public Sub WriteAcceptChaosCouncilMember(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12162,7 +12202,7 @@ Public Sub WriteAcceptChaosCouncilMember(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.AcceptChaosCouncilMember)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -12184,10 +12224,10 @@ End Sub
 ''
 ' Writes the "MakeDumb" message to the outgoing data buffer.
 '
-' @param    username The name of the user to be made dumb.
+' @param    CharName The name of the user to be made dumb.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteMakeDumb(ByVal UserName As String)
+Public Sub WriteMakeDumb(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12197,17 +12237,17 @@ Public Sub WriteMakeDumb(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.MakeDumb)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "MakeDumbNoMore" message to the outgoing data buffer.
 '
-' @param    username The name of the user who will no longer be dumb.
+' @param    CharName The name of the user who will no longer be dumb.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteMakeDumbNoMore(ByVal UserName As String)
+Public Sub WriteMakeDumbNoMore(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12217,7 +12257,7 @@ Public Sub WriteMakeDumbNoMore(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.MakeDumbNoMore)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -12239,10 +12279,10 @@ End Sub
 ''
 ' Writes the "CouncilKick" message to the outgoing data buffer.
 '
-' @param    username The name of the user to be kicked from the council.
+' @param    CharName The name of the user to be kicked from the council.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCouncilKick(ByVal UserName As String)
+Public Sub WriteCouncilKick(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12252,7 +12292,7 @@ Public Sub WriteCouncilKick(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.CouncilKick)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -12338,60 +12378,6 @@ Public Sub WriteGuildBan(ByVal guild As String)
         Call .WriteByte(eGMCommands.GuildBan)
         
         Call .WriteASCIIString(guild)
-    End With
-End Sub
-
-''
-' Writes the "CheckHD" message to the outgoing data buffer.
-'
-'@param   username The name of the user to be checked.
-Public Sub WriteVerHD(ByVal UserName As String)
-'***************************************************
-'Author: ArzenaTh
-'Last Modification: 01/09/10
-'Checkeamos la HD del usuario.
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.VerHD)
-       
-        Call .WriteASCIIString(UserName)
-    End With
-End Sub
- 
-''
-' Writes the "UnBanHD" message to the outgoing data buffer
-'
-'@param    username The name of the user to be unbanned.
-Public Sub WriteUnBanHD(ByVal HD As String)
-'***************************************************
-'Author: ArzenaTh
-'Last Modification: 01/09/10
-'Unbaneamos al usuario con su HD baneado.
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.UnBanHD)
-       
-        Call .WriteASCIIString(HD)
-    End With
-End Sub
- 
-''
-' Writes the "BanHD" message to the outgoing data buffer
-'
-'@param    username The name of the user to be banned.
-Public Sub WriteBanHD(ByVal UserName As String)
-'***************************************************
-'Author: ArzenaTh
-'Last Modification: 01/09/10
-'Baneamos la HD del usuario.
-'***************************************************
-    With outgoingData
-        Call .WriteByte(ClientPacketID.GMCommands)
-        Call .WriteByte(eGMCommands.BanHD)
-       
-        Call .WriteASCIIString(UserName)
     End With
 End Sub
 
@@ -12496,11 +12482,11 @@ End Sub
 ''
 ' Writes the "ChaosLegionKick" message to the outgoing data buffer.
 '
-' @param    username The name of the user to be kicked from the Chaos Legion.
+' @param    CharName The name of the user to be kicked from the Chaos Legion.
 ' @param    reason The reson for which the user is kicked from the Chaos Legion.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteChaosLegionKick(ByVal UserName As String, ByVal Reason As String)
+Public Sub WriteChaosLegionKick(ByVal CharName As String, ByVal Reason As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 27/07/2012 - ^[GS]^
@@ -12510,7 +12496,7 @@ Public Sub WriteChaosLegionKick(ByVal UserName As String, ByVal Reason As String
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.ChaosLegionKick)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteASCIIString(Reason) ' 0.13.5
     End With
 End Sub
@@ -12518,11 +12504,11 @@ End Sub
 ''
 ' Writes the "RoyalArmyKick" message to the outgoing data buffer.
 '
-' @param    username The name of the user to be kicked from the Royal Army.
+' @param    CharName The name of the user to be kicked from the Royal Army.
 ' @param    reason The reson for which the user is kicked from the Royal Army.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRoyalArmyKick(ByVal UserName As String, ByVal Reason As String)
+Public Sub WriteRoyalArmyKick(ByVal CharName As String, ByVal Reason As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 27/07/2012 - ^[GS]^
@@ -12532,7 +12518,7 @@ Public Sub WriteRoyalArmyKick(ByVal UserName As String, ByVal Reason As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RoyalArmyKick)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteASCIIString(Reason) ' 0.13.5
     End With
 End Sub
@@ -12580,11 +12566,11 @@ End Sub
 ''
 ' Writes the "RemovePunishment" message to the outgoing data buffer.
 '
-' @param    username The user whose punishments will be altered.
+' @param    CharName The user whose punishments will be altered.
 ' @param    punishment The id of the punishment to be removed.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRemovePunishment(ByVal UserName As String, ByVal punishment As Byte, ByVal NewText As String)
+Public Sub WriteRemovePunishment(ByVal CharName As String, ByVal punishment As Byte, ByVal NewText As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12594,7 +12580,7 @@ Public Sub WriteRemovePunishment(ByVal UserName As String, ByVal punishment As B
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RemovePunishment)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteByte(punishment)
         Call .WriteASCIIString(NewText)
     End With
@@ -12648,10 +12634,10 @@ End Sub
 ''
 ' Writes the "LastIP" message to the outgoing data buffer.
 '
-' @param    username The user whose last IPs are requested.
+' @param    CharName The user whose last IPs are requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteLastIP(ByVal UserName As String)
+Public Sub WriteLastIP(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12661,7 +12647,7 @@ Public Sub WriteLastIP(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.LastIP)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
@@ -12854,10 +12840,10 @@ End Sub
 ''
 ' Writes the "TurnCriminal" message to the outgoing data buffer.
 '
-' @param    username The name of the user to turn into criminal.
+' @param    CharName The name of the user to turn into criminal.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteTurnCriminal(ByVal UserName As String)
+Public Sub WriteTurnCriminal(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12867,17 +12853,17 @@ Public Sub WriteTurnCriminal(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.TurnCriminal)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "ResetFactions" message to the outgoing data buffer.
 '
-' @param    username The name of the user who will be removed from any faction.
+' @param    CharName The name of the user who will be removed from any faction.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteResetFactions(ByVal UserName As String)
+Public Sub WriteResetFactions(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12887,17 +12873,17 @@ Public Sub WriteResetFactions(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.ResetFactions)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "RemoveCharFromGuild" message to the outgoing data buffer.
 '
-' @param    username The name of the user who will be removed from any guild.
+' @param    CharName The name of the user who will be removed from any guild.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRemoveCharFromGuild(ByVal UserName As String)
+Public Sub WriteRemoveCharFromGuild(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12907,17 +12893,17 @@ Public Sub WriteRemoveCharFromGuild(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RemoveCharFromGuild)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "RequestCharMail" message to the outgoing data buffer.
 '
-' @param    username The name of the user whose mail is requested.
+' @param    CharName The name of the user whose mail is requested.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteRequestCharMail(ByVal UserName As String)
+Public Sub WriteRequestCharMail(ByVal CharName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12927,18 +12913,18 @@ Public Sub WriteRequestCharMail(ByVal UserName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.RequestCharMail)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
     End With
 End Sub
 
 ''
 ' Writes the "AlterPassword" message to the outgoing data buffer.
 '
-' @param    username The name of the user whose mail is requested.
+' @param    CharName The name of the user whose mail is requested.
 ' @param    copyFrom The name of the user from which to copy the password.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAlterPassword(ByVal UserName As String, ByVal CopyFrom As String)
+Public Sub WriteAlterPassword(ByVal CharName As String, ByVal CopyFrom As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12948,7 +12934,7 @@ Public Sub WriteAlterPassword(ByVal UserName As String, ByVal CopyFrom As String
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.AlterPassword)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteASCIIString(CopyFrom)
     End With
 End Sub
@@ -12956,11 +12942,11 @@ End Sub
 ''
 ' Writes the "AlterMail" message to the outgoing data buffer.
 '
-' @param    username The name of the user whose mail is requested.
+' @param    CharName The name of the user whose mail is requested.
 ' @param    newMail The new email of the player.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAlterMail(ByVal UserName As String, ByVal newMail As String)
+Public Sub WriteAlterMail(ByVal CharName As String, ByVal newMail As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12970,7 +12956,7 @@ Public Sub WriteAlterMail(ByVal UserName As String, ByVal newMail As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.AlterMail)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteASCIIString(newMail)
     End With
 End Sub
@@ -12978,11 +12964,11 @@ End Sub
 ''
 ' Writes the "AlterName" message to the outgoing data buffer.
 '
-' @param    username The name of the user whose mail is requested.
+' @param    CharName The name of the user whose mail is requested.
 ' @param    newName The new user name.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAlterName(ByVal UserName As String, ByVal newName As String)
+Public Sub WriteAlterName(ByVal CharName As String, ByVal newName As String)
 '***************************************************
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last Modification: 05/17/06
@@ -12992,7 +12978,7 @@ Public Sub WriteAlterName(ByVal UserName As String, ByVal newName As String)
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.AlterName)
         
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteASCIIString(newName)
     End With
 End Sub
@@ -13506,11 +13492,11 @@ End Sub
 ''
 ' Writes the "CheckSlot" message to the outgoing data buffer.
 '
-' @param    UserName    The name of the char whose slot will be checked.
+' @param    CharName    The name of the char whose slot will be checked.
 ' @param    slot        The slot to be checked.
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteCheckSlot(ByVal UserName As String, ByVal slot As Byte)
+Public Sub WriteCheckSlot(ByVal CharName As String, ByVal slot As Byte)
 '***************************************************
 'Author: Pablo (ToxicWaste)
 'Last Modification: 26/01/2007
@@ -13519,7 +13505,7 @@ Public Sub WriteCheckSlot(ByVal UserName As String, ByVal slot As Byte)
     With outgoingData
         Call .WriteByte(ClientPacketID.GMCommands)
         Call .WriteByte(eGMCommands.CheckSlot)
-        Call .WriteASCIIString(UserName)
+        Call .WriteASCIIString(CharName)
         Call .WriteByte(slot)
     End With
 End Sub
@@ -13682,6 +13668,10 @@ Private Sub SendData(ByRef sdData As String)
     If Not frmMain.Socket1.Connected Then Exit Sub
     
     'Send data!
+    #If Testeo Then
+        Debug.Print "SOCKET -> " & sdData
+    #End If
+    
     Call frmMain.Socket1.Write(sdData, Len(sdData))
 
 End Sub
@@ -13692,10 +13682,10 @@ End Sub
 '
 ' @param    Cargo       The charge.
 ' @param    Accion      The action.
-' @param    UserName    The user to be edited. (only if is needed)
+' @param    CharName    The user to be edited. (only if is needed)
 ' @remarks  The data is not actually sent until the buffer is properly flushed.
 
-Public Sub WriteAdminCargos(ByVal Cargo As eCargos, ByVal Accion As eAcciones, ByVal UserName As String)
+Public Sub WriteAdminCargos(ByVal Cargo As eCargos, ByVal Accion As eAcciones, ByVal CharName As String)
 '***************************************************
 'Author: ^[GS]^
 'Last Modification: 19/06/2011
@@ -13708,7 +13698,7 @@ Public Sub WriteAdminCargos(ByVal Cargo As eCargos, ByVal Accion As eAcciones, B
         Call .WriteByte(Accion)
         
         If Accion <> eAcciones.a_Listar Then ' nos ahorramos ancho de banda enviando un string que no se usa...
-            Call .WriteASCIIString(UserName)
+            Call .WriteASCIIString(CharName)
         End If
         
     End With

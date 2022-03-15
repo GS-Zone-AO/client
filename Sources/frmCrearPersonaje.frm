@@ -14,50 +14,22 @@ Begin VB.Form frmCrearPersonaje
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   799
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
-   Begin VB.TextBox txtCaptcha 
-      Alignment       =   2  'Center
+   Begin VB.PictureBox pPJ 
       Appearance      =   0  'Flat
-      BackColor       =   &H80000012&
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   12
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   270
-      IMEMode         =   3  'DISABLE
-      Left            =   9480
-      MaxLength       =   4
-      TabIndex        =   35
-      Top             =   7560
-      Width           =   1935
-   End
-   Begin VB.PictureBox pCaptcha 
-      Appearance      =   0  'Flat
-      BackColor       =   &H00101010&
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   11.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+      AutoRedraw      =   -1  'True
+      AutoSize        =   -1  'True
+      BackColor       =   &H000000FF&
+      BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
-      Height          =   375
-      Left            =   9480
-      ScaleHeight     =   345
-      ScaleWidth      =   1905
-      TabIndex        =   34
-      Top             =   6720
-      Width           =   1935
+      Height          =   3135
+      Left            =   360
+      ScaleHeight     =   209
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   137
+      TabIndex        =   30
+      Top             =   4560
+      Width           =   2055
    End
    Begin VB.PictureBox picPJ 
       Appearance      =   0  'Flat
@@ -65,13 +37,13 @@ Begin VB.Form frmCrearPersonaje
       BackColor       =   &H00000000&
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
-      Height          =   870
+      Height          =   840
       Left            =   7080
-      ScaleHeight     =   58
+      ScaleHeight     =   56
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   41
-      TabIndex        =   31
-      Top             =   6330
+      TabIndex        =   27
+      Top             =   6360
       Width           =   615
    End
    Begin VB.PictureBox picTemp 
@@ -82,75 +54,14 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   62
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   37
-      TabIndex        =   30
+      TabIndex        =   26
       Top             =   6330
       Visible         =   0   'False
       Width           =   615
    End
-   Begin VB.TextBox txtMail 
-      BackColor       =   &H80000012&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      Left            =   3600
-      TabIndex        =   3
-      Top             =   2280
-      Width           =   4815
-   End
-   Begin VB.TextBox txtConfirmPasswd 
-      BackColor       =   &H80000012&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Courier"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      IMEMode         =   3  'DISABLE
-      Left            =   6150
-      PasswordChar    =   "*"
-      TabIndex        =   2
-      Top             =   1800
-      Width           =   2295
-   End
-   Begin VB.TextBox txtPasswd 
-      BackColor       =   &H80000012&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Courier"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   225
-      IMEMode         =   3  'DISABLE
-      Left            =   3600
-      PasswordChar    =   "*"
-      TabIndex        =   1
-      Top             =   1800
-      Width           =   2295
-   End
    Begin VB.Timer tAnimacion 
-      Left            =   840
-      Top             =   1080
+      Left            =   1440
+      Top             =   2160
    End
    Begin VB.ComboBox lstProfesion 
       BackColor       =   &H00000000&
@@ -165,11 +76,11 @@ Begin VB.Form frmCrearPersonaje
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   315
-      ItemData        =   "frmCrearPersonaje.frx":3FC3E
+      ItemData        =   "frmCrearPersonaje.frx":43832
       Left            =   6060
-      List            =   "frmCrearPersonaje.frx":3FC40
+      List            =   "frmCrearPersonaje.frx":43834
       Style           =   2  'Dropdown List
-      TabIndex        =   6
+      TabIndex        =   2
       Top             =   4035
       Width           =   2625
    End
@@ -186,11 +97,11 @@ Begin VB.Form frmCrearPersonaje
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   315
-      ItemData        =   "frmCrearPersonaje.frx":3FC42
+      ItemData        =   "frmCrearPersonaje.frx":43836
       Left            =   6060
-      List            =   "frmCrearPersonaje.frx":3FC4C
+      List            =   "frmCrearPersonaje.frx":43840
       Style           =   2  'Dropdown List
-      TabIndex        =   7
+      TabIndex        =   3
       Top             =   4560
       Width           =   2625
    End
@@ -207,33 +118,12 @@ Begin VB.Form frmCrearPersonaje
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   315
-      ItemData        =   "frmCrearPersonaje.frx":3FC5F
+      ItemData        =   "frmCrearPersonaje.frx":43853
       Left            =   6060
-      List            =   "frmCrearPersonaje.frx":3FC61
+      List            =   "frmCrearPersonaje.frx":43855
       Style           =   2  'Dropdown List
-      TabIndex        =   5
+      TabIndex        =   1
       Top             =   3495
-      Width           =   2625
-   End
-   Begin VB.ComboBox lstHogar 
-      BackColor       =   &H00000000&
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   315
-      ItemData        =   "frmCrearPersonaje.frx":3FC63
-      Left            =   6060
-      List            =   "frmCrearPersonaje.frx":3FC65
-      Style           =   2  'Dropdown List
-      TabIndex        =   4
-      Top             =   2985
       Width           =   2625
    End
    Begin VB.TextBox txtNombre 
@@ -268,7 +158,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   25
+      TabIndex        =   21
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -285,7 +175,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   26
+      TabIndex        =   22
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -302,7 +192,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   27
+      TabIndex        =   23
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -319,7 +209,7 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   28
+      TabIndex        =   24
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
@@ -336,27 +226,27 @@ Begin VB.Form frmCrearPersonaje
       ScaleHeight     =   24
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   24
-      TabIndex        =   24
+      TabIndex        =   20
       Top             =   5880
       Visible         =   0   'False
       Width           =   360
    End
    Begin ClientGSZAO.uAOButton cVolver 
       Height          =   495
-      Left            =   2880
-      TabIndex        =   32
-      Top             =   8160
+      Left            =   9960
+      TabIndex        =   28
+      Top             =   360
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   873
-      TX              =   "Volver"
+      TX              =   "Cancelar"
       ENAB            =   -1  'True
       FCOL            =   7314354
       OCOL            =   16777215
-      PICE            =   "frmCrearPersonaje.frx":3FC67
-      PICF            =   "frmCrearPersonaje.frx":3FC83
-      PICH            =   "frmCrearPersonaje.frx":3FC9F
-      PICV            =   "frmCrearPersonaje.frx":3FCBB
+      PICE            =   "frmCrearPersonaje.frx":43857
+      PICF            =   "frmCrearPersonaje.frx":43873
+      PICH            =   "frmCrearPersonaje.frx":4388F
+      PICV            =   "frmCrearPersonaje.frx":438AB
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   12
@@ -369,8 +259,8 @@ Begin VB.Form frmCrearPersonaje
    End
    Begin ClientGSZAO.uAOButton cCrear 
       Height          =   495
-      Left            =   4800
-      TabIndex        =   33
+      Left            =   3960
+      TabIndex        =   29
       Top             =   8160
       Width           =   4335
       _ExtentX        =   7646
@@ -379,10 +269,10 @@ Begin VB.Form frmCrearPersonaje
       ENAB            =   -1  'True
       FCOL            =   7314354
       OCOL            =   16777215
-      PICE            =   "frmCrearPersonaje.frx":3FCD7
-      PICF            =   "frmCrearPersonaje.frx":3FCF3
-      PICH            =   "frmCrearPersonaje.frx":3FD0F
-      PICV            =   "frmCrearPersonaje.frx":3FD2B
+      PICE            =   "frmCrearPersonaje.frx":438C7
+      PICF            =   "frmCrearPersonaje.frx":438E3
+      PICH            =   "frmCrearPersonaje.frx":438FF
+      PICV            =   "frmCrearPersonaje.frx":4391B
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Arial"
          Size            =   12
@@ -392,26 +282,6 @@ Begin VB.Form frmCrearPersonaje
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-   End
-   Begin VB.Label Label1 
-      BackStyle       =   0  'Transparent
-      Caption         =   "Código de confirmación"
-      ForeColor       =   &H00FFFFFF&
-      Height          =   255
-      Left            =   9480
-      TabIndex        =   37
-      Top             =   6360
-      Width           =   1815
-   End
-   Begin VB.Label lCodigo 
-      BackStyle       =   0  'Transparent
-      Caption         =   "Ingrese el código aquí:"
-      ForeColor       =   &H00FFFFFF&
-      Height          =   255
-      Left            =   9480
-      TabIndex        =   36
-      Top             =   7200
-      Width           =   2055
    End
    Begin VB.Image imgArcoStar 
       Height          =   195
@@ -637,7 +507,7 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H00FFFFFF&
       Height          =   495
       Left            =   4440
-      TabIndex        =   29
+      TabIndex        =   25
       Top             =   7395
       Width           =   1455
    End
@@ -697,7 +567,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   5
       Left            =   5445
-      TabIndex        =   23
+      TabIndex        =   19
       Top             =   4830
       Width           =   225
    End
@@ -717,7 +587,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   4
       Left            =   5445
-      TabIndex        =   22
+      TabIndex        =   18
       Top             =   4470
       Width           =   225
    End
@@ -737,7 +607,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   3
       Left            =   5445
-      TabIndex        =   21
+      TabIndex        =   17
       Top             =   4125
       Width           =   225
    End
@@ -757,7 +627,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   2
       Left            =   5445
-      TabIndex        =   20
+      TabIndex        =   16
       Top             =   3780
       Width           =   225
    End
@@ -777,7 +647,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   1
       Left            =   5445
-      TabIndex        =   19
+      TabIndex        =   15
       Top             =   3450
       Width           =   225
    End
@@ -798,7 +668,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   5
       Left            =   4950
-      TabIndex        =   18
+      TabIndex        =   14
       Top             =   4830
       Width           =   225
    End
@@ -819,7 +689,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   4
       Left            =   4950
-      TabIndex        =   17
+      TabIndex        =   13
       Top             =   4470
       Width           =   225
    End
@@ -840,7 +710,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   3
       Left            =   4950
-      TabIndex        =   16
+      TabIndex        =   12
       Top             =   4125
       Width           =   225
    End
@@ -861,7 +731,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   2
       Left            =   4950
-      TabIndex        =   15
+      TabIndex        =   11
       Top             =   3780
       Width           =   225
    End
@@ -882,7 +752,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   1
       Left            =   4950
-      TabIndex        =   14
+      TabIndex        =   10
       Top             =   3450
       Width           =   225
    End
@@ -893,6 +763,7 @@ Begin VB.Form frmCrearPersonaje
       Width           =   1245
    End
    Begin VB.Label lblHelp 
+      BackColor       =   &H00101010&
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   11.25
@@ -905,8 +776,8 @@ Begin VB.Form frmCrearPersonaje
       ForeColor       =   &H00FFFFFF&
       Height          =   4935
       Left            =   9480
-      TabIndex        =   13
-      Top             =   960
+      TabIndex        =   9
+      Top             =   1680
       Width           =   2055
    End
    Begin VB.Image imgGenero 
@@ -927,17 +798,11 @@ Begin VB.Form frmCrearPersonaje
       Top             =   3270
       Width           =   1245
    End
-   Begin VB.Image imgPuebloOrigen 
-      Height          =   225
-      Left            =   6360
-      Top             =   2760
-      Width           =   2025
-   End
    Begin VB.Image imgEspecialidad 
       Height          =   240
       Left            =   3120
       Top             =   7410
-      Width           =   1245
+      Width           =   2565
    End
    Begin VB.Image imgArcos 
       Height          =   225
@@ -1072,7 +937,7 @@ Begin VB.Form frmCrearPersonaje
    Begin VB.Image imgDados 
       Height          =   1245
       Left            =   0
-      MouseIcon       =   "frmCrearPersonaje.frx":3FD47
+      MouseIcon       =   "frmCrearPersonaje.frx":43937
       MousePointer    =   99  'Custom
       Top             =   2760
       Width           =   1140
@@ -1080,7 +945,7 @@ Begin VB.Form frmCrearPersonaje
    Begin VB.Image imgHogar 
       Height          =   2850
       Left            =   5640
-      Picture         =   "frmCrearPersonaje.frx":3FE99
+      Picture         =   "frmCrearPersonaje.frx":43A89
       Top             =   9120
       Visible         =   0   'False
       Width           =   2985
@@ -1102,7 +967,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   4
       Left            =   4500
-      TabIndex        =   12
+      TabIndex        =   8
       Top             =   4470
       Width           =   225
    End
@@ -1123,7 +988,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   3
       Left            =   4500
-      TabIndex        =   11
+      TabIndex        =   7
       Top             =   4125
       Width           =   225
    End
@@ -1144,7 +1009,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   5
       Left            =   4500
-      TabIndex        =   10
+      TabIndex        =   6
       Top             =   4830
       Width           =   225
    End
@@ -1165,7 +1030,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   2
       Left            =   4500
-      TabIndex        =   9
+      TabIndex        =   5
       Top             =   3780
       Width           =   225
    End
@@ -1186,7 +1051,7 @@ Begin VB.Form frmCrearPersonaje
       Height          =   195
       Index           =   1
       Left            =   4500
-      TabIndex        =   8
+      TabIndex        =   4
       Top             =   3450
       Width           =   225
    End
@@ -1300,28 +1165,23 @@ Private Dir As E_Heading
 Private Sub cCrear_Click()
     Call Audio.PlayWave(SND_CLICK)
     
+    MacroDados = False
+    
     Dim i As Integer
     Dim CharAscii As Byte
-    UserName = txtNombre.Text
+    CharName = txtNombre.Text
             
-    If Right$(UserName, 1) = " " Then
-        UserName = RTrim$(UserName)
-        txtNombre.Text = UserName
+    If Right$(CharName, 1) = " " Then
+        CharName = RTrim$(CharName)
+        txtNombre.Text = CharName
         MsgBox "Nombre invalido, se han removido los espacios al final del nombre."
         Exit Sub
     End If
     
-    If Left(UserName, 1) = " " Then
-        UserName = LTrim$(UserName)
-        txtNombre.Text = UserName
+    If Left(CharName, 1) = " " Then
+        CharName = LTrim$(CharName)
+        txtNombre.Text = CharName
         MsgBox "Nombre invalido, se han removido los espacios al comienzo del nombre."
-        Exit Sub
-    End If
-    
-    If LCase$(txtCaptcha.Text) <> (Chr$(CaptchaCode(0)) & Chr$(CaptchaCode(1)) & Chr$(CaptchaCode(2)) & Chr$(CaptchaCode(3))) Then
-        MsgBox "Los códigos de confirmación no coinciden. Vuelva a ingresarlo."
-        txtCaptcha.Text = vbNullString
-        txtCaptcha.SetFocus
         Exit Sub
     End If
     
@@ -1333,29 +1193,18 @@ Private Sub cCrear_Click()
         UserAtributos(i) = Val(lblAtributos(i).Caption)
     Next i
     
-    UserHogar = lstHogar.ListIndex + 1
-    
     If Not CheckData Then Exit Sub
-
-    Dim eMD5 As New clsMD5
-    UserPassword = eMD5.DigestStrToHexStr(txtPasswd.Text) ' GSZ
-    
-    UserEmail = txtMail.Text
-    
-    frmMain.Socket1.HostAddress = CurServerIp
-    frmMain.Socket1.RemotePort = CurServerPort
-    
-    EstadoLogin = E_MODO.CrearNuevoPj
     
     If Not frmMain.Socket1.Connected Then
+        MacroDados = True
         MsgBox "ERROR" & vbCrLf & "Se ha perdido la conexión con el servidor.", vbCritical
-        frmConnect.Visible = True
+        Call frmConnect.Disconnected
         Unload Me
     Else
-        Call Login
+        Call WriteNewChar
     End If
     
-    bShowTutorial = TutorialDefualt
+    bShowTutorial = TutorialDefault
 End Sub
 
 Private Sub cVolver_Click()
@@ -1375,8 +1224,6 @@ Private Sub Form_Load()
     'UserClase = 0
     UserSexo = eGenero.hombre
     UserRaza = eRaza.Humano
-    UserHogar = 1
-    UserEmail = vbNullString
     UserHead = 0
     Dir = SOUTH
     
@@ -1437,13 +1284,7 @@ Private Sub CargarCombos()
     For i = LBound(ListaClases) To NroClases
         lstProfesion.AddItem ListaClases(i)
     Next i
-    
-    lstHogar.Clear
-    
-    For i = LBound(Ciudades()) To UBound(Ciudades())
-        lstHogar.AddItem Ciudades(i)
-    Next i
-    
+        
     lstRaza.Clear
     
     For i = LBound(ListaRazas()) To NroRazas
@@ -1451,24 +1292,14 @@ Private Sub CargarCombos()
     Next i
     
     lstProfesion.ListIndex = 1
-    lstHogar.ListIndex = 0
     lstRaza.ListIndex = 0
     lstGenero.ListIndex = 0
 End Sub
 
 Function CheckData() As Boolean
-'Last Modification: 05/11/2011 - ^[GS]^
 '**************************************
-
-    If txtPasswd.Text <> txtConfirmPasswd.Text Then
-        MsgBox "Los passwords que tipeo no coinciden, por favor vuelva a ingresarlos."
-        Exit Function
-    End If
-    
-    If Not CheckMailString(txtMail.Text) Then
-        MsgBox "Direccion de mail invalida."
-        Exit Function
-    End If
+'Last Modification: 27/02/2022 - ^[GS]^
+'**************************************
 
     If UserRaza = 0 Then
         MsgBox "Seleccione la raza del personaje."
@@ -1484,12 +1315,7 @@ Function CheckData() As Boolean
         MsgBox "Seleccione la clase del personaje."
         Exit Function
     End If
-    
-    If UserHogar = 0 Then
-        MsgBox "Seleccione el hogar del personaje."
-        Exit Function
-    End If
-    
+        
     Dim i As Integer
     For i = 1 To NUMATRIBUTOS
         If Val(lblAtributos(i).Caption) = 0 Then
@@ -1498,7 +1324,7 @@ Function CheckData() As Boolean
         End If
     Next i
     
-    If Len(UserName) > 30 Then
+    If Len(CharName) > 30 Then
         MsgBox ("El nombre debe tener menos de 30 letras.")
         Exit Function
     End If
@@ -1522,10 +1348,6 @@ End Sub
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     ClearLabel
     MacroDados = False
-End Sub
-
-Private Sub Form_Resize()
-    Call UpdateCaptcha
 End Sub
 
 Private Sub HeadPJ_Click(Index As Integer)
@@ -1678,6 +1500,10 @@ Private Sub lstGenero_Click()
     Call DarCuerpoYCabeza
 End Sub
 
+Private Sub lstHogar_Change()
+
+End Sub
+
 Private Sub lstProfesion_Click()
 On Error Resume Next
 '    Image1.Picture = LoadPicture(pathGraphics & lstProfesion.Text & ".jpg")
@@ -1697,14 +1523,6 @@ Private Sub lstRaza_Click()
     Call DarCuerpoYCabeza
     
     Call UpdateStats
-End Sub
-
-Private Sub pCaptcha_Click()
-    Call UpdateCaptcha
-End Sub
-
-Private Sub pCaptcha_Paint()
-    Call UpdateCaptcha
 End Sub
 
 Private Sub picHead_Click(Index As Integer)
@@ -1736,6 +1554,7 @@ Private Sub tAnimacion_Timer()
 On Error Resume Next
     Dim SR As RECT
     Dim DR As RECT
+    Dim DR2 As RECT
     Dim Grh As Long
     Static Frame As Byte
 
@@ -1755,14 +1574,14 @@ On Error Resume Next
         SR.Bottom = SR.Top + .pixelHeight
         
         DR.Left = (picPJ.Width - .pixelWidth) \ 2 - 2
-        DR.Top = ((picPJ.Height - .pixelHeight) \ 2) + 5
+        DR.Top = ((picPJ.Height - .pixelHeight) \ 2) + 4
         DR.Right = DR.Left + .pixelWidth
         DR.Bottom = DR.Top + .pixelHeight
         
         picTemp.BackColor = picTemp.BackColor
         
-        Call DrawGrhtoHdc(picTemp.hdc, Grh, SR, DR)
-        Call DrawTransparentGrhtoHdc(picPJ.hdc, picTemp.hdc, DR, DR, vbBlack)
+        Call DrawGrhtoHdc(picTemp.hDC, Grh, SR, DR)
+        Call DrawTransparentGrhtoHdc(picPJ.hDC, picTemp.hDC, DR, DR, vbBlack)
     End With
     
     Grh = HeadData(UserHead).Head(Dir).GrhIndex
@@ -1780,13 +1599,26 @@ On Error Resume Next
         
         picTemp.BackColor = picTemp.BackColor
         
-        Call DrawGrhtoHdc(picTemp.hdc, Grh, SR, DR)
-        Call DrawTransparentGrhtoHdc(picPJ.hdc, picTemp.hdc, DR, DR, vbBlack)
+        Call DrawGrhtoHdc(picTemp.hDC, Grh, SR, DR)
+        Call DrawTransparentGrhtoHdc(picPJ.hDC, picTemp.hDC, DR, DR, vbBlack)
     End With
+    
+    Call DrawImageInPicture(pPJ, Me.Picture, 0, 0, , , pPJ.Left, pPJ.Top)
+    Call CopyPictureBox(picPJ, pPJ)
+'    With GrhData(Grh)
+'        DR2.Left = 0 '(pPJ.Width - .pixelWidth) \ 2 - 2
+'        DR2.Top = 0 'DR2.Bottom + BodyData(UserBody).HeadOffset.y - .pixelHeight
+'        DR2.Right = (DR2.Left + .pixelWidth) * 2
+'        DR2.Bottom = (DR2.Top + .pixelHeight) * 2
+'
+'        Call DrawTransparentGrhtoHdc(pPJ.hdc, picPJ.hdc, DR, DR2, vbBlack)
+'        pPJ.Refresh
+'    End With
     
 End Sub
 
 Private Sub DrawHead(ByVal Head As Integer, ByVal PicIndex As Integer)
+On Error Resume Next
 
     Dim SR As RECT
     Dim DR As RECT
@@ -1809,8 +1641,8 @@ Private Sub DrawHead(ByVal Head As Integer, ByVal PicIndex As Integer)
         
         picTemp.BackColor = picTemp.BackColor
         
-        Call DrawGrhtoHdc(picTemp.hdc, Grh, SR, DR)
-        Call DrawTransparentGrhtoHdc(picHead(PicIndex).hdc, picTemp.hdc, DR, DR, vbBlack)
+        Call DrawGrhtoHdc(picTemp.hDC, Grh, SR, DR)
+        Call DrawTransparentGrhtoHdc(picHead(PicIndex).hDC, picTemp.hDC, DR, DR, vbBlack)
     End With
     
 End Sub
@@ -1828,10 +1660,11 @@ Private Sub txtNombre_Change()
 End Sub
 
 Private Sub txtNombre_KeyPress(KeyAscii As Integer)
-    KeyAscii = Asc(UCase(Chr$(KeyAscii)))
+    KeyAscii = Asc(Chr$(KeyAscii))
 End Sub
 
 Private Sub DarCuerpoYCabeza()
+On Error Resume Next
 
     Dim bVisible As Boolean
     Dim PicIndex As Integer
@@ -2065,7 +1898,6 @@ Private Sub LoadHelp()
     vHelp(eHelp.ieArmas) = "Evalúa la habilidad en el combate cuerpo a cuerpo con armas."
     vHelp(eHelp.ieArcos) = "Evalúa la habilidad en el combate a distancia con arcos. "
     vHelp(eHelp.ieEspecialidad) = vbNullString
-    vHelp(eHelp.iePuebloOrigen) = "Define el hogar de tu personaje. Sin embargo, el personaje nacerá en Nemahuak, la ciudad de los novatos."
     vHelp(eHelp.ieRaza) = "De la raza que elijas dependerá cómo se modifiquen los dados que saques. Podés cambiar de raza para poder visualizar cómo se modifican los distintos atributos."
     vHelp(eHelp.ieClase) = "La clase influirá en las características principales que tenga tu personaje, asi como en las magias e items que podrá utilizar. Las estrellas que ves abajo te mostrarán en qué habilidades se destaca la misma."
     vHelp(eHelp.ieGenero) = "Indica si el personaje será masculino o femenino. Esto influye en los items que podrá equipar."
@@ -2111,37 +1943,6 @@ Private Sub UpdateRazaMod()
         lblAtributoFinal(i).Caption = Val(lblAtributos(i).Caption) + Val(lblModRaza(i))
     Next i
     
-End Sub
-
-' GSZAO
-Public Sub UpdateCaptcha()
-    pCaptcha.Cls
-    pCaptcha.Line (RandomNumber(1, 30), RandomNumber(1, pCaptcha.ScaleHeight))-(RandomNumber(pCaptcha.ScaleWidth - 30, pCaptcha.ScaleHeight), RandomNumber(1, pCaptcha.ScaleHeight)), RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(40, 200))
-    pCaptcha.Line (RandomNumber(pCaptcha.ScaleWidth, 30), RandomNumber(1, pCaptcha.ScaleHeight))-(RandomNumber(pCaptcha.ScaleHeight - 10, pCaptcha.ScaleHeight), RandomNumber(1, pCaptcha.ScaleHeight)), RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(40, 200))
-    pCaptcha.Line (RandomNumber(1, 30), RandomNumber(1, pCaptcha.ScaleWidth))-(RandomNumber(pCaptcha.ScaleWidth - 30, pCaptcha.ScaleHeight), RandomNumber(1, pCaptcha.ScaleHeight)), RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(40, 200))
-    pCaptcha.Line (RandomNumber(pCaptcha.ScaleWidth, 30), RandomNumber(1, pCaptcha.ScaleHeight))-(RandomNumber(pCaptcha.ScaleWidth - 20, pCaptcha.ScaleWidth), RandomNumber(1, pCaptcha.ScaleHeight)), RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(40, 255))
-    pCaptcha.Line (RandomNumber(1, 30), RandomNumber(1, pCaptcha.ScaleWidth))-(RandomNumber(pCaptcha.ScaleWidth - 30, pCaptcha.ScaleHeight), RandomNumber(1, pCaptcha.ScaleHeight)), RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(40, 255))
-    pCaptcha.CurrentX = (pCaptcha.ScaleWidth / 2) - RandomNumber(300, 400)
-    pCaptcha.CurrentY = (pCaptcha.ScaleHeight / 2) - RandomNumber(140, 170)
-    pCaptcha.ForeColor = RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(60, 255))
-    pCaptcha.Print Chr(CaptchaCode(0))
-    pCaptcha.CurrentX = (pCaptcha.ScaleWidth / 2) - RandomNumber(-60, 100)
-    pCaptcha.CurrentY = (pCaptcha.ScaleHeight / 2) - RandomNumber(140, 170)
-    pCaptcha.ForeColor = RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(60, 255))
-    pCaptcha.Print Chr(CaptchaCode(2))
-    pCaptcha.CurrentX = (pCaptcha.ScaleWidth / 2) - RandomNumber(-100, -200)
-    pCaptcha.CurrentY = (pCaptcha.ScaleHeight / 2) - RandomNumber(140, 170)
-    pCaptcha.ForeColor = RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(60, 255))
-    pCaptcha.Print Chr(CaptchaCode(3))
-    pCaptcha.CurrentX = (pCaptcha.ScaleWidth / 2) - RandomNumber(150, 200)
-    pCaptcha.CurrentY = (pCaptcha.ScaleHeight / 2) - RandomNumber(150, 170)
-    pCaptcha.ForeColor = RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(60, 255))
-    pCaptcha.Print Chr(CaptchaCode(1))
-    pCaptcha.Line (RandomNumber(pCaptcha.ScaleWidth, 30), RandomNumber(1, pCaptcha.ScaleHeight))-(RandomNumber(pCaptcha.ScaleHeight - 30, pCaptcha.ScaleHeight), RandomNumber(1, pCaptcha.ScaleHeight)), RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(40, 255))
-    pCaptcha.Line (RandomNumber(1, 30), RandomNumber(1, pCaptcha.ScaleHeight))-(RandomNumber(pCaptcha.ScaleWidth - 30, pCaptcha.ScaleHeight), RandomNumber(1, pCaptcha.ScaleHeight)), RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(40, 255))
-    pCaptcha.Line (RandomNumber(pCaptcha.ScaleWidth, 30), RandomNumber(1, pCaptcha.ScaleHeight))-(RandomNumber(pCaptcha.ScaleHeight, pCaptcha.ScaleHeight), RandomNumber(1, pCaptcha.ScaleHeight)), RGB(RandomNumber(60, 255), RandomNumber(60, 255), RandomNumber(40, 255))
-    'Set picCaptcha = pCaptcha.Image
-    'pCaptcha.PaintPicture picCaptcha, 0, 0
 End Sub
 
 Private Sub UpdateStars()

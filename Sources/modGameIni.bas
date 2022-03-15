@@ -49,13 +49,6 @@ Public pathSound As String
 Public pathMusic As String
 Public pathMaps As String
 
-Public HDSerial As Long
-
-Public Declare Function GetWindowsDirectory Lib "kernel32" Alias "GetWindowsDirectoryA" (ByVal lpBuffer As String, ByVal nSize As Long) As Long
-Public Declare Function GetVolumeInformation Lib "kernel32.dll" Alias "GetVolumeInformationA" (ByVal lpRootPathName As String, ByVal _
-lpVolumeNameBuffer As String, ByVal nVolumeNameSize As Integer, lpVolumeSerialNumber As Long, lpMaximumComponentLength As Long, _
-lpFileSystemFlags As Long, ByVal lpFileSystemNameBuffer As String, ByVal nFileSystemNameSize As Long) As Long
-
 Public Type tCabecera 'Cabecera de los con
     Desc As String * 255
     CRC As Long
@@ -117,6 +110,7 @@ Public Type tAOSetup
 End Type
 
 Public MiCabecera As tCabecera
+Public TokenConnected As String
 Public ClientConfigInit As tConfigInit
 Public ClientAOSetup As tAOSetup
 Public LastConfigInit As Date
@@ -255,29 +249,6 @@ Public Sub SaveClientAOSetup()
         Put fHandle, , ClientAOSetup
     Close fHandle
     
-End Sub
-
-
-Private Function SystemDrive() As String
-' GSZ-AO - Obtiene la unidad del sistema
-    Dim windows_dir As String
-    Dim length As Long
-    windows_dir = Space$(255)
-    length = GetWindowsDirectory(windows_dir, Len(windows_dir))
-    SystemDrive = Left$(windows_dir, 3) ' C:\
-End Function
-
-Sub GetHDSerial()
-' GSZ-AO - Obtiene el numero de serie del disco de sistema
-    Dim SerialNum As Long
-    Dim res As Long
-    Dim Temp1 As String
-    Dim Temp2 As String
-    Temp1 = String$(255, Chr$(0))
-    Temp2 = String$(255, Chr$(0))
-    res = GetVolumeInformation(SystemDrive(), Temp1, _
-    Len(Temp1), SerialNum, 0, 0, Temp2, Len(Temp2))
-    HDSerial = SerialNum
 End Sub
 
 Public Function SEncriptar(ByVal Cadena As String) As String

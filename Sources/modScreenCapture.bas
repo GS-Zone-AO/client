@@ -157,12 +157,32 @@ Private Type JPEG_CORE_PROPERTIES_VB ' Sadly, due to a limitation in VB (UDT var
 
 End Type
 
-'
-Private Declare Function GetDC Lib "user32" (ByVal hwnd As Long) As Long
-Private Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Long, ByVal hdc As Long) As Long
-Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef dest As Any, ByRef Source As Any, ByVal byteCount As Long)
+Private Const STRETCH_ANDSCANS = 1
+Private Const STRETCH_DELETESCANS = 3
+Private Const STRETCH_HALFTONE = 4
+Private Const STRETCH_ORSCANS = 2
+Private Const SRCCOPY = &HCC0020
+
+Private Declare Function StretchBlt Lib "gdi32" (ByVal hDC As Long, _
+                                                   ByVal X As Long, _
+                                                   ByVal Y As Long, _
+                                                   ByVal nWidth As Long, _
+                                                   ByVal nHeight As Long, _
+                                                   ByVal hSrcDC As Long, _
+                                                   ByVal xSrc As Long, _
+                                                   ByVal ySrc As Long, _
+                                                   ByVal nSrcWidth As Long, _
+                                                   ByVal nSrcHeight As Long, _
+                                                   ByVal dwRop As Long) _
+                                                   As Long
+Private Declare Function SetStretchBltMode Lib "gdi32" (ByVal hDC As Long, _
+                                                      ByVal nStretchMode As Long) _
+                                                      As Long
 
 '
+Private Declare Function GetDC Lib "user32" (ByVal hwnd As Long) As Long
+Private Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Long, ByVal hDC As Long) As Long
+Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef dest As Any, ByRef Source As Any, ByVal byteCount As Long)
 
 Private Declare Function ijlInit Lib "ijl11.dll" (jcprops As Any) As Long
 Private Declare Function ijlFree Lib "ijl11.dll" (jcprops As Any) As Long
@@ -197,11 +217,24 @@ Private Const OF_SHARE_DENY_WRITE = &H20
 
 Private Const INVALID_HANDLE As Long = -1
 
-'bltbit constant
-Private Const SRCCOPY = &HCC0020 ' (DWORD) dest = source
-
 'Good old bitblt
 Private Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
+
+
+Public Sub CopyPictureBox(ByVal picBuffer As VB.PictureBox, ByVal picDest As VB.PictureBox)
+
+    Dim lSave As Long
+    lSave = SetStretchBltMode(picDest.hDC, STRETCH_HALFTONE)
+    
+    'perform blit
+    Call StretchBlt(picDest.hDC, 0, 0, picDest.ScaleWidth, _
+                      picDest.ScaleHeight, picBuffer.hDC, 0, 0, _
+                      picBuffer.ScaleWidth, picBuffer.ScaleHeight, SRCCOPY)
+    
+    'restore previous mode
+    Call SetStretchBltMode(picDest.hDC, lSave)
+
+End Sub
 
 Public Function LoadJPG( _
       ByRef cDib As cDIBSection, _
@@ -528,7 +561,7 @@ On Error GoTo Err:
     frmScreenshots.Picture1.Width = 12090
     frmScreenshots.Picture1.Height = 9075
 
-    Call BitBlt(frmScreenshots.Picture1.hdc, 0, 0, 800, 600, hdcc, 0, 0, SRCCOPY)
+    Call BitBlt(frmScreenshots.Picture1.hDC, 0, 0, 800, 600, hdcc, 0, 0, SRCCOPY)
     Call ReleaseDC(frmMain.hwnd, hdcc)
     
     hdcc = INVALID_HANDLE
@@ -590,12 +623,12 @@ Public Function FullScreenCapture(ByVal file As String) As Boolean
         frmScreenshots.Picture1.Width = Screen.Width
         frmScreenshots.Picture1.Height = Screen.Height
         
-        Call BitBlt(frmScreenshots.Picture1.hdc, 0, 0, Screen.Width / Screen.TwipsPerPixelX, Screen.Height / Screen.TwipsPerPixelY, hdcc, 0, 0, SRCCOPY)
+        Call BitBlt(frmScreenshots.Picture1.hDC, 0, 0, Screen.Width / Screen.TwipsPerPixelX, Screen.Height / Screen.TwipsPerPixelY, hdcc, 0, 0, SRCCOPY)
     Else
         frmScreenshots.Picture1.Width = 12000
         frmScreenshots.Picture1.Height = 9000
         
-        Call BitBlt(frmScreenshots.Picture1.hdc, 0, 0, 800, 600, hdcc, 0, 0, SRCCOPY)
+        Call BitBlt(frmScreenshots.Picture1.hDC, 0, 0, 800, 600, hdcc, 0, 0, SRCCOPY)
     End If
     
     Call ReleaseDC(handle, hdcc)

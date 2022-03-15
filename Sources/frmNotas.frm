@@ -279,7 +279,7 @@ Private Sub Form_Load()
         End If
     Next
     
-    sFilename = App.Path & "\notas-" & UserName & ".txt"
+    sFilename = App.Path & "\notas-" & CharName & ".txt"
     Call OpenNotes
     
 End Sub
@@ -295,7 +295,7 @@ Private Sub OpenNotes()
         Open sFilename For Binary As #iFileNo
             sFileText = Space$(LOF(iFileNo))
             Get #iFileNo, , sFileText
-            sFileText = SXor(sFileText, LCase(UserName)) ' Realmente no hay necesidad de complicarsela tanto...
+            sFileText = SXor(sFileText, LCase(CharName)) ' Realmente no hay necesidad de complicarsela tanto...
             txtNotas.Text = sFileText
         Close #iFileNo
         If Len(txtNotas) > rPos Then
@@ -314,7 +314,7 @@ Private Sub SaveNotes()
     sFileText = vbNullString
     sFileText = txtNotas.Text
     Open sFilename For Binary As #iFileNo
-        sFileText = SXor(sFileText, LCase(UserName)) ' Realmente no hay necesidad de complicarsela tanto...
+        sFileText = SXor(sFileText, LCase(CharName)) ' Realmente no hay necesidad de complicarsela tanto...
         Put #iFileNo, , sFileText
     Close #iFileNo
 End Sub

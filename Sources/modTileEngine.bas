@@ -78,7 +78,7 @@ Public movSpeed As Single
 
 'Private ParticleTimer As Single
 
-Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef destination As Any, ByRef source As Any, ByVal length As Long)
+Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef destination As Any, ByRef Source As Any, ByVal length As Long)
 
 'Fonts (Extraido de VBGore)
 'Describes the return from a texture init
@@ -263,7 +263,7 @@ Public Type Char
     Newbie As Byte ' GSZAO
     bType As Byte ' GSZAO
     
-    nombre As String
+    Nombre As String
     
     scrollDirectionX As Integer
     scrollDirectionY As Integer
@@ -763,7 +763,7 @@ Sub ResetCharInfo(ByVal CharIndex As Integer)
                
         .Moving = 0
         .muerto = False
-        .nombre = vbNullString
+        .Nombre = vbNullString
         .pie = False
         .Pos.X = 0
         .Pos.Y = 0
@@ -2319,9 +2319,9 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             End If
             
             'Draw name over head
-            If LenB(.nombre) > 0 Then
+            If LenB(.Nombre) > 0 Then
                 If Nombres And (CfgSiempreNombres = True Or (esGM(UserCharIndex) Or Abs(MouseTileX - .Pos.X) < 2 And (Abs(MouseTileY - .Pos.Y)) < 2)) Then
-                    Pos = getTagPosition(.nombre)
+                    Pos = getTagPosition(.Nombre)
                     'Pos = InStr(.Nombre, "<")
                     'If Pos = 0 Then Pos = Len(.Nombre) + 2
         
@@ -2346,11 +2346,11 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
                     End If
         
                     'Nick
-                    line = Left$(.nombre, Pos - 2)
+                    line = Left$(.Nombre, Pos - 2)
                     Call DrawText(PixelOffsetX - (Len(line) * 6 / 2) + 14, PixelOffsetY + 30, line, color)
         
                     'Clan
-                    line = mid$(.nombre, Pos)
+                    line = mid$(.Nombre, Pos)
                     Call DrawText(PixelOffsetX - (Len(line) * 6 / 2) + 28, PixelOffsetY + 45, line, color)
                 End If
             End If
@@ -2595,7 +2595,7 @@ Private Sub Engine_Render_Text(ByRef UseFont As CustomFont, ByVal Text As String
     Dim Count As Integer
     Dim ascii() As Byte
     Dim Row As Integer
-    Dim u As Single
+    Dim U As Single
     Dim v As Single
     Dim i As Long
     Dim J As Long
@@ -2802,7 +2802,7 @@ Sub Engine_Init_FontSettings()
     Dim FileNum As Byte
     Dim LoopChar As Long
     Dim Row As Single
-    Dim u As Single
+    Dim U As Single
     Dim v As Single
 
     '*** Default font ***
@@ -2824,14 +2824,14 @@ Sub Engine_Init_FontSettings()
         
         'tU and tV value (basically tU = BitmapXPosition / BitmapWidth, and height for tV)
         Row = (LoopChar - cfonts(1).HeaderInfo.BaseCharOffset) \ cfonts(1).RowPitch
-        u = ((LoopChar - cfonts(1).HeaderInfo.BaseCharOffset) - (Row * cfonts(1).RowPitch)) * cfonts(1).ColFactor
+        U = ((LoopChar - cfonts(1).HeaderInfo.BaseCharOffset) - (Row * cfonts(1).RowPitch)) * cfonts(1).ColFactor
         v = Row * cfonts(1).RowFactor
 
         'Set the verticies
         With cfonts(1).HeaderInfo.CharVA(LoopChar)
             .Vertex(0).color = D3DColorARGB(255, 0, 0, 0)   'Black is the most common color
             .Vertex(0).rhw = 1
-            .Vertex(0).tu = u
+            .Vertex(0).tu = U
             .Vertex(0).tv = v
             .Vertex(0).X = 0
             .Vertex(0).Y = 0
@@ -2839,7 +2839,7 @@ Sub Engine_Init_FontSettings()
             
             .Vertex(1).color = D3DColorARGB(255, 0, 0, 0)
             .Vertex(1).rhw = 1
-            .Vertex(1).tu = u + cfonts(1).ColFactor
+            .Vertex(1).tu = U + cfonts(1).ColFactor
             .Vertex(1).tv = v
             .Vertex(1).X = cfonts(1).HeaderInfo.CellWidth
             .Vertex(1).Y = 0
@@ -2847,7 +2847,7 @@ Sub Engine_Init_FontSettings()
             
             .Vertex(2).color = D3DColorARGB(255, 0, 0, 0)
             .Vertex(2).rhw = 1
-            .Vertex(2).tu = u
+            .Vertex(2).tu = U
             .Vertex(2).tv = v + cfonts(1).RowFactor
             .Vertex(2).X = 0
             .Vertex(2).Y = cfonts(1).HeaderInfo.CellHeight
@@ -2855,7 +2855,7 @@ Sub Engine_Init_FontSettings()
             
             .Vertex(3).color = D3DColorARGB(255, 0, 0, 0)
             .Vertex(3).rhw = 1
-            .Vertex(3).tu = u + cfonts(1).ColFactor
+            .Vertex(3).tu = U + cfonts(1).ColFactor
             .Vertex(3).tv = v + cfonts(1).RowFactor
             .Vertex(3).X = cfonts(1).HeaderInfo.CellWidth
             .Vertex(3).Y = cfonts(1).HeaderInfo.CellHeight
