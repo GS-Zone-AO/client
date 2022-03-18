@@ -60,6 +60,7 @@ Begin VB.Form frmConnect
          Left            =   2025
          TabIndex        =   25
          Top             =   2280
+         Visible         =   0   'False
          Width           =   2250
       End
       Begin VB.Label lblGold 
@@ -1115,11 +1116,11 @@ Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
 'Make Server IP and Port box visible
 'Hacer CONTROL+I
 If KeyCode = vbKeyI And Shift = vbCtrlMask Then
+    Call CleanToken
     PortTxt.Text = "7666"
     IPTxt.Text = "127.0.0.1"
     PortTxt.Visible = True
     IPTxt.Visible = True
-    CurServer = 1
     KeyCode = 0
     Exit Sub
 End If
