@@ -744,8 +744,8 @@ End Sub
 Private Sub cCerrar_Click()
 
     Call Audio.PlayWave(SND_CLICK)
-    Call ShowMenu(False)
     Call CleanToken
+    Call ShowMenu(False)
     
 End Sub
 
@@ -815,6 +815,9 @@ Sub Connected()
 End Sub
 
 Sub Disconnected()
+
+    AccountName = ""
+    NumberOfCharacters = 0
 
     ' Header
     lblAccountName.Caption = "[Invitado]"

@@ -20,10 +20,10 @@ Public Type AccountUser
 End Type
 
 Public AccountName As String
-
-Public Const MaxCharPerAccount As Byte = 20
 Public NumberOfCharacters As Byte
 Public Characters() As AccountUser
+
+Public Const MaxCharPerAccount As Byte = 20
 
 Sub LoadCharacters()
 
