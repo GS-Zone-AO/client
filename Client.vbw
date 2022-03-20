@@ -1,4 +1,4 @@
-uAOButton = 0, 0, 0, 0, C, 104, 104, 568, 607, C
+uAOButton = 130, 130, 1080, 487, C, 104, 104, 568, 607, C
 uAOCheckbox = 0, 0, 0, 0, C, 130, 130, 594, 633, C
 uAOProgress = 0, 0, 0, 0, C, 156, 156, 620, 659, C
 uAOAnimLongLabel = 0, 0, 0, 0, C, 78, 78, 542, 581, C
@@ -44,7 +44,7 @@ frmCambiaMotd = 0, 0, 0, 0, C, 52, 52, 516, 555, C
 frmEligeAlineacion = 0, 0, 0, 0, C, 182, 182, 1559, 725, C
 clsAudio = 182, 182, 1607, 607, C
 clsGraphicalInventory = 208, 208, 1633, 633, C
-clsGuildDlg = 0, 0, 0, 0, C
+clsGuildDlg = 156, 156, 1039, 487, C
 ModAreas = 0, 0, 0, 0, C
 clsSurfaceManDyn = 52, 52, 1477, 477, C
 clsSurfaceManager = 0, 0, 0, 0, C

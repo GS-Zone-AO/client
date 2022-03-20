@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
 Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.ocx"
 Object = "{33101C00-75C3-11CF-A8A0-444553540000}#1.0#0"; "CSWSK32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
@@ -525,6 +525,7 @@ Begin VB.Form frmMain
       _ExtentY        =   3096
       _Version        =   393217
       BackColor       =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -867,7 +868,7 @@ Begin VB.Form frmMain
       Appearance      =   0  'Flat
       BackColor       =   &H00000000&
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "101"
+      Caption         =   "1000"
       ForeColor       =   &H00FFFFFF&
       Height          =   240
       Left            =   10680
@@ -1138,7 +1139,7 @@ Public Sub RequestAsignarSkills()
     Loop
     LlegaronSkills = False
     For i = 1 To NUMSKILLS
-        frmSkills.Text1(i).Caption = UserSkills(i)
+        frmSkills.text1(i).Caption = UserSkills(i)
     Next i
     Alocados = SkillPoints
     frmSkills.puntos.Caption = SkillPoints
@@ -2595,6 +2596,19 @@ Private Sub Socket1_Disconnect()
     
     ResetAllInfo
     Socket1.Cleanup
+    If LenB(ClientConfigInit.Token) = 0 Then
+        Call frmConnect.Disconnected
+    Else
+        If frmMain.Socket1.Connected Then
+            frmMain.Socket1.Disconnect
+            frmMain.Socket1.Cleanup
+            DoEvents
+        End If
+        frmMain.Socket1.HostAddress = CurServerIp
+        frmMain.Socket1.RemotePort = CurServerPort
+        frmMain.Socket1.Connect
+        DoEvents
+    End If
 
 End Sub
 
@@ -2679,8 +2693,8 @@ If tX >= MinXBorder And tY >= MinYBorder And _
             M.SetMenuId 1
             M.ListaInit 2, False
             
-            If LenB(CharList(MapData(tX, tY).CharIndex).Nombre) <> 0 Then
-                M.ListaSetItem 0, CharList(MapData(tX, tY).CharIndex).Nombre, True
+            If LenB(CharList(MapData(tX, tY).CharIndex).nombre) <> 0 Then
+                M.ListaSetItem 0, CharList(MapData(tX, tY).CharIndex).nombre, True
             Else
                 M.ListaSetItem 0, "<NPC>", True
             End If

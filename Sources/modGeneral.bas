@@ -904,17 +904,15 @@ Sub Main()
     
     ' Load the form for screenshots
     Call Load(frmScreenshots)
-    
-    Call frmConnect.TryConnectToken
 
     Do While prgRun
         'Sólo dibujamos si la ventana no está minimizada
         If frmMain.WindowState <> 1 And frmMain.Visible Then
             Call ShowNextFrame(frmMain.Top, frmMain.Left, frmMain.MouseX, frmMain.MouseY)
-            
+
             'Play ambient sounds
             Call RenderSounds
-            
+
             Call CheckKeys
         End If
         
@@ -1452,7 +1450,7 @@ End Function
 Public Function getCharIndexByName(ByVal Name As String) As Integer
 Dim i As Long
 For i = 1 To LastChar
-    If CharList(i).Nombre = Name Then
+    If CharList(i).nombre = Name Then
         getCharIndexByName = i
         Exit Function
     End If

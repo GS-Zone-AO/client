@@ -263,7 +263,7 @@ Public Type Char
     Newbie As Byte ' GSZAO
     bType As Byte ' GSZAO
     
-    Nombre As String
+    nombre As String
     
     scrollDirectionX As Integer
     scrollDirectionY As Integer
@@ -356,7 +356,8 @@ Public EngineRun As Boolean
 
 Public FPS As Long
 Public FramesPerSecCounter As Long
-Private fpsLastCheck As Long
+Private lFrameTimer            As Long
+Public FrameTime               As Long
 
 'Tamaño del la vista en Tiles
 Private WindowTileWidth As Integer
@@ -520,10 +521,10 @@ Private Declare Function QueryPerformanceFrequency Lib "kernel32" (lpFrequency A
 Private Declare Function QueryPerformanceCounter Lib "kernel32" (lpPerformanceCount As Currency) As Long
 
 'Text width computation. Needed to center text.
-Private Declare Function GetTextExtentPoint32 Lib "gdi32" Alias "GetTextExtentPoint32A" (ByVal hdc As Long, ByVal lpsz As String, ByVal cbString As Long, lpSize As Size) As Long
+Private Declare Function GetTextExtentPoint32 Lib "gdi32" Alias "GetTextExtentPoint32A" (ByVal hDC As Long, ByVal lpsz As String, ByVal cbString As Long, lpSize As Size) As Long
 
-Private Declare Function SetPixel Lib "gdi32" (ByVal hdc As Long, ByVal X As Long, ByVal Y As Long, ByVal crColor As Long) As Long
-Private Declare Function GetPixel Lib "gdi32" (ByVal hdc As Long, ByVal X As Long, ByVal Y As Long) As Long
+Private Declare Function SetPixel Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long, ByVal crColor As Long) As Long
+Private Declare Function GetPixel Lib "gdi32" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long) As Long
 
 Sub CargarCabezas()
     Dim N As Integer
@@ -763,7 +764,7 @@ Sub ResetCharInfo(ByVal CharIndex As Integer)
                
         .Moving = 0
         .muerto = False
-        .Nombre = vbNullString
+        .nombre = vbNullString
         .pie = False
         .Pos.X = 0
         .Pos.Y = 0
@@ -2089,17 +2090,17 @@ Sub ShowNextFrame(ByVal DisplayFormTop As Integer, ByVal DisplayFormLeft As Inte
 On Error Resume Next
 '***************************************************
 'Author: Arron Perkins
-'Last Modification: 05/09/2012 - ^[GS]^
+'Last Modification: 19/03/2022 - ^[GS]^
 'Updates the game's model and renders everything.
 '***************************************************
     Static OffsetCounterX As Single
     Static OffsetCounterY As Single
     
     '****** Set main view rectangle ******
-    MainViewRect.Left = (DisplayFormLeft / Screen.TwipsPerPixelX) + MainViewLeft
-    MainViewRect.Top = (DisplayFormTop / Screen.TwipsPerPixelY) + MainViewTop
-    MainViewRect.Right = MainViewRect.Left + MainViewWidth
-    MainViewRect.Bottom = MainViewRect.Top + MainViewHeight
+'    MainViewRect.Left = (DisplayFormLeft / Screen.TwipsPerPixelX) + MainViewLeft
+'    MainViewRect.Top = (DisplayFormTop / Screen.TwipsPerPixelY) + MainViewTop
+'    MainViewRect.Right = MainViewRect.Left + MainViewWidth
+'    MainViewRect.Bottom = MainViewRect.Top + MainViewHeight
        
     'If CfgDiaNoche = True Then Ambient_Set 120, 120, 150     ' GSZ default DIA
     
@@ -2118,7 +2119,7 @@ On Error Resume Next
                     UserMoving = False
                 End If
             End If
-            
+
             '****** Move screen Up and Down if needed ******
             If AddtoUserPos.Y <> 0 Then
                 OffsetCounterY = OffsetCounterY - ScrollPixelsPerFrameY * AddtoUserPos.Y * timerTicksPerFrame
@@ -2132,7 +2133,7 @@ On Error Resume Next
         
         'Update mouse position within view area
         Call ConvertCPtoTP(MouseViewX, MouseViewY, MouseTileX, MouseTileY)
-        
+
         If CfgDiaNoche = True Then ' GSZ
             If GetTickCount() - AmbientLastCheck >= 10000 Then
                 Ambient_Check
@@ -2153,8 +2154,8 @@ On Error Resume Next
         If Cartel Then Call DibujarCartel ' GSZAO
         If DialogosClanes.Activo Then Call DialogosClanes.Draw ' GSZAO
         
-            DirectDevice.EndScene
-        DirectDevice.Present ByVal 0, ByVal 0, 0, ByVal 0
+        DirectDevice.EndScene
+        DirectDevice.Present ByVal 0, ByVal 0, 0, ByVal 0 ' 500 fps less?
         
         'Si está activado el FragShooter y está esperando para sacar una foto, lo hacemos:
         If ClientAOSetup.bActive Then ' 0.13.5
@@ -2164,21 +2165,20 @@ On Error Resume Next
                 FragShooterCapturePending = False
             End If
         End If
-        
-        'FPS update - Dunkansdk
-        If fpsLastCheck + 1000 < GetTickCount Then
-            FramesPerSecCounter = 1
-            FPS = FramesPerSecCounter
-            fpsLastCheck = GetTickCount
-        Else
-            FramesPerSecCounter = FramesPerSecCounter + 1
-        End If
                 
         'Get timing info
+        FrameTime = GetTickCount()
+        FramesPerSecCounter = FramesPerSecCounter + 1
         timerElapsedTime = GetElapsedTime()
         timerTicksPerFrame = timerElapsedTime * engineBaseSpeed
-        FPS = 1000 / timerElapsedTime
         'ParticleTimer = timerElapsedTime * 0.05 GDK: Esto no se usa.
+        
+        'FPS update
+        If FrameTime - lFrameTimer >= 1000 Then
+            FPS = FramesPerSecCounter
+            FramesPerSecCounter = 0
+            lFrameTimer = FrameTime
+        End If
         
     End If
 End Sub
@@ -2319,9 +2319,9 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
             End If
             
             'Draw name over head
-            If LenB(.Nombre) > 0 Then
+            If LenB(.nombre) > 0 Then
                 If Nombres And (CfgSiempreNombres = True Or (esGM(UserCharIndex) Or Abs(MouseTileX - .Pos.X) < 2 And (Abs(MouseTileY - .Pos.Y)) < 2)) Then
-                    Pos = getTagPosition(.Nombre)
+                    Pos = getTagPosition(.nombre)
                     'Pos = InStr(.Nombre, "<")
                     'If Pos = 0 Then Pos = Len(.Nombre) + 2
         
@@ -2346,11 +2346,11 @@ Private Sub CharRender(ByVal CharIndex As Long, ByVal PixelOffsetX As Integer, B
                     End If
         
                     'Nick
-                    line = Left$(.Nombre, Pos - 2)
+                    line = Left$(.nombre, Pos - 2)
                     Call DrawText(PixelOffsetX - (Len(line) * 6 / 2) + 14, PixelOffsetY + 30, line, color)
         
                     'Clan
-                    line = mid$(.Nombre, Pos)
+                    line = mid$(.nombre, Pos)
                     Call DrawText(PixelOffsetX - (Len(line) * 6 / 2) + 28, PixelOffsetY + 45, line, color)
                 End If
             End If

@@ -765,10 +765,6 @@ Private Sub Form_Activate()
 
     Call Audio.PlayMIDI("0.mid")
     
-    If frmMain.Socket1.Connected Then
-        Call Connected
-    End If
-    
 End Sub
 
 Sub ShowMenu(ByVal Visible As Boolean)
@@ -1017,11 +1013,17 @@ On Error Resume Next
 '    tEfectos.Interval = 10
 '    tEfectos.Enabled = True
 
+    Call Audio.PlayMIDI("0.mid")
+    Me.Show
+    DoEvents
+
     If Len(ClientConfigInit.Token) = 0 Then
         Call Disconnected
+    ElseIf frmMain.Socket1.Disconnected Then
+        Call TryConnectToken
+    ElseIf frmMain.Socket1.Connected Then
+        Call Connected
     End If
-     
-    Call Audio.PlayMIDI("0.mid")
      
 End Sub
 

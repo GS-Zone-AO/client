@@ -291,6 +291,7 @@ Public Property Get MaxObjs() As Byte
 'Last Modify Date: 09/16/09
 'Retrieves the capacity of the Inventory
 '***************************************************
+On Error Resume Next
     MaxObjs = UBound(Inventory)
 End Property
 
